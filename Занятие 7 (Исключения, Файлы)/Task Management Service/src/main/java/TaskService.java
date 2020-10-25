@@ -23,6 +23,7 @@ public class TaskService {
     }
 
     public String manage(String command) {
+        command = command.trim();
         if (command.equals("help")) {
             return processHelp();
         }
@@ -62,7 +63,7 @@ public class TaskService {
         if (flag.equals("-e")) {
             return addExecutor();
         }
-        return "Bad Flag";
+        return "Bad command";
     }
 
     private String addExecutor() {
@@ -114,17 +115,20 @@ public class TaskService {
         StringBuilder sb = new StringBuilder();
         if (flag.equals("-t")) {
             tasks.forEach(task -> sb.append(task.toString()).append("\n"));
+            return sb.toString();
         }
         if (flag.equals("-e")) {
             executors.forEach(task -> sb.append(task.toString()).append("\n"));
+            return sb.toString();
         }
         if (flag.equals("")) {
             sb.append("Tasks:\n");
             tasks.forEach(task -> sb.append("\t").append(task.toString()).append("\n"));
             sb.append("Executors:\n");
             executors.forEach(task -> sb.append("\t").append(task.toString()).append("\n"));
+            return sb.toString();
         }
-        return sb.toString();
+        return "Bad command";
     }
 
     private String processHelp() {
