@@ -1,4 +1,4 @@
-package task;
+package executor;
 
 import java.util.Objects;
 
@@ -18,6 +18,10 @@ public class Executor {
     public Executor(String name) {
         this.id = ID_PREFIX + count++;
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
