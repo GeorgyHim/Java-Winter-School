@@ -28,15 +28,14 @@ public class TaskService {
             return processHelp();
         }
         if (command.startsWith("list")) {
-            return processList(getFlag(command));
+            return processList(getParam(command));
         }
         if (command.startsWith("add")) {
-            return processAdd(getFlag(command));
+            return processAdd(getParam(command));
         }
         if (command.startsWith("save")) {
             try {
-                int code = Integer.parseInt(command.split(" ")[1]);
-                return processSave();
+                return processSave(getParam(command));
             }
             catch (Exception e) {}
         }
@@ -44,7 +43,7 @@ public class TaskService {
         return "Wrong Command!";
     }
 
-    private String getFlag(String command) {
+    private String getParam(String command) {
         int position = command.indexOf(' ');
         if (position == -1)
             return "";
@@ -52,7 +51,7 @@ public class TaskService {
     }
 
     // TODO
-    private String processSave() {
+    private String processSave(String code) {
         return "Shit";
     }
 
