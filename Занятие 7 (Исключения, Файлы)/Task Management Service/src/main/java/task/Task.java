@@ -1,5 +1,7 @@
 package task;
 
+import java.util.Objects;
+
 /**
  * Задача
  */
@@ -39,6 +41,19 @@ public class Task {
     public Task(String name, String description, Executor executor) {
         this(name, executor);
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return code.equals(task.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code);
     }
 
     public String getCode() {
