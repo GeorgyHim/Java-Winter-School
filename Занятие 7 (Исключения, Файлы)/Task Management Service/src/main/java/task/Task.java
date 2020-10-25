@@ -1,3 +1,5 @@
+package task;
+
 /**
  * Задача
  */
@@ -6,7 +8,7 @@ public class Task {
     private static int count = 0;
 
     /** Префикс для кода задачи*/
-    private static final String CODE_PREFIX = "Task-";
+    private static final String CODE_PREFIX = "task.Task-";
 
     /** Код задачи */
     private String code;
