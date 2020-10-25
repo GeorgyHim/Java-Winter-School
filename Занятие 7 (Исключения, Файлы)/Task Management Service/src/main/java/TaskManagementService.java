@@ -5,7 +5,7 @@ import task.Task;
 import java.io.InputStream;
 import java.util.*;
 
-public class TaskService {
+public class TaskManagementService {
     private Scanner in;
 
     /** Список задач */
@@ -37,6 +37,7 @@ public class TaskService {
             try {
                 return processSave(getParam(command));
             }
+            // TODO: Написать обработку исключения
             catch (Exception e) {}
         }
 
@@ -50,9 +51,11 @@ public class TaskService {
         return command.substring(position+1);
     }
 
-    // TODO
+    // TODO: Написать сохранение объекта в файл
     private String processSave(String code) {
-        return "Shit";
+        if (code.equals("2"))
+            return "Shit";
+        return "fuck";
     }
 
     private String processAdd(String flag) {
@@ -140,7 +143,7 @@ public class TaskService {
                 "save <code> — save task with specified code\n";
     }
 
-    public TaskService(InputStream stream) {
+    public TaskManagementService(InputStream stream) {
         this.in = new Scanner(stream);
     }
 
