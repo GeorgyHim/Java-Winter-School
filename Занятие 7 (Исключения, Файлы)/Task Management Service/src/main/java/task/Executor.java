@@ -1,13 +1,13 @@
 package task;
 
-import java.time.LocalDate;
+import java.util.Objects;
 
 public class Executor {
     /** Общее количество исполнителей */
     private static int count = 0;
 
     /** Префикс для кода задачи*/
-    private static final String ID_PREFIX = "Executor-";
+    public static final String ID_PREFIX = "Executor-";
 
     /** ID */
     private String id;
@@ -18,5 +18,18 @@ public class Executor {
     public Executor(String name) {
         this.id = ID_PREFIX + count++;
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Executor executor = (Executor) o;
+        return id.equals(executor.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
