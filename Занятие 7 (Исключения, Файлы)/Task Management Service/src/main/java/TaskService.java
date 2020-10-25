@@ -27,10 +27,10 @@ public class TaskService {
             return processHelp();
         }
         if (command.startsWith("list")) {
-            return processList();
+            return processList(getFlag(command));
         }
-        if (command.equals("add")) {
-            return processAdd();
+        if (command.startsWith("add")) {
+            return processAdd(getFlag(command));
         }
         if (command.startsWith("save")) {
             try {
@@ -43,12 +43,33 @@ public class TaskService {
         return "Wrong Command!";
     }
 
+    private String getFlag(String command) {
+        return command.substring(command.indexOf(' ')+1);
+    }
+
     // TODO
     private String processSave() {
         return "Shit";
     }
 
-    private String processAdd() {
+    private String processAdd(String flag) {
+        if (flag.equals("-t")) {
+            return addTask();
+        }
+        if (flag.equals("-e")) {
+            return addExecutor();
+        }
+        return "Bad Flag";
+    }
+
+    private String addExecutor() {
+        System.out.print("Input name of executor: ");
+        String name = in.nextLine();
+        executors.add(new Executor(name));
+        return "Executor added";
+    }
+
+    private String addTask() {
         try {
             System.out.print("Input name of task: ");
             String name = in.nextLine();
@@ -86,9 +107,20 @@ public class TaskService {
         return finded;
     }
 
-    private String processList() {
+    private String processList(String flag) {
         StringBuilder sb = new StringBuilder();
-        tasks.forEach(task -> sb.append(task.toString()));
+        if (flag.equals("-t")) {
+            tasks.forEach(task -> sb.append(task.toString()).append("\n"));
+        }
+        if (flag.equals("-e")) {
+            executors.forEach(task -> sb.append(task.toString()).append("\n"));
+        }
+        if (flag.equals("")) {
+            sb.append("Tasks:\n");
+            tasks.forEach(task -> sb.append("\t").append(task.toString()).append("\n"));
+            sb.append("Executors:\n");
+            executors.forEach(task -> sb.append("\t").append(task.toString()).append("\n"));
+        }
         return sb.toString();
     }
 
@@ -97,7 +129,8 @@ public class TaskService {
                 "list        — see all tasks and executors\n" +
                 "list -t     — see all tasks\n" +
                 "list -e     — see all executors\n" +
-                "add         — add a task, you will be able to set name, executor and description\n" +
+                "add  -t     — add a task, you will be able to set name, executor and description\n" +
+                "add  -e     — add a executor, you will be able to set name\n" +
                 "save <code> — save task with specified code\n";
     }
 
