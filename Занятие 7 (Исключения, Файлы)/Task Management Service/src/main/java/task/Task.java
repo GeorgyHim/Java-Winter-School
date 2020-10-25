@@ -10,7 +10,7 @@ public class Task {
     private static int count = 0;
 
     /** Префикс для кода задачи*/
-    private static final String CODE_PREFIX = "task.Task-";
+    private static final String CODE_PREFIX = "Task-";
 
     /** Код задачи */
     private String code;
@@ -28,19 +28,23 @@ public class Task {
     private TaskStatus status;
 
     public Task(String name) {
-        this.code = CODE_PREFIX + count++;
-        this.status = TaskStatus.TODO;
-        this.name = name;
+        this(name, "", null, TaskStatus.TODO);
     }
 
     public Task(String name, Executor executor) {
-        this(name);
-        this.executor = executor;
+        this(name, "", executor, TaskStatus.TODO);
     }
 
     public Task(String name, String description, Executor executor) {
-        this(name, executor);
+        this(name, description, executor, TaskStatus.TODO);
+    }
+
+    public Task(String name, String description, Executor executor, TaskStatus status) {
+        this.code = CODE_PREFIX + count++;
+        this.name = name;
         this.description = description;
+        this.executor = executor;
+        this.status = status;
     }
 
     @Override
