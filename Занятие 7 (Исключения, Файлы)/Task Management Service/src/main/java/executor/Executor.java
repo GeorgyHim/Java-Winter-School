@@ -40,4 +40,9 @@ public class Executor {
     public int hashCode() {
         return id.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return String.format("(name = %s, id = %s)", name, id);
+    }
 }
