@@ -44,7 +44,10 @@ public class TaskService {
     }
 
     private String getFlag(String command) {
-        return command.substring(command.indexOf(' ')+1);
+        int position = command.indexOf(' ');
+        if (position == -1)
+            return "";
+        return command.substring(position+1);
     }
 
     // TODO
