@@ -59,7 +59,7 @@ public class Task {
 
     @Override
     public int hashCode() {
-        return Objects.hash(code);
+        return code.hashCode();
     }
 
     public String getCode() {
