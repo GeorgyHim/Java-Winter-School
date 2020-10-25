@@ -1,0 +1,72 @@
+ class Film {
+ 	String title;
+ 	String[] synopsis;
+ 	Cinematographer director;
+ 	Cinematographer[] writers;
+ 	Cinematographer[] actors;
+ 	Screenplay screenplay;
+ 	double budget; // Бюджет, $ млн
+ 	double boxOffice; // Кассовые сборы, $ млн
+	 	double getProfit()
+	 		return boxOffice - budget;
+ 	Response response;
+ 	int year;
+ 	int runningTime; // Длительность
+ 	Award[] awards;
+ 	Review[] reviews;
+ }
+
+
+
+class Cinematographer {
+	String name;
+	LocalDate dateOfBirth;
+	String country;
+	Award[] awards;
+}
+
+
+
+class Award {
+	String title;	
+	int year;
+	String category;
+}
+
+
+
+
+class Screenplay {
+	String title;
+	String[] text;
+	Character[] character;
+}
+
+
+
+class Character {
+	string name;
+	String[] description;
+	boolean willDie;
+}
+
+
+
+
+class Response {
+	double viewersRating;
+	double criticsRating;
+	long viewersCount;
+	Review[] reviews;
+}
+
+
+
+class Review {
+	String authorName;
+	LocalDate date;
+	String[] text;
+	boolean isPositive;
+}
+
+
