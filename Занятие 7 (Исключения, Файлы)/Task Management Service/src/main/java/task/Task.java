@@ -15,10 +15,10 @@ public class Task implements Serializable {
     private static int count = 1;
 
     /** Префикс для кода задачи*/
-    public static final String CODE_PREFIX = "Task-";
+    public static final String ID_PREFIX = "Task-";
 
     /** Код задачи */
-    private String code;
+    private String id;
 
     /** Наименование задачи */
     private String name;
@@ -45,19 +45,19 @@ public class Task implements Serializable {
     }
 
     public Task(String name, String description, Executor executor, TaskStatus status) {
-        this.code = CODE_PREFIX + count++;
+        this.id = ID_PREFIX + count++;
         this.name = name;
         this.description = description;
         this.executor = executor;
         this.status = status;
     }
 
-    public String getCode() {
-        return code;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -95,7 +95,7 @@ public class Task implements Serializable {
     @Override
     public String toString() {
         return "Task(" +
-                "code='" + code + '\'' +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", executor=" + executor +

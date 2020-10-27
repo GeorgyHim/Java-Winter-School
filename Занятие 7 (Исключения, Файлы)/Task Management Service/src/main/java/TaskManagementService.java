@@ -8,17 +8,25 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class TaskManagementService {
-    /** Сканнер для считывания команд*/
+    /**
+     * Сканнер для считывания команд
+     */
     private Scanner in;
 
-    /** Служба хранения файлов */
+    /**
+     * Служба хранения файлов
+     */
     private StorageManagementService storageService;
 
-    /** Список задач */
-    private List<Task> tasks = new ArrayList<>();
+    /**
+     * Список id задач
+     */
+    private Set<String> tasks_ids = new HashSet<>();
 
-    /** Список исполнителей */
-    private List<Executor> executors = new ArrayList<>();
+    /**
+     * Список id исполнителей
+     */
+    private Set<String> executors_ids = new HashSet<>();
 
     public void process() {
         while (in.hasNext()) {
@@ -52,50 +60,50 @@ public class TaskManagementService {
         int position = command.indexOf(' ');
         if (position == -1)
             return "";
-        return command.substring(position+1);
+        return command.substring(position + 1);
     }
 
-    private String processSaveTask(String code) {
-        try {
-            Task task = findTask(code);
-            storageService.saveObject(task);
-        }
-        catch (NoTaskException e) {
-            return "Task doesn't exist";
-        }
-        catch (IOException e) {
-            return "Wrong OutputStream. Set new correct OutputStream";
-        }
-        catch (Exception e) {
-            return "Bad input";
-        }
-        return "Task saved";
-    }
+//    private String processSaveTask(String id) {
+//        try {
+//            Task task = findTask(id);
+//            storageService.saveObject(task);
+//        }
+//        catch (NoTaskException e) {
+//            return "Task doesn't exist";
+//        }
+//        catch (IOException e) {
+//            return "Wrong OutputStream. Set new correct OutputStream";
+//        }
+//        catch (Exception e) {
+//            return "Bad input";
+//        }
+//        return "Task saved";
+//    }
 
-    private String processSaveExecutor(String code) {
-        try {
-            Executor executor = findExecutor(code);
-            storageService.saveObject(executor);
-        }
-        catch (NoExecutorException e) {
-            return "Executor doesn't exist";
-        }
-        catch (IOException e) {
-            return "Wrong OutputStream. Set new correct OutputStream";
-        }
-        catch (Exception e) {
-            return "Bad input";
-        }
-        return "Executor saved";
-    }
+//    private String processSaveExecutor(String id) {
+//        try {
+//            Executor executor = findExecutor(id);
+//            storageService.saveObject(executor);
+//        }
+//        catch (NoExecutorException e) {
+//            return "Executor doesn't exist";
+//        }
+//        catch (IOException e) {
+//            return "Wrong OutputStream. Set new correct OutputStream";
+//        }
+//        catch (Exception e) {
+//            return "Bad input";
+//        }
+//        return "Executor saved";
+//    }
 
-    private Task findTask(String code) throws NoTaskException {
-        if (!code.startsWith(Task.CODE_PREFIX)) {
-            int id = Integer.parseInt(code);
-            code = Task.CODE_PREFIX + id;
+    private Task findTask(String id) throws NoTaskException {
+        if (!id.startsWith(Task.ID_PREFIX)) {
+            int id = Integer.parseInt(id);
+            id = Task.ID_PREFIX + id;
         }
         for (Task task : tasks) {
-            if (task.getCode().equals(code)) {
+            if (task.getId().equals(id)) {
                 return task;
             }
         }
@@ -129,11 +137,9 @@ public class TaskManagementService {
             System.out.print("Input description of task: ");
             String description = in.nextLine();
             tasks.add(new Task(name, description, executor));
-        }
-        catch (NoExecutorException exc) {
+        } catch (NoExecutorException exc) {
             return "Executor doesn't exist";
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return "Bad input";
         }
         return "Task added";
@@ -179,30 +185,16 @@ public class TaskManagementService {
                 "list -e     — see all executors\n" +
                 "add  -t     — add a task, you will be able to set name, executor and description\n" +
                 "add  -e     — add a executor, you will be able to set name\n" +
-                "savetask <code> — save task with specified code\n" +
-                "saveexec <id>   — save executor with specified id\n" +
-                "loadtask";
+                "changestatus <0-3>" +
+                "changeexecutor <task_id> <id>"
     }
 
     public TaskManagementService(InputStream inputStream, Path path) {
         this.in = new Scanner(inputStream);
         this.storageService = new StorageManagementService(path);
     }
+}
 
     /*
-    TODO:
-    Функционал:
-            +Вывести список доступных команд
-            +Прочитать и обработать команду (если такой команды нет, выбросить исключение)
-            +В Мэйне выводить "Type HELP to see available commands"
-
-    Команды:
-            +Добавить задачу (все варианты в одном методе):
-                    +(название)
-                    +(название + исполнитель)
-                    +(название + исполнитель + описание)
-            + Добавить исполнителя
-            + Вывести список задач, исполнителей, обоих
-        Сохранить задачу в память
-     */
-}
+    TODO: Переписать то что есть, чтение объектов из файла, изменение полей
+    */

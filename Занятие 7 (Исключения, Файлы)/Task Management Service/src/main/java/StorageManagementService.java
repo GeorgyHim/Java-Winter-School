@@ -22,8 +22,8 @@ class StorageManagementService {
         return this.path.toAbsolutePath().toString() + sep + folder + sep + id;
     }
 
-    public FileOutputStream getTaskFile(String task_code) throws FileNotFoundException {
-        String path = getPathtoObject(tasksFolder, task_code);
+    public FileOutputStream getTaskFile(String task_id) throws FileNotFoundException {
+        String path = getPathtoObject(tasksFolder, task_id);
         return new FileOutputStream(path);
     }
 
@@ -35,7 +35,7 @@ class StorageManagementService {
     public void saveObject(Serializable object) throws IOException {
         FileOutputStream fileOutputStream = null;
         if (object instanceof Task)
-            fileOutputStream = getTaskFile(((Task) object).getCode());
+            fileOutputStream = getTaskFile(((Task) object).getId());
         if (object instanceof Executor)
             fileOutputStream = getExecutorFile(((Executor) object).getId());
         try (ObjectOutputStream serializer = new ObjectOutputStream(fileOutputStream)) {
