@@ -12,7 +12,7 @@ public class Task implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Общее количество созданных задач */
-    private static int count = 1;
+    private static int count = 0;
 
     /** Префикс для кода задачи*/
     public static final String ID_PREFIX = "Task-";
@@ -45,7 +45,7 @@ public class Task implements Serializable {
     }
 
     public Task(String name, String description, Executor executor, TaskStatus status) {
-        this.id = ID_PREFIX + count++;
+        this.id = ID_PREFIX + ++count;
         this.name = name;
         this.description = description;
         this.executor = executor;

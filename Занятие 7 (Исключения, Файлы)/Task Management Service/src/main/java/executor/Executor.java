@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Executor implements Serializable {
     /** Общее количество исполнителей */
-    private static int count = 1;
+    private static int count = 0;
 
     /** Префикс для кода задачи*/
     public static final String ID_PREFIX = "Executor-";
@@ -17,7 +17,7 @@ public class Executor implements Serializable {
     private String name;
 
     public Executor(String name) {
-        this.id = ID_PREFIX + count++;
+        this.id = ID_PREFIX + ++count;
         this.name = name;
     }
 
