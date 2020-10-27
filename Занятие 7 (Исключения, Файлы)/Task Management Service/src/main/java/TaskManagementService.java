@@ -247,10 +247,12 @@ public class TaskManagementService {
 
     private void updateData() throws IOException {
         try (Stream<Path> paths = Files.walk(Paths.get(storageService.getTasksFolder()))) {
-            paths.filter(Files::isRegularFile).forEach(path -> tasks_ids.add(path.getFileName().toString()));
+            paths.filter(Files::isRegularFile).filter(path -> path.getFileName().toString().contains("-"))
+                    .forEach(path -> tasks_ids.add(path.getFileName().toString()));
         }
         try (Stream<Path> paths = Files.walk(Paths.get(storageService.getExecutorsFolder()))) {
-            paths.filter(Files::isRegularFile).forEach(path -> executors_ids.add(path.getFileName().toString()));
+            paths.filter(Files::isRegularFile).filter(path -> path.getFileName().toString().contains("-"))
+                    .forEach(path -> executors_ids.add(path.getFileName().toString()));
         }
     }
 }

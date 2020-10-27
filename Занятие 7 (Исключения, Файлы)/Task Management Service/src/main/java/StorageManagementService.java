@@ -51,7 +51,6 @@ class StorageManagementService {
         }
         try (ObjectOutputStream serializer = new ObjectOutputStream(fileOutputStream)) {
             serializer.writeObject(object);
-
         }
     }
 
