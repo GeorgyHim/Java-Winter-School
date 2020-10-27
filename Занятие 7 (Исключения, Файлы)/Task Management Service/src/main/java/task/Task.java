@@ -92,10 +92,6 @@ public class Task implements Serializable {
         this.status = status;
     }
 
-    static void setCount(int count) {
-        Task.count = count;
-    }
-
     @Override
     public String toString() {
         return "Task(" +
@@ -106,5 +102,4 @@ public class Task implements Serializable {
                 ", status=" + status +
                 ')';
     }
-
 }
