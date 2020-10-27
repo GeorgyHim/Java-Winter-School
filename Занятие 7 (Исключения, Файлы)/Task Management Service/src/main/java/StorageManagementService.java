@@ -47,6 +47,10 @@ class StorageManagementService {
         this.path = path;
     }
 
+    public void setPath(Path path) {
+        this.path = path;
+    }
+
     // TODO: Вынести сюда все операции сохранения и загрузки
     // TODO: Вынести сюда потоки, но не в виде потока, а в виде Path. Потом мы к этому Path будем добавлять папки для Task / executor.Executor
 }
