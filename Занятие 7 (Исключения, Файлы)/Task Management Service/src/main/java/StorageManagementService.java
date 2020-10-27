@@ -12,12 +12,14 @@ import java.nio.file.Paths;
 class StorageManagementService {
     /** Путь до глобальной папки хранения объектов*/
     private Path path;
+    private CountSaver countSaver;
 
     public StorageManagementService(String path) {
         this.path = Paths.get(path);
         try {
             Files.createDirectories(Paths.get(getTasksFolder()));
             Files.createDirectories(Paths.get(getExecutorsFolder()));
+            this.countSaver = new CountSaver(getTasksFolder(), getExecutorsFolder());
         } catch (IOException ignored) {}
     }
 

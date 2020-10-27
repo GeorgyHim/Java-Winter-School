@@ -24,6 +24,10 @@ public class Executor implements Serializable {
         return id;
     }
 
+    public static int getCount() {
+        return count;
+    }
+
     public String getName() {
         return name;
     }

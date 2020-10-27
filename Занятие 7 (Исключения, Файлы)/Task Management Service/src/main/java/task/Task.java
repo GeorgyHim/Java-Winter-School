@@ -92,6 +92,10 @@ public class Task implements Serializable {
         this.status = status;
     }
 
+    public static int getCount() {
+        return count;
+    }
+
     @Override
     public String toString() {
         return "Task(" +
