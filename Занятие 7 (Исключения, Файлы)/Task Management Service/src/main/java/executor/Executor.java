@@ -1,5 +1,7 @@
 package executor;
 
+import task.Task;
+
 import java.io.Serializable;
 
 public class Executor implements Serializable {
@@ -26,6 +28,10 @@ public class Executor implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    static void setCount(int count) {
+        Executor.count = count;
     }
 
     @Override
