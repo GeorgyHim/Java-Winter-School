@@ -47,12 +47,6 @@ public class TaskManagementService {
         if (command.startsWith("add")) {
             return processAdd(getParam(command));
         }
-        if (command.startsWith("savetask")) {
-            return processSaveTask(getParam(command));
-        }
-        if (command.startsWith("saveexec")) {
-            return processSaveExecutor(getParam(command));
-        }
         return "Wrong Command!";
     }
 
@@ -80,35 +74,19 @@ public class TaskManagementService {
 //        return "Task saved";
 //    }
 
-//    private String processSaveExecutor(String id) {
-//        try {
-//            Executor executor = findExecutor(id);
-//            storageService.saveObject(executor);
+//    private Task findTask(String id) throws NoTaskException {
+//        if (!id.startsWith(Task.ID_PREFIX)) {
+//            id = Task.ID_PREFIX + Integer.parseInt(id);;
 //        }
-//        catch (NoExecutorException e) {
-//            return "Executor doesn't exist";
+//        if (!tasks_ids.contains(id))
+//
+//        for (Task task : tasks) {
+//            if (task.getId().equals(id)) {
+//                return task;
+//            }
 //        }
-//        catch (IOException e) {
-//            return "Wrong OutputStream. Set new correct OutputStream";
-//        }
-//        catch (Exception e) {
-//            return "Bad input";
-//        }
-//        return "Executor saved";
+//        throw new NoTaskException();
 //    }
-
-    private Task findTask(String id) throws NoTaskException {
-        if (!id.startsWith(Task.ID_PREFIX)) {
-            int id = Integer.parseInt(id);
-            id = Task.ID_PREFIX + id;
-        }
-        for (Task task : tasks) {
-            if (task.getId().equals(id)) {
-                return task;
-            }
-        }
-        throw new NoTaskException();
-    }
 
     private String processAdd(String flag) {
         if (flag.equals("-t")) {
@@ -123,8 +101,15 @@ public class TaskManagementService {
     private String addExecutor() {
         System.out.print("Input name of executor: ");
         String name = in.nextLine();
-        executors.add(new Executor(name));
-        return "Executor added";
+        Executor new_executor = new Executor(name);
+        executors_ids.add(new_executor.getId());
+        try {
+            storageService.saveObject(new_executor);
+        }
+        catch (IOException e) {
+            return "Wrong path to main storage. Set new correct path.";
+        }
+        return "Executor added and saved";
     }
 
     private String addTask() {
@@ -136,10 +121,16 @@ public class TaskManagementService {
             Executor executor = findExecutor(executor_id);
             System.out.print("Input description of task: ");
             String description = in.nextLine();
-            tasks.add(new Task(name, description, executor));
+            Task new_task = new Task(name, description, executor);
+            tasks_ids.add(new_task.getId());
+            storageService.saveObject(new_task);
         } catch (NoExecutorException exc) {
             return "Executor doesn't exist";
-        } catch (Exception e) {
+        }
+        catch (IOException e) {
+            return "Wrong path to main storage. Set new correct path.";
+        }
+        catch (Exception e) {
             return "Bad input";
         }
         return "Task added";
@@ -185,8 +176,8 @@ public class TaskManagementService {
                 "list -e     — see all executors\n" +
                 "add  -t     — add a task, you will be able to set name, executor and description\n" +
                 "add  -e     — add a executor, you will be able to set name\n" +
-                "changestatus <0-3>" +
-                "changeexecutor <task_id> <id>"
+                "changestatus <task_id> <new status 0-3>" +
+                "changeexecutor <task_id> <exec_id>";
     }
 
     public TaskManagementService(InputStream inputStream, Path path) {
