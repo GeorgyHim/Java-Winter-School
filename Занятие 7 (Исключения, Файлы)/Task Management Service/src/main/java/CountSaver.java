@@ -1,10 +1,7 @@
 import executor.Executor;
 import task.Task;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class CountSaver {
     private File tasksFile;
@@ -22,10 +19,28 @@ public class CountSaver {
         catch (IOException ignored) {}
     }
 
+    public int getTaskCount() {
+        try (FileInputStream inputStream = new FileInputStream(tasksFile)) {
+            return inputStream.read();
+        }
+        catch (IOException ignored) {
+            return 0;
+        }
+    }
+
     public void saveExecutorCount() {
         try (FileOutputStream outputStream = new FileOutputStream(executorsFile)) {
             outputStream.write(Executor.getCount());
         }
         catch (IOException ignored) {}
+    }
+
+    public int getExecutorCount() {
+        try (FileInputStream inputStream = new FileInputStream(executorsFile)) {
+            return inputStream.read();
+        }
+        catch (IOException ignored) {
+            return 0;
+        }
     }
 }

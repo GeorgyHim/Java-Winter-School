@@ -41,12 +41,17 @@ class StorageManagementService {
     /** Сохранение объекта */
     public void saveObject(Serializable object) throws IOException {
         FileOutputStream fileOutputStream = null;
-        if (object instanceof Task)
+        if (object instanceof Task) {
             fileOutputStream = new FileOutputStream(getFile(getTasksFolder(), ((Task) object).getId()));
-        if (object instanceof Executor)
+            countSaver.saveTaskCount();
+        }
+        if (object instanceof Executor) {
             fileOutputStream = new FileOutputStream(getFile(getExecutorsFolder(), ((Executor) object).getId()));
+            countSaver.saveExecutorCount();
+        }
         try (ObjectOutputStream serializer = new ObjectOutputStream(fileOutputStream)) {
             serializer.writeObject(object);
+
         }
     }
 
