@@ -57,6 +57,12 @@ public class TaskManagementService {
             Task task = findTask(code);
             saveTask(task);
         }
+        catch (NoTaskException e) {
+            return "Task doesn't exist";
+        }
+        catch (IOException e) {
+            return "Wrong OutputStream. Set new correct OutputStream";
+        }
         catch (Exception e) {
             return "Bad input";
         }
@@ -74,6 +80,12 @@ public class TaskManagementService {
             }
         }
         throw new NoTaskException();
+    }
+
+
+    private void saveTask(Task task) throws IOException {
+        ObjectOutputStream serializer = new ObjectOutputStream(outputStream);
+        serializer.writeObject(task);
     }
 
     private String processAdd(String flag) {
