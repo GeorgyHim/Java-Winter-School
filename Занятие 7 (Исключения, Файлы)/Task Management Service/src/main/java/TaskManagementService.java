@@ -4,11 +4,15 @@ import task.NoTaskException;
 import task.Task;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.*;
 
 public class TaskManagementService {
+    /** Сканнер для считывания команд*/
     private Scanner in;
-    private OutputStream outputStream;
+
+    /** Служба хранения файлов */
+    private StorageManagementService storageService;
 
     /** Список задач */
     private List<Task> tasks = new ArrayList<>();
@@ -54,7 +58,7 @@ public class TaskManagementService {
     private String processSaveTask(String code) {
         try {
             Task task = findTask(code);
-            saveObject(task);
+            storageService.saveObject(task);
         }
         catch (NoTaskException e) {
             return "Task doesn't exist";
@@ -71,7 +75,7 @@ public class TaskManagementService {
     private String processSaveExecutor(String code) {
         try {
             Executor executor = findExecutor(code);
-            saveObject(executor);
+            storageService.saveObject(executor);
         }
         catch (NoExecutorException e) {
             return "Executor doesn't exist";
@@ -96,12 +100,6 @@ public class TaskManagementService {
             }
         }
         throw new NoTaskException();
-    }
-
-
-    private void saveObject(Serializable object) throws IOException {
-        ObjectOutputStream serializer = new ObjectOutputStream(outputStream);
-        serializer.writeObject(object);
     }
 
     private String processAdd(String flag) {
@@ -182,16 +180,13 @@ public class TaskManagementService {
                 "add  -t     — add a task, you will be able to set name, executor and description\n" +
                 "add  -e     — add a executor, you will be able to set name\n" +
                 "savetask <code> — save task with specified code\n" +
-                "saveexec <id>   — save executor with specified id\n";
+                "saveexec <id>   — save executor with specified id\n" +
+                "loadtask";
     }
 
-    public TaskManagementService(InputStream inputStream, OutputStream outputStream) {
+    public TaskManagementService(InputStream inputStream, Path path) {
         this.in = new Scanner(inputStream);
-        this.outputStream = outputStream;
-    }
-
-    public void setOutputStream(OutputStream outputStream) {
-        this.outputStream = outputStream;
+        this.storageService = new StorageManagementService(path);
     }
 
     /*
