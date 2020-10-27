@@ -1,5 +1,6 @@
 import executor.Executor;
 import executor.NoExecutorException;
+import storage_services.StorageManagementService;
 import task.NoTaskException;
 import task.Task;
 import task.TaskStatus;
@@ -90,7 +91,7 @@ public class TaskManagementService {
 
     private Task findTask(String id) throws NoTaskException, IOException, ClassNotFoundException {
         if (!id.startsWith(Task.ID_PREFIX)) {
-            id = Task.ID_PREFIX + Integer.parseInt(id);;
+            id = Task.ID_PREFIX + Integer.parseInt(id);
         }
         if (!tasks_ids.contains(id))
             throw new NoTaskException();
