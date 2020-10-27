@@ -2,6 +2,7 @@ import executor.Executor;
 import executor.NoExecutorException;
 import task.NoTaskException;
 import task.Task;
+import task.TaskStatus;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -45,15 +46,33 @@ public class TaskManagementService {
             return processHelp();
         }
         if (command.equals("setstorage")) {
-            return processSetStorage(getParam(command));
+            return processSetStorage(getParams(command));
         }
         if (command.startsWith("list")) {
-            return processList(getParam(command));
+            return processList(getParams(command));
         }
         if (command.startsWith("add")) {
-            return processAdd(getParam(command));
+            return processAdd(getParams(command));
+        }
+        if (command.startsWith("changestatus")) {
+            return processChangeStatus(getParams(command));
+        }
+        if (command.startsWith("changeexecutor")) {
+            return processChangeExecutor(getParams(command));
         }
         return "Wrong Command!";
+    }
+
+    private String processHelp() {
+        return  "help        — see all available commands\n" +
+                "setstorage <path> — set storage path" +
+                "list        — see all tasks and executors\n" +
+                "list -t     — see all tasks\n" +
+                "list -e     — see all executors\n" +
+                "add  -t     — add a task, you will be able to set name, executor and description\n" +
+                "add  -e     — add a executor, you will be able to set name\n" +
+                "?changestatus <task_id> <new_status 0-3>" +
+                "?changeexecutor <task_id> <exec_id>";
     }
 
     private String processSetStorage(String path) {
@@ -61,7 +80,7 @@ public class TaskManagementService {
         return "Storage path set";
     }
 
-    private String getParam(String command) {
+    private String getParams(String command) {
         int position = command.indexOf(' ');
         if (position == -1)
             return "";
@@ -69,19 +88,14 @@ public class TaskManagementService {
     }
 
 
-//    private Task findTask(String id) throws NoTaskException {
-//        if (!id.startsWith(Task.ID_PREFIX)) {
-//            id = Task.ID_PREFIX + Integer.parseInt(id);;
-//        }
-//        if (!tasks_ids.contains(id))
-//
-//        for (Task task : tasks) {
-//            if (task.getId().equals(id)) {
-//                return task;
-//            }
-//        }
-//        throw new NoTaskException();
-//    }
+    private Task findTask(String id) throws NoTaskException, IOException, ClassNotFoundException {
+        if (!id.startsWith(Task.ID_PREFIX)) {
+            id = Task.ID_PREFIX + Integer.parseInt(id);;
+        }
+        if (!tasks_ids.contains(id))
+            throw new NoTaskException();
+        return storageService.findTask(id);
+    }
 
     private String processAdd(String flag) {
         if (flag.equals("-t")) {
@@ -123,7 +137,7 @@ public class TaskManagementService {
             return "Executor doesn't exist";
         }
         catch (IOException e) {
-            return "Wrong path to main storage. Set new correct path.";
+            return "Some went wrong with file system. Maybe you set incorrect path to main storage.";
         }
         catch (Exception e) {
             return "Bad input";
@@ -171,16 +185,54 @@ public class TaskManagementService {
         return "Bad flag param";
     }
 
-    private String processHelp() {
-        return  "help        — see all available commands\n" +
-                "setstorage <path> — set storage path" +
-                "?list        — see all tasks and executors\n" +
-                "?list -t     — see all tasks\n" +
-                "?list -e     — see all executors\n" +
-                "add  -t     — add a task, you will be able to set name, executor and description\n" +
-                "add  -e     — add a executor, you will be able to set name\n" +
-                "?changestatus <task_id> <new status 0-3>" +
-                "?changeexecutor <task_id> <exec_id>";
+    private String processChangeExecutor(String params) {
+        String[] args = params.split(" ");
+        if (args.length != 2)
+            return "Bad params";
+        String task_id = args[0];
+        String new_executor_id = args[1];
+        try {
+            Task task = findTask(task_id);
+            Executor new_executor = findExecutor(new_executor_id);
+            task.setExecutor(new_executor);
+            storageService.saveObject(task);
+        }
+        catch (NoTaskException exc) {
+            return "Task doesn't exist";
+        }
+        catch (NoExecutorException e) {
+            return "Executor doesn't exist";
+        }
+        catch (IOException e) {
+            return "Some went wrong with file system. Maybe you set incorrect path to main storage.";
+        }
+        catch (Exception e) {
+            return "Bad input";
+        }
+        return "Executor changed, task saved";
+    }
+
+    private String processChangeStatus(String params) {
+        String[] args = params.split(" ");
+        if (args.length != 2)
+            return "Bad params";
+        String task_id = args[0];
+        String new_status = args[1];
+        try {
+            Task task = findTask(task_id);
+            task.setStatus(TaskStatus.valueOf(new_status));
+            storageService.saveObject(task);
+        }
+        catch (NoTaskException exc) {
+            return "Task doesn't exist";
+        }
+        catch (IOException e) {
+            return "Some went wrong with file system. Maybe you set incorrect path to main storage.";
+        }
+        catch (Exception e) {
+            return "Bad input";
+        }
+        return "Status changed, task saved";
     }
 
     public TaskManagementService(InputStream inputStream, String path) {
@@ -202,7 +254,3 @@ public class TaskManagementService {
         }
     }
 }
-
-    /*
-    TODO: Переписать то что есть, чтение объектов из файла, изменение полей
-    */

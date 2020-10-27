@@ -65,5 +65,4 @@ class StorageManagementService {
     void setPath(String path) {
         this.path = Paths.get(path);
     }
-
 }
