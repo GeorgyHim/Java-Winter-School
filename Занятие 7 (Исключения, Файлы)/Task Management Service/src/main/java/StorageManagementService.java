@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 /**
  * Служба хранения файлов
  */
-class StorageManagementService {
+public class StorageManagementService {
     /** Путь до глобальной папки хранения объектов*/
     private Path path;
     private CountSaver countSaver;
@@ -24,12 +24,12 @@ class StorageManagementService {
         } catch (IOException ignored) {}
     }
 
-    String getTasksFolder() {
+    public String getTasksFolder() {
         String sep = this.path.getFileSystem().getSeparator();
         return this.path.toAbsolutePath().toString() + sep + "tasks"  + sep;
     }
 
-    String getExecutorsFolder() {
+    public String getExecutorsFolder() {
         String sep = this.path.getFileSystem().getSeparator();
         return this.path.toAbsolutePath().toString() + sep + "executors"  + sep;
     }
@@ -55,7 +55,7 @@ class StorageManagementService {
         }
     }
 
-    Executor findExecutor(String executor_id) throws IOException, ClassNotFoundException {
+    public Executor findExecutor(String executor_id) throws IOException, ClassNotFoundException {
         FileInputStream inputStream = new FileInputStream(getFile(getExecutorsFolder(), executor_id));
         try (ObjectInputStream serializer = new ObjectInputStream(inputStream)) {
             return (Executor) serializer.readObject();
@@ -69,7 +69,7 @@ class StorageManagementService {
         }
     }
 
-    void setPath(String path) {
+    public void setPath(String path) {
         this.path = Paths.get(path);
     }
 }
