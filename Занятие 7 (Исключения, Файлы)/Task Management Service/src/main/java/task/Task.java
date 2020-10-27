@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class Task {
     /** Общее количество созданных задач */
-    private static int count = 0;
+    private static int count = 1;
 
     /** Префикс для кода задачи*/
     public static final String CODE_PREFIX = "Task-";

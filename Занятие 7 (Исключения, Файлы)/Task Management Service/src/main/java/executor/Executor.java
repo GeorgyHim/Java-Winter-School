@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Executor {
     /** Общее количество исполнителей */
-    private static int count = 0;
+    private static int count = 1;
 
     /** Префикс для кода задачи*/
     public static final String ID_PREFIX = "Executor-";
