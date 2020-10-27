@@ -1,5 +1,6 @@
 package task;
 
+import storage.CountSaver;
 import executor.Executor;
 
 import java.io.Serializable;
@@ -94,6 +95,10 @@ public class Task implements Serializable {
 
     public static int getCount() {
         return count;
+    }
+
+    public void loadCount(CountSaver countSaver) {
+        count = countSaver.getTaskCount();
     }
 
     @Override
