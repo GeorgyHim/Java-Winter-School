@@ -47,9 +47,9 @@ public class TaskManagementService {
         if (command.equals("setstorage")) {
             return processSetStorage(getParam(command));
         }
-//        if (command.startsWith("list")) {
-//            return processList(getParam(command));
-//        }
+        if (command.startsWith("list")) {
+            return processList(getParam(command));
+        }
         if (command.startsWith("add")) {
             return processAdd(getParam(command));
         }
@@ -68,22 +68,6 @@ public class TaskManagementService {
         return command.substring(position + 1);
     }
 
-//    private String processSaveTask(String id) {
-//        try {
-//            Task task = findTask(id);
-//            storageService.saveObject(task);
-//        }
-//        catch (NoTaskException e) {
-//            return "Task doesn't exist";
-//        }
-//        catch (IOException e) {
-//            return "Wrong OutputStream. Set new correct OutputStream";
-//        }
-//        catch (Exception e) {
-//            return "Bad input";
-//        }
-//        return "Task saved";
-//    }
 
 //    private Task findTask(String id) throws NoTaskException {
 //        if (!id.startsWith(Task.ID_PREFIX)) {
@@ -106,7 +90,7 @@ public class TaskManagementService {
         if (flag.equals("-e")) {
             return addExecutor();
         }
-        return "Bad command";
+        return "Bad flag param";
     }
 
     private String addExecutor() {
@@ -144,7 +128,7 @@ public class TaskManagementService {
         catch (Exception e) {
             return "Bad input";
         }
-        return "Task added";
+        return "Task added and saved";
     }
 
     private Executor findExecutor(String executor_id) throws NoExecutorException, IOException, ClassNotFoundException {
@@ -157,36 +141,46 @@ public class TaskManagementService {
         return storageService.findExecutor(executor_id);
     }
 
-//    private String processList(String flag) {
-//        StringBuilder sb = new StringBuilder();
-//        if (flag.equals("-t")) {
-//            tasks.forEach(task -> sb.append(task.toString()).append("\n"));
-//            return sb.toString();
-//        }
-//        if (flag.equals("-e")) {
-//            executors.forEach(task -> sb.append(task.toString()).append("\n"));
-//            return sb.toString();
-//        }
-//        if (flag.equals("")) {
-//            sb.append("Tasks:\n");
-//            tasks.forEach(task -> sb.append("\t").append(task.toString()).append("\n"));
-//            sb.append("Executors:\n");
-//            executors.forEach(task -> sb.append("\t").append(task.toString()).append("\n"));
-//            return sb.toString();
-//        }
-//        return "Bad command";
-//    }
+    private String processList(String flag) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            if (flag.equals("-t")) {
+                for (String id : tasks_ids) {
+                    sb.append(storageService.findTask(id).toString()).append("\n");
+                }
+                return sb.toString();
+            }
+
+            if (flag.equals("-e")) {
+                for (String id : executors_ids) {
+                    sb.append(storageService.findExecutor(id).toString()).append("\n");
+                }
+                return sb.toString();
+            }
+            if (flag.equals("")) {
+                sb.append("\tTasks:\n");
+                sb.append(processList("-t"));
+                sb.append("\tExecutors:\n");
+                sb.append(processList("-e"));
+                return sb.toString();
+            }
+        }
+        catch (Exception e) {
+            return "Failed to list objects";
+        }
+        return "Bad flag param";
+    }
 
     private String processHelp() {
         return  "help        — see all available commands\n" +
                 "setstorage <path> — set storage path" +
-                "list        — see all tasks and executors\n" +
-                "list -t     — see all tasks\n" +
-                "list -e     — see all executors\n" +
+                "?list        — see all tasks and executors\n" +
+                "?list -t     — see all tasks\n" +
+                "?list -e     — see all executors\n" +
                 "add  -t     — add a task, you will be able to set name, executor and description\n" +
                 "add  -e     — add a executor, you will be able to set name\n" +
-                "changestatus <task_id> <new status 0-3>" +
-                "changeexecutor <task_id> <exec_id>";
+                "?changestatus <task_id> <new status 0-3>" +
+                "?changeexecutor <task_id> <exec_id>";
     }
 
     public TaskManagementService(InputStream inputStream, String path) {
