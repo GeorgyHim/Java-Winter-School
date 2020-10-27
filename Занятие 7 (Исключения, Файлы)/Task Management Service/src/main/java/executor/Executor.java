@@ -1,5 +1,7 @@
 package executor;
 
+import storage_services.CountSaver;
+
 import java.io.Serializable;
 
 public class Executor implements Serializable {
@@ -18,6 +20,10 @@ public class Executor implements Serializable {
     public Executor(String name) {
         this.id = ID_PREFIX + ++count;
         this.name = name;
+    }
+
+    public static void loadCount(CountSaver countSaver) {
+        count = countSaver.getExecutorCount();
     }
 
     public String getId() {

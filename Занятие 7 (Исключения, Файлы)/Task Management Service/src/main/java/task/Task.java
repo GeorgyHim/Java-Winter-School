@@ -97,7 +97,7 @@ public class Task implements Serializable {
         return count;
     }
 
-    public void loadCount(CountSaver countSaver) {
+    public static void loadCount(CountSaver countSaver) {
         count = countSaver.getTaskCount();
     }
 

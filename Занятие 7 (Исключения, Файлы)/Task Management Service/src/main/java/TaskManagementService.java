@@ -1,5 +1,6 @@
 import executor.Executor;
 import executor.NoExecutorException;
+import storage_services.CountSaver;
 import storage_services.StorageManagementService;
 import task.NoTaskException;
 import task.Task;
@@ -22,6 +23,9 @@ public class TaskManagementService {
      * Служба хранения файлов
      */
     private StorageManagementService storageService;
+
+    /** Слуджба сохранения и обновления поля count */
+    private CountSaver countSaver;
 
     /**
      * Список id задач
@@ -72,8 +76,8 @@ public class TaskManagementService {
                 "list -e     — see all executors\n" +
                 "add  -t     — add a task, you will be able to set name, executor and description\n" +
                 "add  -e     — add a executor, you will be able to set name\n" +
-                "?changestatus <task_id> <new_status 0-3>" +
-                "?changeexecutor <task_id> <exec_id>";
+                "changestatus <task_id> <new_status>\n" +
+                "changeexecutor <task_id> <exec_id>";
     }
 
     private String processSetStorage(String path) {
@@ -113,6 +117,7 @@ public class TaskManagementService {
         String name = in.nextLine();
         Executor new_executor = new Executor(name);
         executors_ids.add(new_executor.getId());
+        countSaver.saveExecutorCount();
         try {
             storageService.saveObject(new_executor);
         }
@@ -133,6 +138,7 @@ public class TaskManagementService {
             String description = in.nextLine();
             Task new_task = new Task(name, description, executor);
             tasks_ids.add(new_task.getId());
+            countSaver.saveTaskCount();
             storageService.saveObject(new_task);
         } catch (NoExecutorException | FileNotFoundException exc) {
             return "Executor doesn't exist";
@@ -239,8 +245,11 @@ public class TaskManagementService {
     public TaskManagementService(InputStream inputStream, String path) {
         this.in = new Scanner(inputStream);
         this.storageService = new StorageManagementService(path);
+        this.countSaver = new CountSaver(this.storageService.getTasksFolder(), this.storageService.getExecutorsFolder());
         try {
             updateData();
+            Task.loadCount(countSaver);
+            Executor.loadCount(countSaver);
         } catch (IOException e) {
             System.out.println("Data updating failed");
         }

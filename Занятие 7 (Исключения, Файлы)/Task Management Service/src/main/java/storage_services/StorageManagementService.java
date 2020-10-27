@@ -14,14 +14,12 @@ import java.nio.file.Paths;
 public class StorageManagementService {
     /** Путь до глобальной папки хранения объектов*/
     private Path path;
-    private CountSaver countSaver;
 
     public StorageManagementService(String path) {
         this.path = Paths.get(path);
         try {
             Files.createDirectories(Paths.get(getTasksFolder()));
             Files.createDirectories(Paths.get(getExecutorsFolder()));
-            this.countSaver = new CountSaver(getTasksFolder(), getExecutorsFolder());
         } catch (IOException ignored) {}
     }
 
@@ -45,11 +43,9 @@ public class StorageManagementService {
         FileOutputStream fileOutputStream = null;
         if (object instanceof Task) {
             fileOutputStream = new FileOutputStream(getFile(getTasksFolder(), ((Task) object).getId()));
-            countSaver.saveTaskCount();
         }
         if (object instanceof Executor) {
             fileOutputStream = new FileOutputStream(getFile(getExecutorsFolder(), ((Executor) object).getId()));
-            countSaver.saveExecutorCount();
         }
         try (ObjectOutputStream serializer = new ObjectOutputStream(fileOutputStream)) {
             serializer.writeObject(object);
