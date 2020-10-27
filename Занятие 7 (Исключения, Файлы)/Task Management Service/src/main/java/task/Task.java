@@ -12,7 +12,7 @@ public class Task {
     private static int count = 0;
 
     /** Префикс для кода задачи*/
-    private static final String CODE_PREFIX = "Task-";
+    public static final String CODE_PREFIX = "Task-";
 
     /** Код задачи */
     private String code;
@@ -47,19 +47,6 @@ public class Task {
         this.description = description;
         this.executor = executor;
         this.status = status;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return code.equals(task.code);
-    }
-
-    @Override
-    public int hashCode() {
-        return code.hashCode();
     }
 
     public String getCode() {
