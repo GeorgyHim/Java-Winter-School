@@ -2,12 +2,16 @@ package task;
 
 import executor.Executor;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Задача
  */
-public class Task {
+public class Task implements Serializable {
+    /** Версия класса для сериализации */
+    private static final long serialVersionUID = 1L;
+
     /** Общее количество созданных задач */
     private static int count = 1;
 
