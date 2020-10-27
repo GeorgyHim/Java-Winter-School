@@ -55,7 +55,15 @@ class StorageManagementService {
         }
     }
 
+    public Task findTask(String task_id) throws IOException, ClassNotFoundException {
+        FileInputStream inputStream = new FileInputStream(getFile(getTasksFolder(), task_id));
+        try (ObjectInputStream serializer = new ObjectInputStream(inputStream)) {
+            return (Task) serializer.readObject();
+        }
+    }
+
     void setPath(String path) {
         this.path = Paths.get(path);
     }
+
 }
