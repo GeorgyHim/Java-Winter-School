@@ -2,7 +2,9 @@ import executor.Executor;
 import task.Task;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Служба хранения файлов
@@ -16,6 +18,15 @@ class StorageManagementService {
 
     /** Название подпапки для исполнителей*/
     private static String executorsFolder = "executors";
+
+    public StorageManagementService(String path) {
+        this.path = Paths.get(path);
+        String sep = this.path.getFileSystem().getSeparator();
+        try {
+            Files.createDirectories(Paths.get(this.path.toAbsolutePath().toString() + sep + tasksFolder + sep));
+            Files.createDirectories(Paths.get(this.path.toAbsolutePath().toString() + sep + executorsFolder + sep));
+        } catch (IOException ignored) {}
+    }
 
     /** Получение файла объекта */
     private File getFile(String folder, String id) {
@@ -36,18 +47,14 @@ class StorageManagementService {
         }
     }
 
-    public StorageManagementService(Path path) {
-        this.path = path;
-    }
-
-    void setPath(Path path) {
-        this.path = path;
-    }
-
     Executor findExecutor(String executor_id) throws IOException, ClassNotFoundException {
         FileInputStream inputStream = new FileInputStream(getFile(executorsFolder, executor_id));
         try (ObjectInputStream serializer = new ObjectInputStream(inputStream)) {
             return (Executor) serializer.readObject();
         }
+    }
+
+    public void setPath(String path) {
+        this.path = Paths.get(path);
     }
 }

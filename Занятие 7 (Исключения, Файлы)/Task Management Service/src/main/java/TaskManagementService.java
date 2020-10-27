@@ -41,13 +41,21 @@ public class TaskManagementService {
         if (command.equals("help")) {
             return processHelp();
         }
-        if (command.startsWith("list")) {
-            return processList(getParam(command));
+        if (command.equals("setstorage")) {
+            return processSetStorage();
         }
+//        if (command.startsWith("list")) {
+//            return processList(getParam(command));
+//        }
         if (command.startsWith("add")) {
             return processAdd(getParam(command));
         }
         return "Wrong Command!";
+    }
+
+    private String processSetStorage(String path) {
+        storageService.setPath(path);
+        return "Storage path set";
     }
 
     private String getParam(String command) {
@@ -124,7 +132,7 @@ public class TaskManagementService {
             Task new_task = new Task(name, description, executor);
             tasks_ids.add(new_task.getId());
             storageService.saveObject(new_task);
-        } catch (NoExecutorException exc) {
+        } catch (NoExecutorException | FileNotFoundException exc) {
             return "Executor doesn't exist";
         }
         catch (IOException e) {
@@ -136,41 +144,39 @@ public class TaskManagementService {
         return "Task added";
     }
 
-    private Executor findExecutor(String executor_id) throws NoExecutorException {
+    private Executor findExecutor(String executor_id) throws NoExecutorException, IOException, ClassNotFoundException {
         if (!executor_id.startsWith(Executor.ID_PREFIX)) {
             int id = Integer.parseInt(executor_id);
             executor_id = Executor.ID_PREFIX + id;
         }
-        for (Executor executor : executors) {
-            if (executor.getId().equals(executor_id)) {
-                return executor;
-            }
-        }
-        throw new NoExecutorException();
+        if (!executors_ids.contains(executor_id))
+            throw new NoExecutorException();
+        return storageService.findExecutor(executor_id);
     }
 
-    private String processList(String flag) {
-        StringBuilder sb = new StringBuilder();
-        if (flag.equals("-t")) {
-            tasks.forEach(task -> sb.append(task.toString()).append("\n"));
-            return sb.toString();
-        }
-        if (flag.equals("-e")) {
-            executors.forEach(task -> sb.append(task.toString()).append("\n"));
-            return sb.toString();
-        }
-        if (flag.equals("")) {
-            sb.append("Tasks:\n");
-            tasks.forEach(task -> sb.append("\t").append(task.toString()).append("\n"));
-            sb.append("Executors:\n");
-            executors.forEach(task -> sb.append("\t").append(task.toString()).append("\n"));
-            return sb.toString();
-        }
-        return "Bad command";
-    }
+//    private String processList(String flag) {
+//        StringBuilder sb = new StringBuilder();
+//        if (flag.equals("-t")) {
+//            tasks.forEach(task -> sb.append(task.toString()).append("\n"));
+//            return sb.toString();
+//        }
+//        if (flag.equals("-e")) {
+//            executors.forEach(task -> sb.append(task.toString()).append("\n"));
+//            return sb.toString();
+//        }
+//        if (flag.equals("")) {
+//            sb.append("Tasks:\n");
+//            tasks.forEach(task -> sb.append("\t").append(task.toString()).append("\n"));
+//            sb.append("Executors:\n");
+//            executors.forEach(task -> sb.append("\t").append(task.toString()).append("\n"));
+//            return sb.toString();
+//        }
+//        return "Bad command";
+//    }
 
     private String processHelp() {
         return  "help        — see all available commands\n" +
+                "setstorage <path> — set storage path" +
                 "list        — see all tasks and executors\n" +
                 "list -t     — see all tasks\n" +
                 "list -e     — see all executors\n" +
@@ -180,7 +186,7 @@ public class TaskManagementService {
                 "changeexecutor <task_id> <exec_id>";
     }
 
-    public TaskManagementService(InputStream inputStream, Path path) {
+    public TaskManagementService(InputStream inputStream, String path) {
         this.in = new Scanner(inputStream);
         this.storageService = new StorageManagementService(path);
     }
