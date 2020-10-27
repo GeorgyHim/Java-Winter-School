@@ -4,8 +4,11 @@ import task.NoTaskException;
 import task.Task;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class TaskManagementService {
     /**
@@ -42,7 +45,7 @@ public class TaskManagementService {
             return processHelp();
         }
         if (command.equals("setstorage")) {
-            return processSetStorage();
+            return processSetStorage(getParam(command));
         }
 //        if (command.startsWith("list")) {
 //            return processList(getParam(command));
@@ -189,6 +192,20 @@ public class TaskManagementService {
     public TaskManagementService(InputStream inputStream, String path) {
         this.in = new Scanner(inputStream);
         this.storageService = new StorageManagementService(path);
+        try {
+            updateData();
+        } catch (IOException e) {
+            System.out.println("Data updating failed");
+        }
+    }
+
+    private void updateData() throws IOException {
+        try (Stream<Path> paths = Files.walk(Paths.get(storageService.getTasksFolder()))) {
+            paths.filter(Files::isRegularFile).forEach(path -> tasks_ids.add(path.getFileName().toString()));
+        }
+        try (Stream<Path> paths = Files.walk(Paths.get(storageService.getExecutorsFolder()))) {
+            paths.filter(Files::isRegularFile).forEach(path -> executors_ids.add(path.getFileName().toString()));
+        }
     }
 }
 

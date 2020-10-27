@@ -1,7 +1,6 @@
 package executor;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class Executor implements Serializable {
     /** Общее количество исполнителей */

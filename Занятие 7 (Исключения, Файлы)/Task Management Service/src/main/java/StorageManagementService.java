@@ -21,12 +21,12 @@ class StorageManagementService {
         } catch (IOException ignored) {}
     }
 
-    private String getTasksFolder() {
+    String getTasksFolder() {
         String sep = this.path.getFileSystem().getSeparator();
         return this.path.toAbsolutePath().toString() + sep + "tasks"  + sep;
     }
 
-    private String getExecutorsFolder() {
+    String getExecutorsFolder() {
         String sep = this.path.getFileSystem().getSeparator();
         return this.path.toAbsolutePath().toString() + sep + "executors"  + sep;
     }
