@@ -88,4 +88,15 @@ public class Task {
     public void setStatus(TaskStatus status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Task(" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", executor=" + executor +
+                ", status=" + status +
+                ')';
+    }
 }
