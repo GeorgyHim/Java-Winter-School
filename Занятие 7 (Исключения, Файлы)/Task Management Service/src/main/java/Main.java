@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        TaskManagementService service = new TaskManagementService(System.in);
+        TaskManagementService service = new TaskManagementService(System.in, System.out);
         System.out.println("Type help to see available commands");
         System.out.print("> ");
         service.process();

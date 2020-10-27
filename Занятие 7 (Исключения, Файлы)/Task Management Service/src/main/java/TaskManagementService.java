@@ -3,11 +3,15 @@ import executor.NoExecutorException;
 import task.NoTaskException;
 import task.Task;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 public class TaskManagementService {
     private Scanner in;
+    private OutputStream outputStream;
 
     /** Список задач */
     private List<Task> tasks = new ArrayList<>();
@@ -37,7 +41,6 @@ public class TaskManagementService {
         if (command.startsWith("save")) {
             return processSave(getParam(command));
         }
-
         return "Wrong Command!";
     }
 
@@ -54,17 +57,9 @@ public class TaskManagementService {
             Task task = findTask(code);
             saveTask(task);
         }
-
-
-
-//
-//        catch (NoExecutorException exc) {
-//            return "Executor doesn't exist";
-//        }
-//        catch (Exception e) {
-//            return "Bad input";
-//        }
-
+        catch (Exception e) {
+            return "Bad input";
+        }
         return "Task saved";
     }
 
@@ -161,8 +156,13 @@ public class TaskManagementService {
                 "save <code> — save task with specified code\n";
     }
 
-    public TaskManagementService(InputStream stream) {
-        this.in = new Scanner(stream);
+    public TaskManagementService(InputStream inputStream, OutputStream outputStream) {
+        this.in = new Scanner(inputStream);
+        this.outputStream = outputStream;
+    }
+
+    public void setOutputStream(OutputStream outputStream) {
+        this.outputStream = outputStream;
     }
 
     /*
