@@ -1,5 +1,6 @@
 import executor.Executor;
 import executor.NoExecutorException;
+import task.NoTaskException;
 import task.Task;
 
 import java.io.InputStream;
@@ -9,7 +10,7 @@ public class TaskManagementService {
     private Scanner in;
 
     /** Список задач */
-    private Set<Task> tasks = new HashSet<>();
+    private List<Task> tasks = new ArrayList<>();
 
     /** Список исполнителей */
     private List<Executor> executors = new ArrayList<>();
@@ -34,11 +35,7 @@ public class TaskManagementService {
             return processAdd(getParam(command));
         }
         if (command.startsWith("save")) {
-            try {
-                return processSave(getParam(command));
-            }
-            // TODO: Написать обработку исключения
-            catch (Exception e) {}
+            return processSave(getParam(command));
         }
 
         return "Wrong Command!";
@@ -52,11 +49,36 @@ public class TaskManagementService {
     }
 
     // TODO: Написать сохранение объекта в файл
-    // TODO:
     private String processSave(String code) {
-        if (code.equals("2"))
-            return "Shit";
-        return "fuck";
+        try {
+            Task task = findTask(code);
+            saveTask(task);
+        }
+
+
+
+//
+//        catch (NoExecutorException exc) {
+//            return "Executor doesn't exist";
+//        }
+//        catch (Exception e) {
+//            return "Bad input";
+//        }
+
+        return "Task saved";
+    }
+
+    private Task findTask(String code) throws NoTaskException {
+        if (!code.startsWith(Task.CODE_PREFIX)) {
+            int id = Integer.parseInt(code);
+            code = Executor.ID_PREFIX + id;
+        }
+        for (Task task : tasks) {
+            if (task.getCode().equals(code)) {
+                return task;
+            }
+        }
+        throw new NoTaskException();
     }
 
     private String processAdd(String flag) {
@@ -101,17 +123,12 @@ public class TaskManagementService {
             int id = Integer.parseInt(executor_id);
             executor_id = Executor.ID_PREFIX + id;
         }
-        Executor finded = null;
         for (Executor executor : executors) {
             if (executor.getId().equals(executor_id)) {
-                finded = executor;
-                break;
+                return executor;
             }
         }
-        if (finded == null) {
-            throw new NoExecutorException();
-        }
-        return finded;
+        throw new NoExecutorException();
     }
 
     private String processList(String flag) {
