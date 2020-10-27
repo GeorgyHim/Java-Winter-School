@@ -4,21 +4,31 @@ import task.Task;
 import java.io.*;
 import java.nio.file.Path;
 
+/**
+ * Служба хранения файлов
+ */
 class StorageManagementService {
-    private static String tasksFolder = "tasks";
-    private static String executorsFolder = "executors";
-
+    /** Путь до глобальной папки хранения объектов*/
     private Path path;
 
-    public FileOutputStream getTaskFile(String task_code) throws FileNotFoundException {
+    /** Название подпапки для задач*/
+    private static String tasksFolder = "tasks";
+
+    /** Название подпапки для исполнителей*/
+    private static String executorsFolder = "executors";
+
+    private String getPathtoObject(String folder, String id) {
         String sep = this.path.getFileSystem().getSeparator();
-        String path = this.path.toAbsolutePath().toString() + sep + tasksFolder + sep + task_code;
+        return this.path.toAbsolutePath().toString() + sep + folder + sep + id;
+    }
+
+    public FileOutputStream getTaskFile(String task_code) throws FileNotFoundException {
+        String path = getPathtoObject(tasksFolder, task_code);
         return new FileOutputStream(path);
     }
 
     public FileOutputStream getExecutorFile(String executor_id) throws FileNotFoundException {
-        String sep = this.path.getFileSystem().getSeparator();
-        String path = this.path.toAbsolutePath().toString() + sep + executorsFolder + sep + executor_id;
+        String path = getPathtoObject(executorsFolder, executor_id);
         return new FileOutputStream(path);
     }
 
