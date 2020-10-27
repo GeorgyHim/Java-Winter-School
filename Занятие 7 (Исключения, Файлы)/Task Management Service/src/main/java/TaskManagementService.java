@@ -72,7 +72,7 @@ public class TaskManagementService {
     private Task findTask(String code) throws NoTaskException {
         if (!code.startsWith(Task.CODE_PREFIX)) {
             int id = Integer.parseInt(code);
-            code = Executor.ID_PREFIX + id;
+            code = Task.CODE_PREFIX + id;
         }
         for (Task task : tasks) {
             if (task.getCode().equals(code)) {

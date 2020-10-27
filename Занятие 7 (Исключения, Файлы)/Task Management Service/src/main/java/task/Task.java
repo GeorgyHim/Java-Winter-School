@@ -3,7 +3,6 @@ package task;
 import executor.Executor;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * Задача
