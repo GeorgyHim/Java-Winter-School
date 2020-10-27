@@ -3,10 +3,7 @@ import executor.NoExecutorException;
 import task.NoTaskException;
 import task.Task;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.*;
 
 public class TaskManagementService {
@@ -38,8 +35,11 @@ public class TaskManagementService {
         if (command.startsWith("add")) {
             return processAdd(getParam(command));
         }
-        if (command.startsWith("save")) {
-            return processSave(getParam(command));
+        if (command.startsWith("savetask")) {
+            return processSaveTask(getParam(command));
+        }
+        if (command.startsWith("saveexec")) {
+            return processSaveExecutor(getParam(command));
         }
         return "Wrong Command!";
     }
@@ -51,11 +51,10 @@ public class TaskManagementService {
         return command.substring(position+1);
     }
 
-    // TODO: Написать сохранение объекта в файл
-    private String processSave(String code) {
+    private String processSaveTask(String code) {
         try {
             Task task = findTask(code);
-            saveTask(task);
+            saveObject(task);
         }
         catch (NoTaskException e) {
             return "Task doesn't exist";
@@ -67,6 +66,23 @@ public class TaskManagementService {
             return "Bad input";
         }
         return "Task saved";
+    }
+
+    private String processSaveExecutor(String code) {
+        try {
+            Executor executor = findExecutor(code);
+            saveObject(executor);
+        }
+        catch (NoExecutorException e) {
+            return "Executor doesn't exist";
+        }
+        catch (IOException e) {
+            return "Wrong OutputStream. Set new correct OutputStream";
+        }
+        catch (Exception e) {
+            return "Bad input";
+        }
+        return "Executor saved";
     }
 
     private Task findTask(String code) throws NoTaskException {
@@ -83,9 +99,9 @@ public class TaskManagementService {
     }
 
 
-    private void saveTask(Task task) throws IOException {
+    private void saveObject(Serializable object) throws IOException {
         ObjectOutputStream serializer = new ObjectOutputStream(outputStream);
-        serializer.writeObject(task);
+        serializer.writeObject(object);
     }
 
     private String processAdd(String flag) {
@@ -165,7 +181,8 @@ public class TaskManagementService {
                 "list -e     — see all executors\n" +
                 "add  -t     — add a task, you will be able to set name, executor and description\n" +
                 "add  -e     — add a executor, you will be able to set name\n" +
-                "save <code> — save task with specified code\n";
+                "savetask <code> — save task with specified code\n" +
+                "saveexec <id>   — save executor with specified id\n";
     }
 
     public TaskManagementService(InputStream inputStream, OutputStream outputStream) {
