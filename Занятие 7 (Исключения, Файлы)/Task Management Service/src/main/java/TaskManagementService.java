@@ -30,12 +30,12 @@ public class TaskManagementService {
     /**
      * Список id задач
      */
-    private Set<String> tasks_ids = new HashSet<>();
+    private Set<String> tasksIds = new HashSet<>();
 
     /**
      * Список id исполнителей
      */
-    private Set<String> executors_ids = new HashSet<>();
+    private Set<String> executorsIds = new HashSet<>();
 
     public void run() {
         while (in.hasNext()) {
@@ -76,8 +76,8 @@ public class TaskManagementService {
                 "list -e     — see all executors\n" +
                 "add  -t     — add a task, you will be able to set name, executor and description\n" +
                 "add  -e     — add a executor, you will be able to set name\n" +
-                "changestatus <task_id> <new_status>\n" +
-                "changeexecutor <task_id> <exec_id>";
+                "changestatus <taskId> <newStatus>\n" +
+                "changeexecutor <taskId> <execId>";
     }
 
     private String processSetStorage(String path) {
@@ -96,7 +96,7 @@ public class TaskManagementService {
         if (!id.startsWith(Task.ID_PREFIX)) {
             id = Task.ID_PREFIX + Integer.parseInt(id);
         }
-        if (!tasks_ids.contains(id))
+        if (!tasksIds.contains(id))
             throw new NoTaskException();
         return storageService.findTask(id);
     }
@@ -114,11 +114,11 @@ public class TaskManagementService {
     private String addExecutor() {
         System.out.print("Input name of executor: ");
         String name = in.nextLine();
-        Executor new_executor = new Executor(name);
-        executors_ids.add(new_executor.getId());
+        Executor newExecutor = new Executor(name);
+        executorsIds.add(newExecutor.getId());
         countSaver.saveExecutorCount();
         try {
-            storageService.saveObject(new_executor);
+            storageService.saveObject(newExecutor);
         }
         catch (IOException e) {
             return "Wrong path to main storage. Set new correct path.";
@@ -131,14 +131,14 @@ public class TaskManagementService {
             System.out.print("Input name of task: ");
             String name = in.nextLine();
             System.out.print("Input executor id: ");
-            String executor_id = in.nextLine();
-            Executor executor = findExecutor(executor_id);
+            String executorId = in.nextLine();
+            Executor executor = findExecutor(executorId);
             System.out.print("Input description of task: ");
             String description = in.nextLine();
-            Task new_task = new Task(name, description, executor);
-            tasks_ids.add(new_task.getId());
+            Task newTask = new Task(name, description, executor);
+            tasksIds.add(newTask.getId());
             countSaver.saveTaskCount();
-            storageService.saveObject(new_task);
+            storageService.saveObject(newTask);
         } catch (NoExecutorException | FileNotFoundException exc) {
             return "Executor doesn't exist";
         }
@@ -151,28 +151,28 @@ public class TaskManagementService {
         return "Task added and saved";
     }
 
-    private Executor findExecutor(String executor_id) throws NoExecutorException, IOException, ClassNotFoundException {
-        if (!executor_id.startsWith(Executor.ID_PREFIX)) {
-            int id = Integer.parseInt(executor_id);
-            executor_id = Executor.ID_PREFIX + id;
+    private Executor findExecutor(String executorId) throws NoExecutorException, IOException, ClassNotFoundException {
+        if (!executorId.startsWith(Executor.ID_PREFIX)) {
+            int id = Integer.parseInt(executorId);
+            executorId = Executor.ID_PREFIX + id;
         }
-        if (!executors_ids.contains(executor_id))
+        if (!executorsIds.contains(executorId))
             throw new NoExecutorException();
-        return storageService.findExecutor(executor_id);
+        return storageService.findExecutor(executorId);
     }
 
     private String processList(String flag) {
         StringBuilder sb = new StringBuilder();
         try {
             if (flag.equals("-t")) {
-                for (String id : tasks_ids) {
+                for (String id : tasksIds) {
                     sb.append(storageService.findTask(id).toString()).append("\n");
                 }
                 return sb.toString();
             }
 
             if (flag.equals("-e")) {
-                for (String id : executors_ids) {
+                for (String id : executorsIds) {
                     sb.append(storageService.findExecutor(id).toString()).append("\n");
                 }
                 return sb.toString();
@@ -195,12 +195,12 @@ public class TaskManagementService {
         String[] args = params.split(" ");
         if (args.length != 2)
             return "Bad params";
-        String task_id = args[0];
-        String new_executor_id = args[1];
+        String taskId = args[0];
+        String newExecutorId = args[1];
         try {
-            Task task = findTask(task_id);
-            Executor new_executor = findExecutor(new_executor_id);
-            task.setExecutor(new_executor);
+            Task task = findTask(taskId);
+            Executor newExecutor = findExecutor(newExecutorId);
+            task.setExecutor(newExecutor);
             storageService.saveObject(task);
         }
         catch (NoTaskException exc) {
@@ -222,11 +222,11 @@ public class TaskManagementService {
         String[] args = params.split(" ");
         if (args.length != 2)
             return "Bad params";
-        String task_id = args[0];
-        String new_status = args[1];
+        String taskId = args[0];
+        String newStatus = args[1];
         try {
-            Task task = findTask(task_id);
-            task.setStatus(TaskStatus.valueOf(new_status));
+            Task task = findTask(taskId);
+            task.setStatus(TaskStatus.valueOf(newStatus));
             storageService.saveObject(task);
         }
         catch (NoTaskException exc) {
@@ -241,9 +241,9 @@ public class TaskManagementService {
         return "Status changed, task saved";
     }
 
-    public TaskManagementService(InputStream inputStream, String storage_path) {
+    public TaskManagementService(InputStream inputStream, String storagePath) {
         this.in = new Scanner(inputStream);
-        this.storageService = new StorageManagementService(storage_path);
+        this.storageService = new StorageManagementService(storagePath);
         this.countSaver = new CountSaver(this.storageService.getTasksFolder(), this.storageService.getExecutorsFolder());
         try {
             updateData();
@@ -257,11 +257,11 @@ public class TaskManagementService {
         Executor.loadCount(countSaver);
         try (Stream<Path> paths = Files.walk(Paths.get(storageService.getTasksFolder()))) {
             paths.filter(Files::isRegularFile).filter(path -> path.getFileName().toString().contains("-"))
-                    .forEach(path -> tasks_ids.add(path.getFileName().toString()));
+                    .forEach(path -> tasksIds.add(path.getFileName().toString()));
         }
         try (Stream<Path> paths = Files.walk(Paths.get(storageService.getExecutorsFolder()))) {
             paths.filter(Files::isRegularFile).filter(path -> path.getFileName().toString().contains("-"))
-                    .forEach(path -> executors_ids.add(path.getFileName().toString()));
+                    .forEach(path -> executorsIds.add(path.getFileName().toString()));
         }
     }
 }

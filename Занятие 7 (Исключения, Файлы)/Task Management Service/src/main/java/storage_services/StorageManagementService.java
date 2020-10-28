@@ -52,15 +52,15 @@ public class StorageManagementService {
         }
     }
 
-    public Executor findExecutor(String executor_id) throws IOException, ClassNotFoundException {
-        FileInputStream inputStream = new FileInputStream(getFile(getExecutorsFolder(), executor_id));
+    public Executor findExecutor(String executorId) throws IOException, ClassNotFoundException {
+        FileInputStream inputStream = new FileInputStream(getFile(getExecutorsFolder(), executorId));
         try (ObjectInputStream serializer = new ObjectInputStream(inputStream)) {
             return (Executor) serializer.readObject();
         }
     }
 
-    public Task findTask(String task_id) throws IOException, ClassNotFoundException {
-        FileInputStream inputStream = new FileInputStream(getFile(getTasksFolder(), task_id));
+    public Task findTask(String taskId) throws IOException, ClassNotFoundException {
+        FileInputStream inputStream = new FileInputStream(getFile(getTasksFolder(), taskId));
         try (ObjectInputStream serializer = new ObjectInputStream(inputStream)) {
             return (Task) serializer.readObject();
         }

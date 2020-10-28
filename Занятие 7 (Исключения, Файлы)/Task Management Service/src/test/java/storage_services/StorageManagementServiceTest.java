@@ -10,27 +10,27 @@ import java.io.File;
 import java.io.IOException;
 
 public class StorageManagementServiceTest {
-    static String storage_path = System.getProperty("user.dir");
-    private static StorageManagementService storageService = new StorageManagementService(storage_path);
+    static String storagePath = System.getProperty("user.dir");
+    private static StorageManagementService storageService = new StorageManagementService(storagePath);
 
     @Test
     public void testSaveAndFindTask() throws IOException, ClassNotFoundException {
         Task task = new Task("testSaveTaskProblem");
         storageService.saveObject(task);
-        File task_file = new File(storageService.getTasksFolder() + task.getId());
-        Task task_read = storageService.findTask(task.getId());
-        Assertions.assertEquals(task, task_read);
-        task_file.delete();
+        File taskFile = new File(storageService.getTasksFolder() + task.getId());
+        Task taskRead = storageService.findTask(task.getId());
+        Assertions.assertEquals(task, taskRead);
+        taskFile.delete();
     }
 
     @Test
     public void testSaveAndFindExecutor() throws IOException, ClassNotFoundException {
         Executor executor = new Executor("testSaveExecutor");
         storageService.saveObject(executor);
-        File exec_file = new File(storageService.getExecutorsFolder() + executor.getId());
-        Executor exec_read = storageService.findExecutor(executor.getId());
-        Assertions.assertEquals(executor, exec_read);
-        exec_file.delete();
+        File execFile = new File(storageService.getExecutorsFolder() + executor.getId());
+        Executor execRead = storageService.findExecutor(executor.getId());
+        Assertions.assertEquals(executor, execRead);
+        execFile.delete();
     }
 
 
