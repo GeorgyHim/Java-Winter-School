@@ -248,14 +248,14 @@ public class TaskManagementService {
         this.countSaver = new CountSaver(this.storageService.getTasksFolder(), this.storageService.getExecutorsFolder());
         try {
             updateData();
-            Task.loadCount(countSaver);
-            Executor.loadCount(countSaver);
         } catch (IOException e) {
             System.out.println("Data updating failed");
         }
     }
 
     private void updateData() throws IOException {
+        Task.loadCount(countSaver);
+        Executor.loadCount(countSaver);
         try (Stream<Path> paths = Files.walk(Paths.get(storageService.getTasksFolder()))) {
             paths.filter(Files::isRegularFile).filter(path -> path.getFileName().toString().contains("-"))
                     .forEach(path -> tasks_ids.add(path.getFileName().toString()));
