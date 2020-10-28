@@ -35,23 +35,15 @@ public class Task implements Serializable {
     private TaskStatus status;
 
     public Task(String name) {
-        this(name, "", null, TaskStatus.TODO);
-    }
-
-    public Task(String name, Executor executor) {
-        this(name, "", executor, TaskStatus.TODO);
+        this(name, "", null);
     }
 
     public Task(String name, String description, Executor executor) {
-        this(name, description, executor, TaskStatus.TODO);
-    }
-
-    public Task(String name, String description, Executor executor, TaskStatus status) {
         this.id = ID_PREFIX + ++count;
         this.name = name;
         this.description = description;
         this.executor = executor;
-        this.status = status;
+        this.status = TaskStatus.TODO;
     }
 
     public String getId() {

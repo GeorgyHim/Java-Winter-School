@@ -92,15 +92,15 @@ public class TaskManagementService {
         return command.substring(position + 1);
     }
 
-    public boolean taskExists(String id) {
+    private boolean taskExists(String id) {
         return tasksIds.contains(id);
     }
 
-    public boolean executorExists(String id) {
+    private boolean executorExists(String id) {
         return executorsIds.contains(id);
     }
 
-    private Task findTask(String id) throws NoTaskException, IOException, ClassNotFoundException {
+    public Task findTask(String id) throws NoTaskException, IOException, ClassNotFoundException {
         if (!id.startsWith(Task.ID_PREFIX))
             id = Task.ID_PREFIX + Integer.parseInt(id);
         if (!taskExists(id))
@@ -108,7 +108,7 @@ public class TaskManagementService {
         return storageService.findTask(id);
     }
 
-    private Executor findExecutor(String id) throws NoExecutorException, IOException, ClassNotFoundException {
+    public Executor findExecutor(String id) throws NoExecutorException, IOException, ClassNotFoundException {
         if (!id.startsWith(Executor.ID_PREFIX))
             id = Executor.ID_PREFIX + Integer.parseInt(id);
         if (!executorExists(id))
@@ -146,11 +146,16 @@ public class TaskManagementService {
             System.out.print("Input name of task: ");
             String name = in.nextLine();
             System.out.print("Input executor id: ");
+
             String executorId = in.nextLine();
-            Executor executor = findExecutor(executorId);
+            Executor executor = null;
+            if (!executorId.equals(""))
+                executor = findExecutor(executorId);
+
             System.out.print("Input description of task: ");
             String description = in.nextLine();
             Task newTask = new Task(name, description, executor);
+
             tasksIds.add(newTask.getId());
             countSaver.saveTaskCount();
             storageService.saveObject(newTask);

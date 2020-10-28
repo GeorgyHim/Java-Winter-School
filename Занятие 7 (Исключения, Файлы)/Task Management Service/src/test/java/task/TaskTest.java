@@ -25,7 +25,7 @@ public class TaskTest {
         Assertions.assertNull(task1.getExecutor());
 
         Executor executor = new Executor("Gosha");
-        Task task2 = new Task("Complex Problem", executor);
+        Task task2 = new Task("Complex Problem",  "", executor);
         Assertions.assertEquals("Task-2", task2.getId());
         Assertions.assertEquals("Complex Problem", task2.getName());
         Assertions.assertEquals("", task2.getDescription());
