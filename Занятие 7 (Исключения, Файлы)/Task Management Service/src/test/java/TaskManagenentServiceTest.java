@@ -1,16 +1,26 @@
+import executor.Executor;
 import org.junit.jupiter.api.AfterAll;
-import testflusher.TestFlusher;
+import org.junit.jupiter.api.BeforeAll;
+import storage_services.CountSaver;
+import task.Task;
 
 import java.io.File;
 
-public class TaskManagenentServiceTest extends TestFlusher {
+public class TaskManagenentServiceTest {
     // TODO: метод getParams + флаги, manage + Неправильные команды, process**
     // TODO: updateData + не учитывает файлы **Count
     // TODO: findTask/Executor с разными id
     // TODO: Add добавляет и файл, и id в сет
 
+    @BeforeAll
+    public static void flushCounts() {
+        CountSaver emptyCountSaver = new CountSaver("Folder1", "Folder2");
+        Executor.loadCount(emptyCountSaver);
+        Task.loadCount(emptyCountSaver);
+    }
+
     static String testStoragePath;
-    static TaskManagementService taskService = new TaskManagementService(null, System.getProperty("user.dir") + "TaskManagenentServiceTest");
+    //static TaskManagementService taskService = new TaskManagementService(null, System.getProperty("user.dir") + "TaskManagenentServiceTest");
 
 
 

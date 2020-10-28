@@ -4,9 +4,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import storage_services.CountSaver;
-import testflusher.TestFlusher;
+import task.Task;
 
-public class ExecutorTest extends TestFlusher {
+public class ExecutorTest {
+
+    @BeforeAll
+    public static void flushCounts() {
+        CountSaver emptyCountSaver = new CountSaver("Folder1", "Folder2");
+        Executor.loadCount(emptyCountSaver);
+        Task.loadCount(emptyCountSaver);
+    }
 
     @Test
     public void testCounting() {
