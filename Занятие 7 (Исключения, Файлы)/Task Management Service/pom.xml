@@ -7,6 +7,16 @@
     <groupId>georgyhim1997</groupId>
     <artifactId>Task Management Service</artifactId>
     <version>1.0</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
