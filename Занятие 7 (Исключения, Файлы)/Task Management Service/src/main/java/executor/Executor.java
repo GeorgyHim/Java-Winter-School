@@ -3,6 +3,7 @@ package executor;
 import storage_services.CountSaver;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Executor implements Serializable {
     /** Общее количество исполнителей */
@@ -36,6 +37,20 @@ public class Executor implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Executor executor = (Executor) o;
+        return id.equals(executor.id) &&
+                Objects.equals(name, executor.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 
     @Override
