@@ -1,15 +1,16 @@
 package storage_services;
 
+import executor.Executor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import task.Task;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class CountSaverTest {
-    // Тест на запись
-
     @Test
     public void testGetCountsWithoutFiles() {
         CountSaver countSaver = new CountSaver("Folder1", "Folder2");
@@ -17,7 +18,7 @@ public class CountSaverTest {
         Assertions.assertEquals(0, countSaver.getExecutorCount());
     }
 
-    private void createFileAndTest0(String name, CountSaver countSaver, String type, int value) throws IOException {
+    private void createFileAndRead(String name, CountSaver countSaver, String type, int value) throws IOException {
         File file = new File(name);
         file.createNewFile();
         if (value > 0) {
@@ -30,17 +31,43 @@ public class CountSaverTest {
         file.delete();
     }
 
+    private void createFileAndWrite(String name, CountSaver countSaver, String type) throws IOException {
+        File file = new File(name);
+        file.createNewFile();
+        if (type.equals("task")) {
+            new Task("Problem");
+            countSaver.saveTaskCount();
+        }
+        else {
+            new Executor("Gosha");
+            new Executor("Alex");
+            countSaver.saveExecutorCount();
+        }
+        int count = type.equals("task") ? 1 : 2;
+        try (FileInputStream inputStream = new FileInputStream(file)) {
+            Assertions.assertEquals(count, inputStream.read());
+        }
+        file.delete();
+    }
+
     @Test
     public void testGetCountsFromEmptyFiles() throws IOException {
         CountSaver countSaver = new CountSaver(System.getProperty("user.dir") + "\\", System.getProperty("user.dir") + "\\");
-        createFileAndTest0("TasksCount", countSaver, "task", 0);
-        createFileAndTest0("ExecutorsCount", countSaver, "executor", 0);
+        createFileAndRead("TasksCount", countSaver, "task", 0);
+        createFileAndRead("ExecutorsCount", countSaver, "executor", 0);
     }
 
     @Test
     public void testGetCounts() throws IOException {
         CountSaver countSaver = new CountSaver(System.getProperty("user.dir") + "\\", System.getProperty("user.dir") + "\\");
-        createFileAndTest0("TasksCount", countSaver, "task", 5);
-        createFileAndTest0("TasksCount", countSaver, "task", 7);
+        createFileAndRead("TasksCount", countSaver, "task", 5);
+        createFileAndRead("ExecutorsCount", countSaver, "executor", 7);
+    }
+
+    @Test
+    public void testWriteCounts() throws IOException {
+        CountSaver countSaver = new CountSaver(System.getProperty("user.dir") + "\\", System.getProperty("user.dir") + "\\");
+        createFileAndWrite("TasksCount", countSaver, "task");
+        createFileAndWrite("ExecutorsCount", countSaver, "executor");
     }
 }
