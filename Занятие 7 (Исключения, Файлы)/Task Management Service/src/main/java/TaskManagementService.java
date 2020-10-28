@@ -92,7 +92,6 @@ public class TaskManagementService {
         return command.substring(position + 1);
     }
 
-
     private Task findTask(String id) throws NoTaskException, IOException, ClassNotFoundException {
         if (!id.startsWith(Task.ID_PREFIX)) {
             id = Task.ID_PREFIX + Integer.parseInt(id);
@@ -242,9 +241,9 @@ public class TaskManagementService {
         return "Status changed, task saved";
     }
 
-    public TaskManagementService(InputStream inputStream, String path) {
+    public TaskManagementService(InputStream inputStream, String storage_path) {
         this.in = new Scanner(inputStream);
-        this.storageService = new StorageManagementService(path);
+        this.storageService = new StorageManagementService(storage_path);
         this.countSaver = new CountSaver(this.storageService.getTasksFolder(), this.storageService.getExecutorsFolder());
         try {
             updateData();
