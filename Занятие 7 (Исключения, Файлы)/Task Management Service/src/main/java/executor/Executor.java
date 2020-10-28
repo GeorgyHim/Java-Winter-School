@@ -55,6 +55,9 @@ public class Executor implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("(name = %s, id = %s)", name, id);
+        return "Executor(" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ')';
     }
 }

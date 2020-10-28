@@ -49,10 +49,17 @@ public class StorageManagementServiceTest {
     }
 
     @AfterAll
-    static void clear() {
-        File folder = new File(storageService.getTasksFolder());
-        folder.delete();
-        folder = new File(storageService.getExecutorsFolder());
-        folder.delete();
+    static void delete() {
+        deleteDirectory(new File(storagePath));
+    }
+
+    private static void deleteDirectory(File directory) {
+        File[] allContents = directory.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                deleteDirectory(file);
+            }
+        }
+        directory.delete();
     }
 }

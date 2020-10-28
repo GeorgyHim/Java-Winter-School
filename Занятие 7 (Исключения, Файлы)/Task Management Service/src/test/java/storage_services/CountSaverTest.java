@@ -1,6 +1,7 @@
 package storage_services;
 
 import executor.Executor;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -92,5 +93,20 @@ public class CountSaverTest {
         CountSaver countSaver = getCountSaverInCurrentDir();
         createFileAndWrite("TasksCount", countSaver, "task");
         createFileAndWrite("ExecutorsCount", countSaver, "executor");
+    }
+
+    @AfterAll
+    static void delete() {
+        deleteDirectory(new File(System.getProperty("user.dir")));
+    }
+
+    private static void deleteDirectory(File directory) {
+        File[] allContents = directory.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                deleteDirectory(file);
+            }
+        }
+        directory.delete();
     }
 }
