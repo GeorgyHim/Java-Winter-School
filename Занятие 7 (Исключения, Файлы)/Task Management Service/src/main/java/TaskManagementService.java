@@ -108,7 +108,7 @@ public class TaskManagementService {
         if (flag.equals("-e")) {
             return addExecutor();
         }
-        return "Bad flag param";
+        return "Wrong Command!";
     }
 
     private String addExecutor() {
@@ -146,7 +146,7 @@ public class TaskManagementService {
             return "Some went wrong with file system. Maybe you set incorrect path to main storage.";
         }
         catch (Exception e) {
-            return "Bad input";
+            return "Wrong Command!";
         }
         return "Task added and saved";
     }
@@ -188,13 +188,13 @@ public class TaskManagementService {
         catch (Exception e) {
             return "Failed to list objects";
         }
-        return "Bad flag param";
+        return "Wrong Command!";
     }
 
     private String processChangeExecutor(String params) {
         String[] args = params.split(" ");
         if (args.length != 2)
-            return "Bad params";
+            return "Wrong Command!";
         String taskId = args[0];
         String newExecutorId = args[1];
         try {
@@ -213,7 +213,7 @@ public class TaskManagementService {
             return "Some went wrong with file system. Maybe you set incorrect path to main storage.";
         }
         catch (Exception e) {
-            return "Bad input";
+            return "Wrong Command!";
         }
         return "Executor changed, task saved";
     }
@@ -221,7 +221,7 @@ public class TaskManagementService {
     private String processChangeStatus(String params) {
         String[] args = params.split(" ");
         if (args.length != 2)
-            return "Bad params";
+            return "Wrong Command!";
         String taskId = args[0];
         String newStatus = args[1];
         try {
@@ -236,7 +236,7 @@ public class TaskManagementService {
             return "Some went wrong with file system. Maybe you set incorrect path to main storage.";
         }
         catch (Exception e) {
-            return "Bad input";
+            return "Wrong Command!";
         }
         return "Status changed, task saved";
     }
