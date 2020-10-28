@@ -3,13 +3,14 @@ package task;
 import executor.Executor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import storage_services.CountSaver;
 
 public class TaskTest {
 
-    @BeforeAll
-    public static void flushCounts() {
+    @BeforeEach
+    public void flushCounts() {
         CountSaver emptyCountSaver = new CountSaver("Folder1", "Folder2");
         Executor.loadCount(emptyCountSaver);
         Task.loadCount(emptyCountSaver);
@@ -18,7 +19,7 @@ public class TaskTest {
     @Test
     public void testCounting() {
         Task task1 = new Task("Problem");
-        Assertions.assertEquals("Task-3", task1.getId());
+        Assertions.assertEquals("Task-1", task1.getId());
         Assertions.assertEquals("Problem", task1.getName());
         Assertions.assertEquals("", task1.getDescription());
         Assertions.assertEquals(TaskStatus.TODO, task1.getStatus());

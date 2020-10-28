@@ -1,10 +1,7 @@
 //package storage_services;
 //
 //import executor.Executor;
-//import org.junit.jupiter.api.AfterAll;
-//import org.junit.jupiter.api.Assertions;
-//import org.junit.jupiter.api.BeforeAll;
-//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.*;
 //import task.Task;
 //
 //import java.io.File;
@@ -12,8 +9,8 @@
 //
 //public class StorageManagementServiceTest {
 //
-//    @BeforeAll
-//    public static void flushCounts() {
+//    @BeforeEach
+//    public void flushCounts() {
 //        CountSaver emptyCountSaver = new CountSaver("Folder1", "Folder2");
 //        Executor.loadCount(emptyCountSaver);
 //        Task.loadCount(emptyCountSaver);
@@ -41,7 +38,6 @@
 //        Assertions.assertEquals(executor, execRead);
 //        execFile.delete();
 //    }
-//
 //
 //    @AfterAll
 //    static void clear() {

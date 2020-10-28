@@ -2,14 +2,15 @@ package executor;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import storage_services.CountSaver;
 import task.Task;
 
 public class ExecutorTest {
 
-    @BeforeAll
-    public static void flushCounts() {
+    @BeforeEach
+    public void flushCounts() {
         CountSaver emptyCountSaver = new CountSaver("Folder1", "Folder2");
         Executor.loadCount(emptyCountSaver);
         Task.loadCount(emptyCountSaver);
