@@ -37,7 +37,7 @@ public class TaskManagementService {
      */
     private Set<String> executors_ids = new HashSet<>();
 
-    public void process() {
+    public void run() {
         while (in.hasNext()) {
             String command = in.nextLine();
             System.out.println(manage(command));
