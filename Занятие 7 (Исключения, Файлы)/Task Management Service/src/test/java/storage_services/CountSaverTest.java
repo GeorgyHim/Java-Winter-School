@@ -58,23 +58,27 @@ public class CountSaverTest {
         file.delete();
     }
 
+    private CountSaver getCountSaverInCurrentDir() {
+        return new CountSaver(System.getProperty("user.dir") + "\\", System.getProperty("user.dir") + "\\");
+    }
+
     @Test
     public void testGetCountsFromEmptyFiles() throws IOException {
-        CountSaver countSaver = new CountSaver(System.getProperty("user.dir") + "\\", System.getProperty("user.dir") + "\\");
+        CountSaver countSaver = getCountSaverInCurrentDir();
         createFileAndRead("TasksCount", countSaver, "task", 0);
         createFileAndRead("ExecutorsCount", countSaver, "executor", 0);
     }
 
     @Test
     public void testGetCounts() throws IOException {
-        CountSaver countSaver = new CountSaver(System.getProperty("user.dir") + "\\", System.getProperty("user.dir") + "\\");
+        CountSaver countSaver = getCountSaverInCurrentDir();
         createFileAndRead("TasksCount", countSaver, "task", 5);
         createFileAndRead("ExecutorsCount", countSaver, "executor", 7);
     }
 
     @Test
     public void testWriteCounts() throws IOException {
-        CountSaver countSaver = new CountSaver(System.getProperty("user.dir") + "\\", System.getProperty("user.dir") + "\\");
+        CountSaver countSaver = getCountSaverInCurrentDir();
         createFileAndWrite("TasksCount", countSaver, "task");
         createFileAndWrite("ExecutorsCount", countSaver, "executor");
     }
