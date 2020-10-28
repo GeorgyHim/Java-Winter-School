@@ -1,8 +1,9 @@
 import org.junit.jupiter.api.AfterAll;
+import testflusher.TestFlusher;
 
 import java.io.File;
 
-public class TaskManagenentServiceTest {
+public class TaskManagenentServiceTest extends TestFlusher {
     // TODO: метод getParams + флаги, manage + Неправильные команды, process**
     // TODO: updateData + не учитывает файлы **Count
     // TODO: findTask/Executor с разными id

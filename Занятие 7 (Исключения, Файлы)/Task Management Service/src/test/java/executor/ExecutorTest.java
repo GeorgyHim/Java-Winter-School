@@ -1,9 +1,13 @@
 package executor;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import storage_services.CountSaver;
+import testflusher.TestFlusher;
 
-public class ExecutorTest {
+public class ExecutorTest extends TestFlusher {
+
     @Test
     public void testCounting() {
         Executor ex1 = new Executor("Gosha");

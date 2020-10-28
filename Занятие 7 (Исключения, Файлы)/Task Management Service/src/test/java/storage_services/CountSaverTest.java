@@ -4,13 +4,14 @@ import executor.Executor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import task.Task;
+import testflusher.TestFlusher;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class CountSaverTest {
+public class CountSaverTest extends TestFlusher {
     @Test
     public void testGetCountsWithoutFiles() {
         CountSaver countSaver = new CountSaver("Folder1", "Folder2");

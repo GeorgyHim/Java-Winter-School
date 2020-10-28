@@ -5,11 +5,12 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import task.Task;
+import testflusher.TestFlusher;
 
 import java.io.File;
 import java.io.IOException;
 
-public class StorageManagementServiceTest {
+public class StorageManagementServiceTest extends TestFlusher {
     static String storagePath = System.getProperty("user.dir");
     private static StorageManagementService storageService = new StorageManagementService(storagePath);
 
