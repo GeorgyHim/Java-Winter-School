@@ -21,9 +21,15 @@ public class CountSaver {
         catch (IOException ignored) {}
     }
 
+    private int processCount(int count) {
+        if (count == -1)
+            return 0;
+        return count;
+    }
+
     public int getTaskCount() {
         try (FileInputStream inputStream = new FileInputStream(tasksFile)) {
-            return inputStream.read();
+            return processCount(inputStream.read());
         }
         catch (IOException ignored) {
             return 0;
@@ -39,7 +45,7 @@ public class CountSaver {
 
     public int getExecutorCount() {
         try (FileInputStream inputStream = new FileInputStream(executorsFile)) {
-            return inputStream.read();
+            return processCount(inputStream.read());
         }
         catch (IOException ignored) {
             return 0;
