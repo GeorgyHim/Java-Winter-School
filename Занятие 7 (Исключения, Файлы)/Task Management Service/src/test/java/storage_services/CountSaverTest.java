@@ -28,6 +28,14 @@ public class CountSaverTest {
         }
         int count = type.equals("task") ? countSaver.getTaskCount() : countSaver.getExecutorCount();
         Assertions.assertEquals(value, count);
+        if (type.equals("task")) {
+            Task.loadCount(countSaver);
+            Assertions.assertEquals(value, Task.getCount());
+        }
+        else {
+            Executor.loadCount(countSaver);
+            Assertions.assertEquals(value, Executor.getCount());
+        }
         file.delete();
     }
 
