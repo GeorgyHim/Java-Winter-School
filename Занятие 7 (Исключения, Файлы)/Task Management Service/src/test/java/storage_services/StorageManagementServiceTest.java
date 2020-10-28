@@ -40,6 +40,14 @@ public class StorageManagementServiceTest {
         execFile.delete();
     }
 
+    @Test
+    public void testFindBadObjects() {
+        Assertions.assertThrows(IOException.class, () -> storageService.findExecutor("Executor-99"));
+        Assertions.assertThrows(IOException.class, () -> storageService.findTask("Task-99"));
+        Assertions.assertThrows(IOException.class, () -> storageService.findTask("Some"));
+        Assertions.assertThrows(IOException.class, () -> storageService.findExecutor("Some"));
+    }
+
     @AfterAll
     static void clear() {
         File folder = new File(storageService.getTasksFolder());
