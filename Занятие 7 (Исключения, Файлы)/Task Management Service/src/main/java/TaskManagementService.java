@@ -92,13 +92,28 @@ public class TaskManagementService {
         return command.substring(position + 1);
     }
 
+    public boolean taskExists(String id) {
+        return tasksIds.contains(id);
+    }
+
+    public boolean executorExists(String id) {
+        return executorsIds.contains(id);
+    }
+
     private Task findTask(String id) throws NoTaskException, IOException, ClassNotFoundException {
-        if (!id.startsWith(Task.ID_PREFIX)) {
+        if (!id.startsWith(Task.ID_PREFIX))
             id = Task.ID_PREFIX + Integer.parseInt(id);
-        }
-        if (!tasksIds.contains(id))
+        if (!taskExists(id))
             throw new NoTaskException();
         return storageService.findTask(id);
+    }
+
+    private Executor findExecutor(String id) throws NoExecutorException, IOException, ClassNotFoundException {
+        if (!id.startsWith(Executor.ID_PREFIX))
+            id = Executor.ID_PREFIX + Integer.parseInt(id);
+        if (!executorExists(id))
+            throw new NoExecutorException();
+        return storageService.findExecutor(id);
     }
 
     private String processAdd(String flag) {
@@ -121,7 +136,7 @@ public class TaskManagementService {
             storageService.saveObject(newExecutor);
         }
         catch (IOException e) {
-            return "Wrong path to main storage. Set new correct path.";
+            return "Some went wrong with file system. Maybe you set incorrect path to main storage.";
         }
         return "Executor added and saved";
     }
@@ -149,16 +164,6 @@ public class TaskManagementService {
             return "Wrong Command!";
         }
         return "Task added and saved";
-    }
-
-    private Executor findExecutor(String executorId) throws NoExecutorException, IOException, ClassNotFoundException {
-        if (!executorId.startsWith(Executor.ID_PREFIX)) {
-            int id = Integer.parseInt(executorId);
-            executorId = Executor.ID_PREFIX + id;
-        }
-        if (!executorsIds.contains(executorId))
-            throw new NoExecutorException();
-        return storageService.findExecutor(executorId);
     }
 
     private String processList(String flag) {
@@ -263,5 +268,9 @@ public class TaskManagementService {
             paths.filter(Files::isRegularFile).filter(path -> path.getFileName().toString().contains("-"))
                     .forEach(path -> executorsIds.add(path.getFileName().toString()));
         }
+    }
+
+    public void setIn(InputStream inputStream) {
+        this.in = new Scanner(inputStream);
     }
 }
