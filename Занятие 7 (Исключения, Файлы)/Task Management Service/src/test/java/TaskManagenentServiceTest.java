@@ -24,7 +24,20 @@ public class TaskManagenentServiceTest {
     static String testStoragePath = System.getProperty("user.dir") + "TaskManagenentServiceTest";
     static TaskManagementService taskService = new TaskManagementService(System.in, testStoragePath);
 
-
+    @Test
+    public void testWrongCommands() {
+        String wrong = "Wrong Command!";
+        Assertions.assertEquals(wrong, taskService.manage("some"));
+        Assertions.assertEquals(wrong, taskService.manage("add -te"));
+        Assertions.assertEquals(wrong, taskService.manage("add -k"));
+        Assertions.assertEquals(wrong, taskService.manage("list -te"));
+        Assertions.assertEquals(wrong, taskService.manage("list -k"));
+        Assertions.assertEquals(wrong, taskService.manage("changestatuss"));
+        Assertions.assertEquals(wrong, taskService.manage("changestatus some"));
+        Assertions.assertEquals(wrong, taskService.manage("changestatus bad wrong"));
+        Assertions.assertEquals(wrong, taskService.manage("changeexecutor some"));
+        Assertions.assertEquals(wrong, taskService.manage("changeexecutor bad 322"));
+    }
 
 
 
