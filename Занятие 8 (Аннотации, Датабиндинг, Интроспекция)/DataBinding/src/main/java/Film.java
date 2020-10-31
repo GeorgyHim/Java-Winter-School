@@ -1,12 +1,20 @@
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlRootElement
 public class Film {
 
+    @XmlElement
     private String title;
 
+    @XmlElement
     private String description;
 
+    @XmlElementWrapper(name = "actors")
+    @XmlElement
     private List<Actor> actors;
     // private Map<Actor, String> actorsWithRoles;
 
