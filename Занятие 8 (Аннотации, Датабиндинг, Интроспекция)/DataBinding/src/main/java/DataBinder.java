@@ -28,8 +28,9 @@ public class DataBinder {
         return mapper.writeValueAsString(obj);
     }
 
-    public <T> T fromXml(String xml,  Class<T> type) throws IOException {
+    public FilmList fromXml(String xml) throws IOException {
+        String updatedXml = "<FilmList>\n" + xml + "\n</FilmList>";
         XmlMapper mapper = createXmlMapper();
-        return mapper.readValue(xml, type);
+        return mapper.readValue(updatedXml, FilmList.class);
     }
 }

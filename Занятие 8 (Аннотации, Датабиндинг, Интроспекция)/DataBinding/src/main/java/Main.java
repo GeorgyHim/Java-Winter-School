@@ -13,20 +13,21 @@ public class Main {
         Actor brad = new Actor("Brad", 55);
         Actor leo = new Actor("Leonardo", 44);
         Film hollywood = new Film("Once upon in a time in Hollywood", "Some trash", new HashMap<Actor, String>() {{
-            put(brad, "bad guy");
-            put(leo, "good guy");
+            put(brad, "Stunt double");
+            put(leo, "Great actor");
         }});
 
         Actor tom = new Actor("Tom", 39);
         Film revenant  = new Film("Revenant", "Some trash", new ArrayList<>(Arrays.asList(new ActorRole(leo, "good guy"),
                 new ActorRole(tom, "bad guy"))));
 
+        FilmList filmList = new FilmList(revenant, hollywood);
+        DataBinder binder = new DataBinder(SerializationFeature.INDENT_OUTPUT);
+        System.out.println(binder.toXml(filmList));
 
-        DataBinder binder = new DataBinder(null);
-        System.out.println(binder.toXml(revenant));
-
-        Film film = binder.fromXml("<film><title>Revenant</title><description>Some trash</description><actors><actor name=\"Leonardo\" age=\"44\" role=\"good guy\"/><actor name=\"Tom\" age=\"39\" role=\"bad guy\"/></actors></film>",
-                Film.class);
-        System.out.println(film);
+        FilmList filmList1 = binder.fromXml("Смотри Film.xml");
+        System.out.println(filmList1);
+        System.out.println(filmList1.getFilms().get(0).getTitle());
+        System.out.println(filmList1.getFilms().get(1).getTitle());
     }
 }
