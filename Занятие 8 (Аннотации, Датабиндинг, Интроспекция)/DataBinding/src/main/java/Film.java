@@ -20,6 +20,9 @@ public class Film {
     @XmlElement(name = "actor")
     private List<ActorRole> actorsWithRoles;
 
+    public Film() {
+    }
+
     public Film(String title, String description) {
         this(title, description, new HashMap<>());
     }

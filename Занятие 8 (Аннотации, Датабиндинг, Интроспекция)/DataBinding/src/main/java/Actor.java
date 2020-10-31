@@ -1,7 +1,5 @@
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 public class Actor {
 
     @XmlAttribute
@@ -9,6 +7,9 @@ public class Actor {
 
     @XmlAttribute
     private int age;
+
+    public Actor() {
+    }
 
     public Actor(String name, int age) {
         this.name = name;
@@ -21,5 +22,13 @@ public class Actor {
 
     public int getAge() {
         return age;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }
