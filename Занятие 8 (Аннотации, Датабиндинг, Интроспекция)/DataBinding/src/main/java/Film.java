@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement
+@XmlRootElement(name = "film")
 public class Film {
 
     @XmlElement
@@ -14,7 +14,7 @@ public class Film {
     private String description;
 
     @XmlElementWrapper(name = "actors")
-    @XmlElement
+    @XmlElement(name = "actor")
     private List<Actor> actors;
     // private Map<Actor, String> actorsWithRoles;
 
