@@ -8,6 +8,7 @@ public class Film {
     private String description;
 
     private List<Actor> actors;
+    // private Map<Actor, String> actorsWithRoles;
 
     public Film(String title, String description) {
         this(title, description, new ArrayList<>());
