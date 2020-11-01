@@ -2,7 +2,6 @@ import javax.xml.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
-@XmlAccessorType(XmlAccessType.NONE)
 public class FilmList {
 
     @XmlElementWrapper(name = "films")

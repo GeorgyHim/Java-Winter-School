@@ -25,7 +25,26 @@ public class Main {
         DataBinder binder = new DataBinder(SerializationFeature.INDENT_OUTPUT);
         System.out.println(binder.toXml(filmList));
 
-        FilmList filmList1 = binder.fromXml("Смотри Film.xml");
+        FilmList filmList1 = binder.fromXml("<films>\n" +
+                "   <film>\n" +
+                "       <title>Фильм 1</title>\n" +
+                "       <description>Описание 1</description>\n" +
+                "       <actors>\n" +
+                "           <actor name=\"Актер 1\" age=\"30\" role=\"Роль 1\"/>\n" +
+                "           <actor name=\"Актер 2\" age=\"23\" role=\"Роль 2\"/>\n" +
+                "           <actor name=\"Актер 3\" age=\"40\" role=\"Роль 3\"/>\n" +
+                "       </actors>\n" +
+                "   </film>\n" +
+                "   <film>\n" +
+                "       <title>Фильм 2</title>\n" +
+                "       <description>Описание 2</description>\n" +
+                "       <actors>\n" +
+                "           <actor name=\"Актер 4\" age=\"70\" role=\"Роль 4\"/>\n" +
+                "           <actor name=\"Актер 2\" age=\"23\" role=\"Роль 5\"/>\n" +
+                "           <actor name=\"Актер 3\" age=\"40\" role=\"Роль 6\"/>\n" +
+                "       </actors>\n" +
+                "   </film>\n" +
+                "</films>\n");
         System.out.println(filmList1);
         System.out.println(filmList1.getFilms().get(0).getTitle());
         System.out.println(filmList1.getFilms().get(1).getTitle());
