@@ -14,6 +14,8 @@ class BadValue extends Object {}
 
 public class ImprovedHashMapTest {
     ImprovedHashMap improvedHashMap;
+    BadKey badKey = new BadKey();
+    BadValue badValue = new BadValue();
 
     @BeforeEach
     public void initMap() {
@@ -23,18 +25,28 @@ public class ImprovedHashMapTest {
     @Test
     public void testGoodData() {
         Assertions.assertDoesNotThrow(() -> improvedHashMap.put("Some", 5));
+        Assertions.assertEquals(5, improvedHashMap.get("Some"));
     }
 
     @Test
     public void testBadKey() {
-        BadKey badKey = new BadKey();
         Assertions.assertThrows(PutMapKeyFailException.class, () -> improvedHashMap.put(badKey, "Bad key"));
     }
 
     @Test
     public void testBadValue() {
-        BadValue badValue = new BadValue();
         Assertions.assertThrows(PutMapValueFailException.class, () -> improvedHashMap.put("Bad value", badValue));
+    }
+
+    @Test
+    public void testBadBoth() {
+        Assertions.assertThrows(PutMapKeyFailException.class, () -> improvedHashMap.put(badKey, badValue));
+    }
+
+    @Test
+    public void testKeyValueOrder() {
+        Assertions.assertDoesNotThrow(() -> improvedHashMap.put(badValue, badKey));
+        Assertions.assertEquals(badKey, improvedHashMap.get(badValue));
     }
 
 }
