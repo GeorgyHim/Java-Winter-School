@@ -26,19 +26,8 @@ public class ActorWithFilms {
         return actor.getAge();
     }
 
-//    public ActorWithFilms() {
-//    }
-
     public ActorWithFilms(Actor actor, List<FilmWithRole> filmsWithRoles) {
         this.actor = actor;
         this.filmsWithRoles = filmsWithRoles;
-    }
-
-    public void setActor(Actor actor) {
-        this.actor = actor;
-    }
-
-    public List<FilmWithRole> getFilmsWithRoles() {
-        return filmsWithRoles;
     }
 }

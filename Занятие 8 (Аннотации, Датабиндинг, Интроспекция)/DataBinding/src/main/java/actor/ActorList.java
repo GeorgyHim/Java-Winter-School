@@ -20,14 +20,6 @@ public class ActorList {
         actors.add(actorWithFilms);
     }
 
-    public ActorList(ActorWithFilms... actors) {
-        this.actors = Arrays.asList(actors);
-    }
-
-    public ActorList(List<ActorWithFilms> actors) {
-        this.actors = actors;
-    }
-
     public List<ActorWithFilms> getActors() {
         return actors;
     }
