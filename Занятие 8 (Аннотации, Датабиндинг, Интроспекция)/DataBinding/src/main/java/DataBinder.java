@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DataBinder {
     SerializationFeature feature;
-    private List<Film> films;
+    private FilmList filmList;
 
     public DataBinder(SerializationFeature feature) {
         this.feature = feature;
@@ -24,14 +24,19 @@ public class DataBinder {
         return mapper;
     }
 
-    public String toXml(Object obj) throws JsonProcessingException {
-        XmlMapper mapper = createXmlMapper();
-        return mapper.writeValueAsString(obj);
-    }
-
     public FilmList fromXml(String xml) throws IOException {
         String updatedXml = "<FilmList>\n" + xml + "\n</FilmList>";
         XmlMapper mapper = createXmlMapper();
-        return mapper.readValue(updatedXml, FilmList.class);
+        filmList = mapper.readValue(updatedXml, FilmList.class);
+        return filmList;
+    }
+
+    private ActorList toActorList() {
+
+    }
+
+    public String toXml() throws JsonProcessingException {
+        XmlMapper mapper = createXmlMapper();
+        return mapper.writeValueAsString(toActorList());
     }
 }
