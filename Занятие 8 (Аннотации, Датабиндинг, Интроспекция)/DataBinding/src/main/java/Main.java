@@ -1,6 +1,7 @@
 import actor.Actor;
 import actor.ActorWithRole;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import film.Film;
 
 import java.io.IOException;
 import java.util.ArrayList;

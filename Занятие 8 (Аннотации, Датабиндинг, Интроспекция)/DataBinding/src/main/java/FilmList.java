@@ -1,3 +1,5 @@
+import film.Film;
+
 import javax.xml.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
