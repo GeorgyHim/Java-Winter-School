@@ -2,7 +2,6 @@ package film;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FilmList {

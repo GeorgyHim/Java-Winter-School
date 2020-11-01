@@ -26,9 +26,11 @@ public class DataBinder {
     }
 
     public FilmList fromXml(String xml) throws IOException {
-        String updatedXml = "<film.FilmList>\n" + xml + "\n</film.FilmList>";
+        String updatedXml = "<FilmList>\n" + xml + "\n</FilmList>";
         XmlMapper mapper = createXmlMapper();
         filmList = mapper.readValue(updatedXml, FilmList.class);
+        if (filmList == null || filmList.getFilms() == null)
+            filmList = new FilmList();
         return filmList;
     }
 

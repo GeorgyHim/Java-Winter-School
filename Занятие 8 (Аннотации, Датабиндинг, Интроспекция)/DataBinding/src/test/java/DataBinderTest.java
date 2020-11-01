@@ -10,7 +10,19 @@ public class DataBinderTest {
     DataBinder binder = new DataBinder();
 
     @Test
-    public void testBinder() throws IOException {
+    public void testEmptyXml() throws IOException {
+        binder.fromXml("");
+        Assertions.assertEquals("<actors/>", binder.toXml());
+    }
+
+    @Test
+    public void testEmptyFilms() throws IOException {
+        binder.fromXml("<films></films>");
+        Assertions.assertEquals("<actors/>", binder.toXml());
+    }
+
+    @Test
+    public void testRealXml() throws IOException {
         Path dataPath = Paths.get("src/main/resources", "FilmList(Data).xml");
         Path resultPath = Paths.get("src/main/resources", "ActorList(Result).xml");
         String xml = new String(Files.readAllBytes(dataPath));
