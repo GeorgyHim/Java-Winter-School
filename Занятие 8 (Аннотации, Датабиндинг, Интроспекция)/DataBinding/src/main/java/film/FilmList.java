@@ -1,4 +1,4 @@
-import film.FilmWithActors;
+package film;
 
 import javax.xml.bind.annotation.*;
 import java.util.Arrays;

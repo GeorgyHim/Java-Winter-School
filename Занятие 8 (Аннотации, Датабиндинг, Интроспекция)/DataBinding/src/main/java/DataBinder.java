@@ -1,11 +1,11 @@
+import actor.ActorList;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
-import film.Film;
+import film.FilmList;
 
 import java.io.IOException;
-import java.util.List;
 
 public class DataBinder {
     SerializationFeature feature;
@@ -25,14 +25,15 @@ public class DataBinder {
     }
 
     public FilmList fromXml(String xml) throws IOException {
-        String updatedXml = "<FilmList>\n" + xml + "\n</FilmList>";
+        String updatedXml = "<film.FilmList>\n" + xml + "\n</film.FilmList>";
         XmlMapper mapper = createXmlMapper();
         filmList = mapper.readValue(updatedXml, FilmList.class);
         return filmList;
     }
 
     private ActorList toActorList() {
-
+        // TODO: Прописать equals и hashcode в Actor
+        // TODO: For-ом пройтись по списку в filmList, и для каждого актера в мап положить список его фильмов
     }
 
     public String toXml() throws JsonProcessingException {
