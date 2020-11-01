@@ -61,6 +61,6 @@ public class DataBinder {
     public String toXml() throws JsonProcessingException {
         XmlMapper mapper = createXmlMapper();
         String xml = mapper.writeValueAsString(toActorList());
-        return xml.replace("<ActorList>\r\n  ", "").replace("\r\n</ActorList>", "").replace("\r\n  ", "\r\n");
+        return xml.replace("<ActorList>\r\n  ", "").replace("\r\n</ActorList>\r\n", "").replace("\r\n  ", "\r\n");
     }
 }
