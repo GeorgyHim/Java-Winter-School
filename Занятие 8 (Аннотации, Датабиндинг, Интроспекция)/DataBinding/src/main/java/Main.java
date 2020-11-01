@@ -28,7 +28,7 @@ public class Main {
         );
 
         FilmList filmList = new FilmList(revenant, onceInHollywood);
-        DataBinder binder = new DataBinder(SerializationFeature.INDENT_OUTPUT);
+        DataBinder binder = new DataBinder();
 
         FilmList filmList1 = binder.fromXml("<films>\n" +
                 "   <film>\n" +

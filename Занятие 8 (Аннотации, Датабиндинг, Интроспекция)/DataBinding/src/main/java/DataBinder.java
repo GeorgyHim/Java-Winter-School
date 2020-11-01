@@ -15,19 +15,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DataBinder {
-    SerializationFeature feature;
     private FilmList filmList;
-
-    public DataBinder(SerializationFeature feature) {
-        this.feature = feature;
-    }
 
     private XmlMapper createXmlMapper() {
         final XmlMapper mapper = new XmlMapper();
         JaxbAnnotationModule module = new JaxbAnnotationModule();
         mapper.registerModule(module);
-        if (feature != null)
-            mapper.enable(feature);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
         return mapper;
     }
 
