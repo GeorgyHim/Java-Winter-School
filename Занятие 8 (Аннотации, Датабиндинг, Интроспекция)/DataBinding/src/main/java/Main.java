@@ -2,6 +2,7 @@ import actor.Actor;
 import actor.ActorWithRole;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import film.Film;
+import film.FilmWithActors;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,16 +14,20 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Actor brad = new Actor("Brad", 55);
         Actor leo = new Actor("Leonardo", 44);
-        Film hollywood = new Film("Once upon in a time in Hollywood", "Some trash", new HashMap<Actor, String>() {{
-            put(brad, "Stunt double");
-            put(leo, "Great actor");
+        FilmWithActors onceInHollywood = new FilmWithActors(
+                "Once upon in a time in Hollywood", "Some description",
+                new HashMap<Actor, String>() {{
+                    put(brad, "Stunt double");
+                    put(leo, "Great actor");
         }});
 
         Actor tom = new Actor("Tom", 39);
-        Film revenant  = new Film("Revenant", "Some trash", new ArrayList<>(Arrays.asList(new ActorWithRole(leo, "good guy"),
-                new ActorWithRole(tom, "bad guy"))));
+        FilmWithActors revenant  = new FilmWithActors(
+                "Revenant", "Some trash",
+                new ArrayList<>(Arrays.asList(new ActorWithRole(leo, "good guy"), new ActorWithRole(tom, "bad guy")))
+        );
 
-        FilmList filmList = new FilmList(revenant, hollywood);
+        FilmList filmList = new FilmList(revenant, onceInHollywood);
         DataBinder binder = new DataBinder(SerializationFeature.INDENT_OUTPUT);
         System.out.println(binder.toXml(filmList));
 
@@ -47,7 +52,9 @@ public class Main {
                 "   </film>\n" +
                 "</films>\n");
         System.out.println(filmList1);
-        System.out.println(filmList1.getFilms().get(0).getTitle());
-        System.out.println(filmList1.getFilms().get(1).getTitle());
+        System.out.println(filmList1.getFilms().get(0).getFilm().getTitle());
+        System.out.println(filmList1.getFilms().get(0).getFilm().getDescription());
+        System.out.println(filmList1.getFilms().get(1).getFilm().getTitle());
+        System.out.println(filmList1.getFilms().get(1).getFilm().getDescription());
     }
 }

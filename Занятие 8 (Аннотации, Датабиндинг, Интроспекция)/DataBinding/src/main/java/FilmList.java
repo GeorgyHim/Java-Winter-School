@@ -1,4 +1,4 @@
-import film.Film;
+import film.FilmWithActors;
 
 import javax.xml.bind.annotation.*;
 import java.util.Arrays;
@@ -8,16 +8,16 @@ public class FilmList {
 
     @XmlElementWrapper(name = "films")
     @XmlElement(name = "film")
-    private List<Film> films;
+    private List<FilmWithActors> films;
 
     public FilmList() {
     }
 
-    public FilmList(Film... films) {
+    public FilmList(FilmWithActors... films) {
         this.films = Arrays.asList(films);
     }
 
-    public List<Film> getFilms() {
+    public List<FilmWithActors> getFilms() {
         return films;
     }
 }
