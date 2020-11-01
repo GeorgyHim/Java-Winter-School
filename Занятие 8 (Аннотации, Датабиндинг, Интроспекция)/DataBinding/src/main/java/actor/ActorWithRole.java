@@ -9,10 +9,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = {"name", "age", "role"})
 public class ActorWithRole {
     @XmlTransient
-    Actor actor;
+    private Actor actor;
 
     @XmlAttribute
-    String role;
+    private String role;
 
     @XmlAttribute(name = "name")
     public String getActorName() {
