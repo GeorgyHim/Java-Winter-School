@@ -1,6 +1,7 @@
 package film;
 
 import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,10 +12,7 @@ public class FilmList {
     private List<FilmWithActors> films;
 
     public FilmList() {
-    }
-
-    public FilmList(FilmWithActors... films) {
-        this.films = Arrays.asList(films);
+        this.films = new ArrayList<>();
     }
 
     public List<FilmWithActors> getFilms() {
