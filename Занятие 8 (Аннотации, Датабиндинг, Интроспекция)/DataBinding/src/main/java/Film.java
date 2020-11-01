@@ -1,3 +1,6 @@
+import actor.Actor;
+import actor.ActorWithRole;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -17,7 +20,7 @@ public class Film {
 
     @XmlElementWrapper(name = "actors")
     @XmlElement(name = "actor")
-    private List<ActorRole> actorsWithRoles;
+    private List<ActorWithRole> actorsWithRoles;
 
     public Film() {
     }
@@ -26,7 +29,7 @@ public class Film {
         this(title, description, new HashMap<>());
     }
 
-    public Film(String title, String description, List<ActorRole> actorsWithRoles) {
+    public Film(String title, String description, List<ActorWithRole> actorsWithRoles) {
         this.title = title;
         this.description = description;
         this.actorsWithRoles = actorsWithRoles;
@@ -36,7 +39,7 @@ public class Film {
         this.title = title;
         this.description = description;
         this.actorsWithRoles = actorsWithRoles.entrySet().stream()
-                .map(actorStringEntry -> new ActorRole(actorStringEntry.getKey(), actorStringEntry.getValue()))
+                .map(actorStringEntry -> new ActorWithRole(actorStringEntry.getKey(), actorStringEntry.getValue()))
                 .collect(Collectors.toList());
     }
 
@@ -48,7 +51,7 @@ public class Film {
         return description;
     }
 
-    public List<ActorRole> actorsWithRoles() {
+    public List<ActorWithRole> actorsWithRoles() {
         return actorsWithRoles;
     }
 }

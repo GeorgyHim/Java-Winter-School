@@ -1,9 +1,13 @@
+package actor;
+
+import actor.Actor;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(propOrder = {"name", "age", "role"})
-public class ActorRole {
+public class ActorWithRole {
     @XmlTransient
     Actor actor;
 
@@ -34,10 +38,10 @@ public class ActorRole {
         actor.setAge(age);
     }
 
-    public ActorRole() {
+    public ActorWithRole() {
     }
 
-    public ActorRole(Actor actor, String role) {
+    public ActorWithRole(Actor actor, String role) {
         this.actor = actor;
         this.role = role;
     }

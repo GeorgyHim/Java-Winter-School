@@ -1,11 +1,11 @@
-import com.fasterxml.jackson.core.JsonProcessingException;
+import actor.Actor;
+import actor.ActorWithRole;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class Main {
 
@@ -18,8 +18,8 @@ public class Main {
         }});
 
         Actor tom = new Actor("Tom", 39);
-        Film revenant  = new Film("Revenant", "Some trash", new ArrayList<>(Arrays.asList(new ActorRole(leo, "good guy"),
-                new ActorRole(tom, "bad guy"))));
+        Film revenant  = new Film("Revenant", "Some trash", new ArrayList<>(Arrays.asList(new ActorWithRole(leo, "good guy"),
+                new ActorWithRole(tom, "bad guy"))));
 
         FilmList filmList = new FilmList(revenant, hollywood);
         DataBinder binder = new DataBinder(SerializationFeature.INDENT_OUTPUT);
