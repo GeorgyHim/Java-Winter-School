@@ -1,11 +1,9 @@
-import javax.xml.bind.annotation.XmlAttribute;
+package actor;
 
 public class Actor {
 
-    @XmlAttribute
     private String name;
 
-    @XmlAttribute
     private int age;
 
     public Actor() {
