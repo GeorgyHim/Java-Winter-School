@@ -29,7 +29,6 @@ public class Main {
 
         FilmList filmList = new FilmList(revenant, onceInHollywood);
         DataBinder binder = new DataBinder(SerializationFeature.INDENT_OUTPUT);
-        System.out.println(binder.toXml(filmList));
 
         FilmList filmList1 = binder.fromXml("<films>\n" +
                 "   <film>\n" +
@@ -56,5 +55,7 @@ public class Main {
         System.out.println(filmList1.getFilms().get(0).getFilm().getDescription());
         System.out.println(filmList1.getFilms().get(1).getFilm().getTitle());
         System.out.println(filmList1.getFilms().get(1).getFilm().getDescription());
+
+        System.out.println(binder.toXml());
     }
 }

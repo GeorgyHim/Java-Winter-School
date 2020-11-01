@@ -63,7 +63,7 @@ public class FilmWithActors {
         return film;
     }
 
-    public List<ActorWithRole> actorsWithRoles() {
+    public List<ActorWithRole> getActorsWithRoles() {
         return actorsWithRoles;
     }
 }

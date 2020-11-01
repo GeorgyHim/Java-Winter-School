@@ -16,4 +16,12 @@ public class FilmWithRole {
     public String getFilmTitle() {
         return film.getTitle();
     }
+
+    public void setFilm(Film film) {
+        this.film = film;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
