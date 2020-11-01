@@ -10,7 +10,11 @@ public class ActorList {
 
     @XmlElementWrapper(name = "actors")
     @XmlElement(name = "actor")
-    private List<ActorWithFilms> actors = new ArrayList<>();
+    private List<ActorWithFilms> actors;
+
+    public ActorList() {
+        this.actors  = new ArrayList<>();
+    }
 
     public void add(ActorWithFilms actorWithFilms) {
         actors.add(actorWithFilms);
@@ -22,5 +26,9 @@ public class ActorList {
 
     public ActorList(List<ActorWithFilms> actors) {
         this.actors = actors;
+    }
+
+    public List<ActorWithFilms> getActors() {
+        return actors;
     }
 }

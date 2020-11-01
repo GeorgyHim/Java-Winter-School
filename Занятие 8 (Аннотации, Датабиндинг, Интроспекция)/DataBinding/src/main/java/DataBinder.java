@@ -12,6 +12,7 @@ import film.FilmWithRole;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DataBinder {
     SerializationFeature feature;
@@ -38,10 +39,6 @@ public class DataBinder {
     }
 
     private ActorList toActorList() {
-        // TODO: Прописать equals и hashcode в Actor
-        // TODO: For-ом пройтись по списку в filmList, и для каждого актера в мап положить список его фильмов
-        ActorList actorList = new ActorList();
-
         // Реорганизуем входные данные в структуру вида (актер - список фильмов с ролями)
         Map<Actor, List<FilmWithRole>> actorsWithFilmsMap = new HashMap<>();
         for (FilmWithActors filmWithActors : filmList.getFilms()) {
@@ -56,7 +53,11 @@ public class DataBinder {
         }
 
         // Преобразуем мап в объект ActorList
-        for (Map.Entry<Actor, List<FilmWithRole>> entry : actorsWithFilmsMap.entrySet()) {
+        ActorList actorList = new ActorList();
+        for (Map.Entry<Actor, List<FilmWithRole>> entry :
+                actorsWithFilmsMap.entrySet().stream()
+                        .sorted(Comparator.comparing(actorListEntry -> actorListEntry.getKey().getName()))
+                        .collect(Collectors.toList())) {
             ActorWithFilms actorWithFilms = new ActorWithFilms(entry.getKey(), entry.getValue());
             actorList.add(actorWithFilms);
         }
@@ -65,6 +66,7 @@ public class DataBinder {
 
     public String toXml() throws JsonProcessingException {
         XmlMapper mapper = createXmlMapper();
-        return mapper.writeValueAsString(toActorList());
+        String xml = mapper.writeValueAsString(toActorList());
+        return xml.replace("<ActorList>\r\n  ", "").replace("\r\n</ActorList>", "").replace("\r\n  ", "\r\n");
     }
 }
