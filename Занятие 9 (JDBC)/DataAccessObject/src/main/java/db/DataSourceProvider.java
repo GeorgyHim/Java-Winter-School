@@ -33,7 +33,7 @@ public class DataSourceProvider {
     private void loadProperties() throws IOException {
         properties = new Properties();
         try {
-            FileInputStream inputStream = new FileInputStream("application.properties");
+            FileInputStream inputStream = new FileInputStream("src/main/resources/application.properties");
             properties.load(inputStream);
         }
         catch (Exception e) {
