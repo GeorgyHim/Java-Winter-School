@@ -2,6 +2,9 @@ package model;
 
 import java.time.LocalDate;
 
+/**
+ * Фильм
+ */
 public class Movie {
 
     /* Название */
