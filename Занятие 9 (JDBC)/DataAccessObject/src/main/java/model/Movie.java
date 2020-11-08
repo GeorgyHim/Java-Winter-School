@@ -7,19 +7,19 @@ import java.time.LocalDate;
  */
 public class Movie {
 
-    /* Название */
+    /** Название */
     private String name;
 
-    /* Дата премьеры */
+    /** Дата премьеры */
     private LocalDate releaseDate;
 
-    /* Длительность фильма в минутах */
+    /** Длительность фильма в минутах */
     private int duration;
 
-    /* Рейтинг */
+    /** Рейтинг */
     private double rating;
 
-    /* Имеет ли награды */
+    /** Имеет ли награды */
     private boolean hasAwards;
 
     public Movie(String name, int duration) {
