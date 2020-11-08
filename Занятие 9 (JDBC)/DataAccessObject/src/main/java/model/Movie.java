@@ -7,6 +7,9 @@ import java.time.LocalDate;
  */
 public class Movie {
 
+    /** Счетчик фильмов */
+    private static int count = 0;
+
     /** Идентификатор */
     private int id;
 
@@ -30,6 +33,7 @@ public class Movie {
     }
 
     public Movie(String title, LocalDate releaseDate, int duration) {
+        this.id = ++count;
         this.title = title;
         this.releaseDate = releaseDate;
         this.duration = duration;
