@@ -84,4 +84,6 @@ public class MovieRepository {
             System.out.println("Ошибка выполнения запроса: " + e.getMessage());
         }
     }
+
+    // TODO: Остальные CRUD-операции
 }
