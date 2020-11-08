@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * Фильм
@@ -71,6 +72,24 @@ public class Movie {
 
     public void setHasAwards(boolean hasAwards) {
         this.hasAwards = hasAwards;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return id == movie.id &&
+                duration == movie.duration &&
+                Double.compare(movie.rating, rating) == 0 &&
+                hasAwards == movie.hasAwards &&
+                Objects.equals(title, movie.title) &&
+                Objects.equals(releaseDate, movie.releaseDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, releaseDate, duration, rating, hasAwards);
     }
 
     @Override
