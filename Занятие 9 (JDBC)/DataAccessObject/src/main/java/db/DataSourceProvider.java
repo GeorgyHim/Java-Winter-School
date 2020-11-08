@@ -21,8 +21,9 @@ public class DataSourceProvider {
      * Конструктор
      * @throws IOException  -   Ошибка инициализации
      */
-    public DataSourceProvider() throws IOException {
-        loadProperties();
+    public DataSourceProvider(String type) throws IOException {
+        String path = "src/main/resources/" + (type.equals("test") ? "test.properties" : "application.properties");
+        loadProperties(path);
         createDataSource();
     }
 
@@ -30,10 +31,10 @@ public class DataSourceProvider {
      * Метод загрузки конфигурации
      * @throws IOException - ошибка загрузки конфигурации
      */
-    private void loadProperties() throws IOException {
+    private void loadProperties(String path) throws IOException {
         properties = new Properties();
         try {
-            FileInputStream inputStream = new FileInputStream("src/main/resources/application.properties");
+            FileInputStream inputStream = new FileInputStream(path);
             properties.load(inputStream);
         }
         catch (Exception e) {

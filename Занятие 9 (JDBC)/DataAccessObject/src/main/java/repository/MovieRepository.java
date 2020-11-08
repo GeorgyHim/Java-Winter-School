@@ -13,7 +13,7 @@ import java.util.List;
 public class MovieRepository {
 
     /** Название таблицы в БД */
-    private static final String TABLE_NAME = "movie";
+    public static final String TABLE_NAME = "movie";
 
     /** DataSource */
     private EmbeddedDataSource dataSource;
