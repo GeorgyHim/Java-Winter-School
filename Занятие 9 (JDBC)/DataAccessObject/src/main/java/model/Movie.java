@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Movie {
 
     /** Счетчик фильмов */
-    private static int count = 0;
+    public static int count = 0;
 
     /** Идентификатор */
     private int id;
@@ -29,10 +29,12 @@ public class Movie {
     /** Имеет ли награды */
     private boolean hasAwards;
 
+    /** Конструктор для создания объектов в коде */
     public Movie(String title, int duration) {
         this(++count, title, LocalDate.now(), duration, 7.0, false);
     }
 
+    /** Конструктор для создания объектов при загрузке из базы  */
     public Movie(int id, String title, LocalDate releaseDate, int duration, double rating, boolean hasAwards) {
         this.id = id;
         this.title = title;
@@ -95,7 +97,8 @@ public class Movie {
     @Override
     public String toString() {
         return "Movie{" +
-                "name='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", releaseDate=" + releaseDate +
                 ", duration=" + duration +
                 ", rating=" + rating +
