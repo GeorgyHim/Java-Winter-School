@@ -61,7 +61,7 @@ public class Movie {
         return rating;
     }
 
-    public boolean isHasAwards() {
+    public boolean hasAwards() {
         return hasAwards;
     }
 

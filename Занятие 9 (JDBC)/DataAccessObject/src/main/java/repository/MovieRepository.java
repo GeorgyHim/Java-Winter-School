@@ -1,5 +1,6 @@
 package repository;
 
+import model.Movie;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 
 import java.sql.*;
@@ -48,7 +49,7 @@ public class MovieRepository {
     }
 
     /**
-     * Метод для проверки существования таблицы в базе
+     * Метод проверки существования таблицы в базе
      *
      * @param metaData  -   метаданные базы
      * @return          -   Существует ли таблица TABLE_NAME
@@ -59,5 +60,28 @@ public class MovieRepository {
                 null, null, TABLE_NAME.toUpperCase(), new String[]{"TABLE"}
         );
         return resultSet.next();
+    }
+
+    /**
+     * Метод создания записи о новом фильме в БД
+     *
+     * @param movie   -   Фильм
+     */
+    public void createNew(Movie movie) {
+        String query = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, movie.getId());
+            statement.setString(2, movie.getTitle());
+            statement.setObject(3, movie.getReleaseDate());
+            statement.setInt(4, movie.getDuration());
+            statement.setDouble(5, movie.getRating());
+            statement.setBoolean(6, movie.hasAwards());
+            statement.execute();
+        }
+        catch (Exception e) {
+            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+        }
     }
 }
