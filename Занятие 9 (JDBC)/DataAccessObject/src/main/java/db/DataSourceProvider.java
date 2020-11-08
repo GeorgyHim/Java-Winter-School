@@ -4,8 +4,6 @@ import org.apache.derby.jdbc.EmbeddedDataSource;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -28,6 +26,10 @@ public class DataSourceProvider {
         createDataSource();
     }
 
+    /**
+     * Метод загрузки конфигурации
+     * @throws IOException - ошибка загрузки конфигурации
+     */
     private void loadProperties() throws IOException {
         properties = new Properties();
         try {
@@ -40,6 +42,9 @@ public class DataSourceProvider {
         }
     }
 
+    /**
+     * Метод создания DataSource и при необходимости - самой БД
+     */
     private void createDataSource() {
         if (dataSource != null)
             return;
@@ -48,7 +53,7 @@ public class DataSourceProvider {
         dataSource.setUser("");
         dataSource.setPassword("");
         dataSource.setDatabaseName(properties.getProperty("dbname"));
-        // TODO: Проверить и создать БД
+        dataSource.setCreateDatabase("create");
     }
 
     public EmbeddedDataSource getDataSource() {
