@@ -65,6 +65,40 @@ public class MovieRepository {
     }
 
     /**
+     * Метод поиска всех фильмов в БД
+     * @return - список всех фильмов
+     */
+    public List<Movie> findAll() {
+        List<Movie> movies = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME);
+            while (resultSet.next()) {
+                movies.add(getMovie(resultSet));
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+        }
+        return movies;
+    }
+
+    /**
+     * Вспомогательный метод для создания объекта {@link Movie} через ResultSet
+     *
+     * @param resultSet     -   ResultSet
+     * @return              -   Объект {@link Movie}
+     * @throws SQLException -   Ошибка получения значения
+     */
+    private Movie getMovie(ResultSet resultSet) throws SQLException {
+        return new Movie(
+                resultSet.getInt(1), resultSet.getString(2), resultSet.getDate(3).toLocalDate(),
+                resultSet.getInt(4), resultSet.getDouble(5), resultSet.getBoolean(6)
+        );
+    }
+
+    /**
      * Метод создания записи о новом фильме в БД
      *
      * @param movie   -   Фильм
@@ -87,32 +121,24 @@ public class MovieRepository {
         }
     }
 
-    /**
-     * Метод поиска всех фильмов в БД
-     * @return - список всех фильмов
-     */
-    public List<Movie> findAll() {
-        List<Movie> movies = new ArrayList<>();
+    public Movie read(int id) {
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
         try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement()) {
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME);
-            while (resultSet.next()) {
-                movies.add(getMovie(resultSet));
-            }
-        }
-        catch (SQLException e) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                System.out.println("Указанный объект не найден");
+                return null;
+            } else
+                return getMovie(resultSet);
+        } catch (SQLException e) {
             System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+            return null;
         }
-        return movies;
     }
 
-    private Movie getMovie(ResultSet resultSet) throws SQLException {
-        return new Movie(
-                resultSet.getInt(1), resultSet.getString(2), resultSet.getDate(3).toLocalDate(),
-                resultSet.getInt(4), resultSet.getDouble(5), resultSet.getBoolean(6)
-        );
-    }
 
-    // TODO: Остальные CRUD-операции
+        // TODO: Остальные CRUD-операции
 }
