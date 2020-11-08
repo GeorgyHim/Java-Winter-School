@@ -1,5 +1,6 @@
 package repository;
 
+import db.DataSourceProvider;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.io.IOException;
@@ -8,7 +9,7 @@ public class MovieRepositoryTest {
     static MovieRepository movieRepository;
 
     @BeforeAll
-    static void init() {
+    static void init() throws IOException {
         DataSourceProvider dataSourceProvider = null;
         try {
             dataSourceProvider = new DataSourceProvider();

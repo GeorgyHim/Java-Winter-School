@@ -53,7 +53,7 @@ public class MovieRepository {
      *
      * @param metaData  -   метаданные базы
      * @return          -   Существует ли таблица TABLE_NAME
-     * @throws SQLException
+     * @throws SQLException - Ошибка получения таблиц
      */
     private boolean checkTableExists(DatabaseMetaData metaData) throws SQLException {
         ResultSet resultSet = metaData.getTables(
