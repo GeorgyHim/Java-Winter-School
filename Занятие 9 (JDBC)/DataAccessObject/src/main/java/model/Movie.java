@@ -7,6 +7,9 @@ import java.time.LocalDate;
  */
 public class Movie {
 
+    /** Идентификатор */
+    private int id;
+
     /** Название */
     private String name;
 
