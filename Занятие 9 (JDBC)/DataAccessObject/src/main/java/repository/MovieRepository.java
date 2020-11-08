@@ -18,6 +18,11 @@ public class MovieRepository {
     /** DataSource */
     private EmbeddedDataSource dataSource;
 
+    /**
+     * Конструктор
+     *
+     * @param dataSource    -   DataSource
+     */
     public MovieRepository(EmbeddedDataSource dataSource) {
         this.dataSource = dataSource;
         initTable();
@@ -121,6 +126,12 @@ public class MovieRepository {
         }
     }
 
+    /**
+     * Метод для получения объекта {@link Movie} из базы данных по указанному id
+     *
+     * @param id    -   идентификатор
+     * @return      -   соответствующий объект {@link Movie}
+     */
     public Movie read(int id) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
         try (Connection connection = dataSource.getConnection();
@@ -140,5 +151,5 @@ public class MovieRepository {
     }
 
 
-        // TODO: Остальные CRUD-операции
+    // TODO: Остальные CRUD-операции
 }
