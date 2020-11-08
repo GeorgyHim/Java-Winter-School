@@ -28,18 +28,33 @@ public class MovieRepository {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement() ) {
 
-            if (tableExists(connection.getMetaData()))
+            if (checkTableExists(connection.getMetaData()))
                 System.out.println("Table has already been initialized");
             else {
-                // TODO:
+                statement.executeUpdate(
+                        String.format("CREATE TABLE %s (id INTEGER PRIMARY KEY, title VARCHAR(255), " +
+                                        "releaseDate DATE, duration INTEGER, rating DOUBLE(3, 1), hasAwards BOOL)",
+                                TABLE_NAME)
+                );
+                System.out.println("Table was successfully initialized");
             }
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error occured during table initializing: " + e.getMessage());
+        }
+        finally {
+            System.out.println("==============================================");
         }
     }
 
-    private boolean tableExists(DatabaseMetaData metaData) throws SQLException {
+    /**
+     * Метод для проверки существования таблицы в базе
+     *
+     * @param metaData  -   метаданные базы
+     * @return          -   Существует ли таблица TABLE_NAME
+     * @throws SQLException
+     */
+    private boolean checkTableExists(DatabaseMetaData metaData) throws SQLException {
         ResultSet resultSet = metaData.getTables(
                 null, null, TABLE_NAME.toUpperCase(), new String[]{"TABLE"}
         );
