@@ -29,16 +29,16 @@ public class Movie {
     private boolean hasAwards;
 
     public Movie(String title, int duration) {
-        this(title, LocalDate.now(), duration);
+        this(++count, title, LocalDate.now(), duration, 7.0, false);
     }
 
-    public Movie(String title, LocalDate releaseDate, int duration) {
-        this.id = ++count;
+    public Movie(int id, String title, LocalDate releaseDate, int duration, double rating, boolean hasAwards) {
+        this.id = id;
         this.title = title;
         this.releaseDate = releaseDate;
         this.duration = duration;
-        this.rating = 7.0;
-        this.hasAwards = false;
+        this.rating = rating;
+        this.hasAwards = hasAwards;
     }
 
     public int getId() {

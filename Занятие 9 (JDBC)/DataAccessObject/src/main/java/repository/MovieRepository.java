@@ -4,6 +4,8 @@ import model.Movie;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Репозиторий для доступа к таблице с данными о фильмах (Movie)
@@ -74,7 +76,7 @@ public class MovieRepository {
 
             statement.setInt(1, movie.getId());
             statement.setString(2, movie.getTitle());
-            statement.setObject(3, movie.getReleaseDate());
+            statement.setDate(3, Date.valueOf(movie.getReleaseDate()));
             statement.setInt(4, movie.getDuration());
             statement.setDouble(5, movie.getRating());
             statement.setBoolean(6, movie.hasAwards());
@@ -83,6 +85,33 @@ public class MovieRepository {
         catch (Exception e) {
             System.out.println("Ошибка выполнения запроса: " + e.getMessage());
         }
+    }
+
+    /**
+     * Метод поиска всех фильмов в БД
+     * @return - список всех фильмов
+     */
+    public List<Movie> findAll() {
+        List<Movie> movies = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME);
+            while (resultSet.next()) {
+                movies.add(getMovie(resultSet));
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+        }
+        return movies;
+    }
+
+    private Movie getMovie(ResultSet resultSet) throws SQLException {
+        return new Movie(
+                resultSet.getInt(1), resultSet.getString(2), resultSet.getDate(3).toLocalDate(),
+                resultSet.getInt(4), resultSet.getDouble(5), resultSet.getBoolean(6)
+        );
     }
 
     // TODO: Остальные CRUD-операции
