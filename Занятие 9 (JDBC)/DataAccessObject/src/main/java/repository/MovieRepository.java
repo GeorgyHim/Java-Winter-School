@@ -36,7 +36,7 @@ public class MovieRepository {
             else {
                 statement.executeUpdate(
                         String.format("CREATE TABLE %s (id INTEGER PRIMARY KEY, title VARCHAR(255), " +
-                                        "releaseDate DATE, duration INTEGER, rating DOUBLE(3, 1), hasAwards BOOL)",
+                                        "releaseDate DATE, duration INTEGER, rating DECIMAL(3, 1), hasAwards BOOLEAN )",
                                 TABLE_NAME)
                 );
                 System.out.println("Table was successfully initialized");
