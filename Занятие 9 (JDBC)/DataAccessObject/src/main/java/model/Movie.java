@@ -11,7 +11,7 @@ public class Movie {
     private int id;
 
     /** Название */
-    private String name;
+    private String title;
 
     /** Дата премьеры */
     private LocalDate releaseDate;
@@ -25,20 +25,20 @@ public class Movie {
     /** Имеет ли награды */
     private boolean hasAwards;
 
-    public Movie(String name, int duration) {
-        this(name, LocalDate.now(), duration);
+    public Movie(String title, int duration) {
+        this(title, LocalDate.now(), duration);
     }
 
-    public Movie(String name, LocalDate releaseDate, int duration) {
-        this.name = name;
+    public Movie(String title, LocalDate releaseDate, int duration) {
+        this.title = title;
         this.releaseDate = releaseDate;
         this.duration = duration;
         this.rating = 7.0;
         this.hasAwards = false;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public LocalDate getReleaseDate() {
@@ -68,7 +68,7 @@ public class Movie {
     @Override
     public String toString() {
         return "Movie{" +
-                "name='" + name + '\'' +
+                "name='" + title + '\'' +
                 ", releaseDate=" + releaseDate +
                 ", duration=" + duration +
                 ", rating=" + rating +
