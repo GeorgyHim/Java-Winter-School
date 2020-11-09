@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MovieRepositoryTest {
     static MovieRepository movieRepository;
@@ -52,6 +54,21 @@ public class MovieRepositoryTest {
         Assertions.assertEquals(inception, movie);
 
         Assertions.assertNull(movieRepository.read(99));
+    }
+
+    @Test
+    public void testUpdate() {
+        movieRepository.createNew(inception);
+
+        inception.setRating(8.0);
+        inception.setHasAwards(true);
+        Map<String, Object> args = new HashMap<>();
+        args.put("rating", 8.0);
+        args.put("hasAwards", true);
+        Movie movie = movieRepository.update(inception.getId(), args);
+        Assertions.assertEquals(inception, movie);
+
+        Assertions.assertNull(movieRepository.update(99, args));
     }
 
     @AfterEach

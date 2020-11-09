@@ -156,16 +156,14 @@ public class MovieRepository {
         for (Map.Entry<String, Object> entry : args.entrySet()) {
             query.append(entry.getKey()).append("=").append(entry.getValue()).append(",");
         }
-        query.deleteCharAt(query.length() - 1);
+        query.setCharAt(query.length() - 1, ' ');
         query.append("WHERE id=").append(id);
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query.toString())) {
 
-            if (statement.execute())
-                return read(id);
-            else
-                return null;
+            statement.execute();
+            return read(id);
         } catch (SQLException e) {
             System.out.println("Ошибка выполнения запроса: " + e.getMessage());
             return null;
