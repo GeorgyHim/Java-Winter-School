@@ -105,11 +105,12 @@ public class MovieRepository {
     }
 
     /**
-     * Метод создания записи о новом фильме в БД
+     *  Метод создания записи о новом фильме в БД
      *
-     * @param movie   -   Фильм
+     * @param movie     -   Фильм
+     * @return          -   Успешно ли выполнилась операция
      */
-    public void createNew(Movie movie) {
+    public boolean createNew(Movie movie) {
         String query = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -121,9 +122,11 @@ public class MovieRepository {
             statement.setDouble(5, movie.getRating());
             statement.setBoolean(6, movie.hasAwards());
             statement.execute();
+            return true;
         }
         catch (Exception e) {
             System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+            return false;
         }
     }
 
@@ -169,6 +172,8 @@ public class MovieRepository {
             return null;
         }
     }
+
+    //public void
 
 
         // TODO: Остальные CRUD-операции

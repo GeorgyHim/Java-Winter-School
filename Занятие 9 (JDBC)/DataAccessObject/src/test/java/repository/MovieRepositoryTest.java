@@ -39,8 +39,8 @@ public class MovieRepositoryTest {
 
     @Test
     public void testCreateNewAndFindAll() {
-        movieRepository.createNew(inception);
-        movieRepository.createNew(leon);
+        Assertions.assertTrue(movieRepository.createNew(inception));
+        Assertions.assertTrue(movieRepository.createNew(leon));
         List<Movie> movies = movieRepository.findAll();
         Assertions.assertEquals(2, movies.size());
         Assertions.assertTrue(movies.contains(inception));
