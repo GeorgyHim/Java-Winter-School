@@ -155,7 +155,7 @@ public class MovieRepository {
     }
 
     public Movie update(int id, Map<String, Object> args) {
-        StringBuilder query = new StringBuilder("UPDATE " + MovieRepository.TABLE_NAME + " SET ");
+        StringBuilder query = new StringBuilder("UPDATE " + TABLE_NAME + " SET ");
         for (Map.Entry<String, Object> entry : args.entrySet()) {
             query.append(entry.getKey()).append("=").append(entry.getValue()).append(",");
         }
@@ -173,8 +173,17 @@ public class MovieRepository {
         }
     }
 
-    //public void
+    public boolean delete(int id) {
+        String query = "DELETE FROM " + TABLE_NAME + " WHERE id=" + id;
 
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
-        // TODO: Остальные CRUD-операции
+            statement.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+            return false;
+        }
+    }
 }
