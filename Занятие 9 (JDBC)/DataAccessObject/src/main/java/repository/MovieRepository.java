@@ -6,6 +6,7 @@ import org.apache.derby.jdbc.EmbeddedDataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Репозиторий для доступа к таблице с данными о фильмах (Movie)
@@ -150,6 +151,27 @@ public class MovieRepository {
         }
     }
 
+    public Movie update(int id, Map<String, Object> args) {
+        StringBuilder query = new StringBuilder("UPDATE " + MovieRepository.TABLE_NAME + " SET ");
+        for (Map.Entry<String, Object> entry : args.entrySet()) {
+            query.append(entry.getKey()).append("=").append(entry.getValue()).append(",");
+        }
+        query.deleteCharAt(query.length() - 1);
+        query.append("WHERE id=").append(id);
 
-    // TODO: Остальные CRUD-операции
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query.toString())) {
+
+            if (statement.execute())
+                return read(id);
+            else
+                return null;
+        } catch (SQLException e) {
+            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+            return null;
+        }
+    }
+
+
+        // TODO: Остальные CRUD-операции
 }
