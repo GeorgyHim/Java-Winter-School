@@ -71,6 +71,13 @@ public class MovieRepositoryTest {
         Assertions.assertNull(movieRepository.update(99, args));
     }
 
+    @Test
+    public void testDelete() {
+        movieRepository.createNew(inception);
+        Assertions.assertTrue(movieRepository.delete(inception.getId()));
+        Assertions.assertNull(movieRepository.read(inception.getId()));
+    }
+
     @AfterEach
     public void clearTable() throws SQLException {
         try (Connection connection = dataSource.getConnection();
