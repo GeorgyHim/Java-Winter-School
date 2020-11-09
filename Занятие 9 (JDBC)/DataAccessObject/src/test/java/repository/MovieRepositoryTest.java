@@ -24,11 +24,11 @@ public class MovieRepositoryTest {
         try {
             DataSourceProvider dataSourceProvider = new DataSourceProvider("test");
             dataSource = dataSourceProvider.getDataSource();
+            movieRepository = new MovieRepository(dataSource);
         } catch (IOException e) {
             System.out.println("Ошибка создания провайдера: " + e.getMessage());
             throw e;
         }
-        movieRepository = new MovieRepository(dataSource);
     }
 
     @Test
