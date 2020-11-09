@@ -50,6 +50,8 @@ public class MovieRepositoryTest {
         movieRepository.createNew(inception);
         Movie movie = movieRepository.read(inception.getId());
         Assertions.assertEquals(inception, movie);
+
+        Assertions.assertNull(movieRepository.read(99));
     }
 
     @AfterEach
