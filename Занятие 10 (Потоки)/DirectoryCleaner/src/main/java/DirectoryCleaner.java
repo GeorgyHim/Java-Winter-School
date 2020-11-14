@@ -70,7 +70,7 @@ public class DirectoryCleaner {
                     return;
                 }
 
-                synchronized (this) {
+                synchronized (directoryPath) {
                     cleanDirectory(directoryPath);
                 }
             }
