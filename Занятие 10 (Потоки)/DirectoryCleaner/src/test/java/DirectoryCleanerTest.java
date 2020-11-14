@@ -15,25 +15,21 @@ public class DirectoryCleanerTest {
         Files.createDirectories(testPath);
     }
 
-    @BeforeEach
-    public void startCleaner() {
+    @Test
+    public void testStartAndStopCleaner() {
         cleaner.startCleaning();
         synchronized (cleaner.getDirectoryPath()) {
             Assertions.assertTrue(cleaner.isThreadAlive());
+        }
+        cleaner.stopCleaning();
+        synchronized (cleaner.getDirectoryPath()) {
+            Assertions.assertFalse(cleaner.isThreadAlive());
         }
     }
 
     @Test
     public void testCleaning() {
         System.out.println("Sambady");
-    }
-
-    @AfterEach
-    public void interruptCleaner() {
-        cleaner.stopCleaning();
-        synchronized (cleaner.getDirectoryPath()) {
-            Assertions.assertFalse(cleaner.isThreadAlive());
-        }
     }
 
     @AfterAll
