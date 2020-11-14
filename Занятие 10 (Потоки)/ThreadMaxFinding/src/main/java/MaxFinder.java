@@ -13,31 +13,14 @@ public class MaxFinder {
     /** Количество потоков */
     private int threadCount;
 
+    /** Список объектов {@link Future} для проверки в тестах*/
     private List<Future<Integer>> futures;
 
-    public MaxFinder(int number, int[] array, int threadCount) throws Exception {
-        if (array.length != number)
-            throw new Exception("Wrong array length!");
-
-        this.number = number;
+    public MaxFinder(int[] array, int threadCount) {
+        this.number = array.length;
         this.threadCount = threadCount;
         this.array = array;
         futures = new ArrayList<>();
-    }
-
-    public MaxFinder(int number, int threadCount) throws Exception {
-        this(number, readArray(number), threadCount);
-    }
-
-    /**
-     * Метод ввода массива
-     */
-    private static int[] readArray(int n) {
-        int[] a = new int[n];
-        Scanner in = new Scanner(System.in);
-        for (int i = 0; i < n; i++)
-            a[i] = in.nextInt();
-        return a;
     }
 
     /**
@@ -82,11 +65,6 @@ public class MaxFinder {
                 max = Math.max(max, array[i]);
             return max;
         }
-    }
-
-    public void setArray(int[] array) {
-        this.number = array.length;
-        this.array = array;
     }
 
     public int getThreadCount() {
