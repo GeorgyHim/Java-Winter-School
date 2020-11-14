@@ -5,13 +5,13 @@ import java.util.concurrent.*;
 
 public class MaxFinder {
     /** Число элементов в массиве */
-    private int number;
+    private final int number;
 
     /** Массив чисел */
-    private int[] array;
+    private final int[] array;
 
     /** Количество потоков */
-    private int threadCount;
+    private final int threadCount;
 
     /** Список объектов {@link Future} для проверки в тестах*/
     private List<Future<Integer>> futures;
@@ -69,10 +69,6 @@ public class MaxFinder {
 
     public int getThreadCount() {
         return threadCount;
-    }
-
-    public void setThreadCount(int threadCount) {
-        this.threadCount = threadCount;
     }
 
     public int getNumber() {
