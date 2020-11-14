@@ -1,10 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class MaxFinder {
     /** Число элементов в массиве */
@@ -17,13 +14,16 @@ public class MaxFinder {
     private int[] array;
 
     /** Сервис запуска задач */
-    ExecutorService executorService;
+    private ExecutorService executorService;
+
+    private List<Future<Integer>> futures;
 
     public MaxFinder(int number, int threadCount, int[] array) {
         this.number = number;
         this.threadCount = threadCount;
         this.array = array;
         executorService = Executors.newFixedThreadPool(threadCount);
+        futures = new ArrayList<>();
     }
 
     public MaxFinder(int number, int threadCount) {
@@ -45,9 +45,15 @@ public class MaxFinder {
      * Метод нахождения максимального элемента с использованием многопоточности
      * @return - максимальный элемент массива
      */
-    public int findMax() {
-        List<Future<Integer>> futures = new ArrayList<>();
-        return array[0];
+    public int findMax() throws ExecutionException, InterruptedException {
+        futures = new ArrayList<>();
+        for (int i = 0; i < threadCount; i++)
+            futures.add(executorService.submit(new PartialMaxFinder(i)));
+
+        int max = array[0];
+        for (Future<Integer> future : futures)
+            max = Math.max(max, future.get());
+        return max;
     }
 
     private class PartialMaxFinder implements Callable<Integer> {
@@ -65,7 +71,7 @@ public class MaxFinder {
             return (number / threadCount) + (number % threadCount != 0 ? 1 : 0);
         }
 
-        public Integer call() throws Exception {
+        public Integer call() {
             int startPos = part() * index;
             if (startPos >= number)
                 return array[number - 1];
@@ -84,5 +90,9 @@ public class MaxFinder {
 
     public int getNumber() {
         return number;
+    }
+
+    public List<Future<Integer>> getFutures() {
+        return futures;
     }
 }
