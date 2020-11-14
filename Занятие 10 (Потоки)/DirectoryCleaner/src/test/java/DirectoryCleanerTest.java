@@ -2,7 +2,6 @@ import org.junit.jupiter.api.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,34 +24,24 @@ public class DirectoryCleanerTest {
             Assertions.assertTrue(cleaner.isThreadAlive());
         }
         cleaner.stopCleaning();
-        synchronized (cleaner.getDirectoryPath()) {
-            Assertions.assertFalse(cleaner.isThreadAlive());
-        }
+        Assertions.assertFalse(cleaner.isThreadAlive());
     }
 
     @Test
     public void testCleaning() throws InterruptedException, IOException {
         cleaner.startCleaning();
         Thread.sleep(timeout / 10);
-        Assertions.assertTrue(isDirEmpty());
-        synchronized (cleaner.getDirectoryPath()) {
-            Path path = Paths.get(testDir, "myfile");
-            Files.createFile(path);
-            Assertions.assertFalse(isDirEmpty());
-        }
+        Assertions.assertTrue(cleaner.isDirEmpty());
+        Path path = Paths.get(testDir, "myfile");
+        Files.createFile(path);
+        Assertions.assertFalse(cleaner.isDirEmpty());
         Thread.sleep(timeout + timeout / 3);
-        Assertions.assertTrue(isDirEmpty());
+        Assertions.assertTrue(cleaner.isDirEmpty());
     }
 
     @AfterAll
     public static void deleteTestDirectory() throws IOException {
         Files.delete(testPath);
         Assertions.assertFalse(Files.exists(testPath));
-    }
-
-    private static boolean isDirEmpty() throws IOException {
-        try(DirectoryStream<Path> dirStream = Files.newDirectoryStream(testPath)) {
-            return !dirStream.iterator().hasNext();
-        }
     }
 }

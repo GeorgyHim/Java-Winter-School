@@ -1,6 +1,9 @@
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Класс для очистки заданной директории
@@ -44,21 +47,31 @@ public class DirectoryCleaner {
      * Метод запуска потока для очищения директории
      */
     public void startCleaning() {
-        synchronized (directoryPath) {
+        synchronized (cleanerThread) {
             isThreadAlive = true;
             cleanerThread.start();
         }
     }
 
     public void stopCleaning() {
-        synchronized (directoryPath) {
+        synchronized (cleanerThread) {
             cleanerThread.interrupt();
             isThreadAlive = false;
         }
     }
 
     public boolean isThreadAlive() {
-        return isThreadAlive;
+        synchronized (cleanerThread) {
+            return isThreadAlive;
+        }
+    }
+
+    public boolean isDirEmpty() throws IOException {
+        synchronized (directoryPath) {
+            try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(Paths.get(directoryPath))) {
+                return !dirStream.iterator().hasNext();
+            }
+        }
     }
 
     private class Cleaner implements Runnable {
