@@ -53,6 +53,9 @@ public class DirectoryCleaner {
         }
     }
 
+    /**
+     * Метод остановки очисти директории
+     */
     public void stopCleaning() {
         synchronized (cleanerThread) {
             cleanerThread.interrupt();
@@ -60,12 +63,21 @@ public class DirectoryCleaner {
         }
     }
 
+    /**
+     * Метод проверки потока очистки на непрерванность
+     * @return - жив ли поток очистки директории
+     */
     public boolean isThreadAlive() {
         synchronized (cleanerThread) {
             return isThreadAlive;
         }
     }
 
+    /**
+     * Метод проверки целевой директории на пустоту
+     * @return - Пуста ли целевая директория
+     * @throws IOException - Ошибка доступа к папке или создания потока для неё
+     */
     public boolean isDirEmpty() throws IOException {
         synchronized (directoryPath) {
             try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(Paths.get(directoryPath))) {
@@ -74,6 +86,9 @@ public class DirectoryCleaner {
         }
     }
 
+    /**
+     * Класс для создания потока очистки директории
+     */
     private class Cleaner implements Runnable {
         @Override
         public void run() {
