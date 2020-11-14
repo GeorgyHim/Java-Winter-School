@@ -11,7 +11,9 @@ public class DirectoryCleaner {
     private int timeout;
 
     /** Поток, совершающий очистку */
-    private Thread cleanerThread;
+    private final Thread cleanerThread;
+
+    private boolean isThreadAlive = false;
 
     public DirectoryCleaner(String directoryPath, int timeout) {
         this.directoryPath = directoryPath;
@@ -40,24 +42,42 @@ public class DirectoryCleaner {
      * Метод запуска потока для очищения директории
      */
     public void startCleaning() {
-        cleanerThread.start();
+        synchronized (directoryPath) {
+            isThreadAlive = true;
+            cleanerThread.start();
+        }
+    }
+
+    public void stopCleaning() {
+        synchronized (directoryPath) {
+            cleanerThread.interrupt();
+            isThreadAlive = false;
+        }
+    }
+
+    public boolean isThreadAlive() {
+        return isThreadAlive;
     }
 
     private class Cleaner implements Runnable {
         @Override
         public void run() {
-            while (!Thread.currentThread().isInterrupted()) {
+            while (true) {
                 try {
                     Thread.sleep(timeout);
                 }
                 catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    return;
                 }
 
-                synchronized (directoryPath) {
+                synchronized (this) {
                     cleanDirectory(directoryPath);
                 }
             }
         }
+    }
+
+    public String getDirectoryPath() {
+        return directoryPath;
     }
 }
