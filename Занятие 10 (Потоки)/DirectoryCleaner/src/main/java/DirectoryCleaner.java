@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * Класс для очистки заданной директории
@@ -27,7 +29,7 @@ public class DirectoryCleaner {
      *
      * @param dir - Путь до директории
      */
-    private void cleanDirectory(String dir) {
+    private void cleanDirectory(String dir) throws IOException {
         File directory = new File(dir);
         File[] allContents = directory.listFiles();
         if (allContents != null)
@@ -35,7 +37,7 @@ public class DirectoryCleaner {
                 cleanDirectory(file.getAbsolutePath());
 
         if (!dir.equals(directoryPath))
-            directory.delete();
+            Files.delete(directory.toPath());
     }
 
     /**
@@ -71,7 +73,11 @@ public class DirectoryCleaner {
                 }
 
                 synchronized (directoryPath) {
-                    cleanDirectory(directoryPath);
+                    try {
+                        cleanDirectory(directoryPath);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
