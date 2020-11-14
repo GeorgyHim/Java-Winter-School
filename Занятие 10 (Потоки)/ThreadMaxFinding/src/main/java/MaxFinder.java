@@ -7,27 +7,26 @@ public class MaxFinder {
     /** Число элементов в массиве */
     private int number;
 
-    /** Количество потоков */
-    private int threadCount;
-
     /** Массив чисел */
     private int[] array;
 
-    /** Сервис запуска задач */
-    private ExecutorService executorService;
+    /** Количество потоков */
+    private int threadCount;
 
     private List<Future<Integer>> futures;
 
-    public MaxFinder(int number, int threadCount, int[] array) {
+    public MaxFinder(int number, int[] array, int threadCount) throws Exception {
+        if (array.length != number)
+            throw new Exception("Wrong array length!");
+
         this.number = number;
         this.threadCount = threadCount;
         this.array = array;
-        executorService = Executors.newFixedThreadPool(threadCount);
         futures = new ArrayList<>();
     }
 
-    public MaxFinder(int number, int threadCount) {
-        this(number, threadCount, readArray(number));
+    public MaxFinder(int number, int threadCount) throws Exception {
+        this(number, readArray(number), threadCount);
     }
 
     /**
@@ -46,6 +45,7 @@ public class MaxFinder {
      * @return - максимальный элемент массива
      */
     public int findMax() throws ExecutionException, InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         futures = new ArrayList<>();
         for (int i = 0; i < threadCount; i++)
             futures.add(executorService.submit(new PartialMaxFinder(i)));
@@ -84,8 +84,17 @@ public class MaxFinder {
         }
     }
 
+    public void setArray(int[] array) {
+        this.number = array.length;
+        this.array = array;
+    }
+
     public int getThreadCount() {
         return threadCount;
+    }
+
+    public void setThreadCount(int threadCount) {
+        this.threadCount = threadCount;
     }
 
     public int getNumber() {
