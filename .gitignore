@@ -3,5 +3,6 @@
 **/*.iml
 **/*.log
 *.docx
+*.txt
 **/storage
 **/db_*
