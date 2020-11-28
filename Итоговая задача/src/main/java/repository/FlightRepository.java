@@ -95,7 +95,7 @@ public class FlightRepository {
      * @param flight    -   Рейс
      * @return          -   Успешно ли выполнилась операция
      */
-    public boolean createNew(Flight flight) {
+    public boolean save(Flight flight) {
         String query = "INSERT INTO " + Flight.TABLE_NAME +" VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -163,4 +163,6 @@ public class FlightRepository {
             return false;
         }
     }
+
+    public boolean delete(int id)
 }
