@@ -8,5 +8,11 @@ public enum FlightStatus {
     EN_ROUTE,
     LANDED,
     DELAYED,
-    CANCELED,
+    CANCELED;
+
+    private static FlightStatus[] values = FlightStatus.values();
+
+    public static FlightStatus getStatus(int ordinal) {
+        return values[ordinal];
+    }
 }
