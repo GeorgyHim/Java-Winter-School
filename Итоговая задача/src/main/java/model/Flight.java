@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
  * Рейс
  */
 public class Flight {
-    // TODO: Создать нужные поля класса, а также дополнить их аннотациями для датабиндинга в XML
+    // TODO: Дополнить поля класа аннотациями для датабиндинга в XML
 
     /** Название таблицы в БД */
     public static final String TABLE_NAME = "flight";
