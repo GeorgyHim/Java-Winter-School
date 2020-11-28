@@ -1,6 +1,7 @@
 package repository;
 
 import model.Flight;
+import model.FlightStatus;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 
 import java.sql.*;
@@ -40,6 +41,7 @@ public class FlightRepository {
                         "number VARCHAR(10), " +
                         "cityFrom VARCHAR(100) NOT NULL, " +
                         "cityTo VARCHAR(100) NOT NULL, " +
+                        "airline VARCHAR(200), " +
                         "departureTime TIMESTAMP , " +
                         "arrivalTime TIMESTAMP , " +
                         "status SMALLINT)",
@@ -68,5 +70,22 @@ public class FlightRepository {
                 null, null, Flight.TABLE_NAME.toUpperCase(), new String[]{"TABLE"}
         );
         return resultSet.next();
+    }
+
+    /**
+     * Вспомогательный метод для создания объекта {@link Flight} через ResultSet
+     *
+     * @param resultSet     -   ResultSet
+     * @return              -   Объект {@link Flight}
+     * @throws SQLException -   Ошибка получения значения
+     */
+    private Flight getFlight(ResultSet resultSet) throws SQLException {
+        return new Flight(
+                resultSet.getInt("id"), resultSet.getString("number"), resultSet.getString("cityFrom"),
+                resultSet.getString("cityTo"), resultSet.getString("airline"),
+                resultSet.getTimestamp("departureTime").toLocalDateTime(),
+                resultSet.getTimestamp("arrivalTime").toLocalDateTime(),
+                FlightStatus.values()[resultSet.getInt("status")]
+                );
     }
 }
