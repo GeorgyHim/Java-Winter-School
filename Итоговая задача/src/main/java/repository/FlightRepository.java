@@ -85,7 +85,33 @@ public class FlightRepository {
                 resultSet.getString("cityTo"), resultSet.getString("airline"),
                 resultSet.getTimestamp("departureTime").toLocalDateTime(),
                 resultSet.getTimestamp("arrivalTime").toLocalDateTime(),
-                FlightStatus.values()[resultSet.getInt("status")]
-                );
+                FlightStatus.getStatus(resultSet.getInt("status"))
+        );
+    }
+
+    /**
+     * Метод создания записи о новом рейсе в БД
+     *
+     * @param flight    -   Рейс
+     * @return          -   Успешно ли выполнилась операция
+     */
+    public boolean createNew(Flight flight) {
+        String query = "INSERT INTO " + Flight.TABLE_NAME +" VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, flight.getNumber());
+            statement.setString(2, flight.getCityFrom());
+            statement.setString(3, flight.getCityTo());
+            statement.setString(4, flight.getAirline());
+            statement.setTimestamp(5, Timestamp.valueOf(flight.getDepartureTime()));
+            statement.setTimestamp(6, Timestamp.valueOf(flight.getArrivalTime()));
+            statement.setInt(7, flight.getStatus().ordinal());
+            statement.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error occured during instance insertion: " + e.getMessage());
+            return false;
+        }
     }
 }
