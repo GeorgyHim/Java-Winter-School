@@ -138,10 +138,12 @@ public class FlightRepository {
         }
     }
 
+
     /**
      * Метод обновления объекта {@link Flight} в БД
      *
      * @param flight    -   Рейс
+     * @return          -   Успешно ли выполнилась операция
      */
     public boolean update(Flight flight) {
         StringBuilder query = new StringBuilder("UPDATE " + Flight.TABLE_NAME + " SET ");
@@ -164,5 +166,32 @@ public class FlightRepository {
         }
     }
 
-    public boolean delete(int id)
+    /**
+     * Метод удаления записи из БД по идентификатору
+     *
+     * @param id    -   идентификатор
+     * @return      -   Успешно ли выполнилась операция
+     */
+    public boolean deleteById(int id) {
+        String query = "DELETE FROM " + Flight.TABLE_NAME + " WHERE id = " + id;
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            statement.execute(query);
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error occured during deleting instance: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Метод удаления записи из БД по переданному объекту рейса
+     *
+     * @param flight    -   рейс
+     * @return          -   Успешно ли выполнилась операция
+     */
+    public boolean delete(Flight flight) {
+        return deleteById(flight.getId());
+    }
 }
