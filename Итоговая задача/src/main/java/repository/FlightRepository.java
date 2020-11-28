@@ -114,4 +114,27 @@ public class FlightRepository {
             return false;
         }
     }
+
+    /**
+     * Метод получения объекта {@link Flight} из БД по указанному идентификатору
+     *
+     * @param id    -   идентификатор
+     * @return      -   соответствующий объект {@link Flight}
+     */
+    public Flight getById(int id) {
+        String query = "SELECT * FROM " + Flight.TABLE_NAME + " WHERE id = " + id;
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery(query);
+            if (!resultSet.next()) {
+                System.out.println("Instance with given id not found");
+                return null;
+            }
+            return getFlight(resultSet);
+        } catch (SQLException e) {
+            System.out.println("Error occured during instance finding: " + e.getMessage());
+            return null;
+        }
+    }
 }
