@@ -35,7 +35,7 @@ public class DataSourceProvider {
         properties = new Properties();
         try {
             properties.load(
-                    Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties")
+                    Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties")
             );
         }
         catch (Exception e) {
