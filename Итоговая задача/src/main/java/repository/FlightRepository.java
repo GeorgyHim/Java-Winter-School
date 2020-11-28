@@ -159,14 +159,14 @@ public class FlightRepository {
      */
     public boolean update(Flight flight) {
         String query = "UPDATE " + Flight.TABLE_NAME + " SET " +
-                "number = " + "?" + ", " +
-                "cityFrom = " + "?" + ", " +
-                "cityTo = " + "?" + ", " +
-                "airline = " + "?" + ", " +
-                "departureTime = " + "?" + ", " +
-                "arrivalTime = " + "?" + ", " +
-                "status = " + "?" +
-                " WHERE id = " + "?" + ";";
+                "number = ? , " +
+                "cityFrom = ? , " +
+                "cityTo = ? , " +
+                "airline = ? , " +
+                "departureTime = ? ," +
+                " arrivalTime = ? , " +
+                "status = ? " +
+                "WHERE id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 

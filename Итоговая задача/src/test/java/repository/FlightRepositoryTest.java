@@ -59,21 +59,19 @@ public class FlightRepositoryTest {
 
         Assertions.assertNull(FlightRepository.getById(99));
     }
-//
-//    @Test
-//    public void testUpdate() {
-//        FlightRepository.createNew(flight1);
-//
-//        flight1.setRating(8.0);
-//        flight1.setHasAwards(true);
-//        Map<String, Object> args = new HashMap<>();
-//        args.put("rating", 8.0);
-//        args.put("hasAwards", true);
-//        Flight Flight = FlightRepository.update(flight1.getId(), args);
-//        Assertions.assertEquals(flight1, Flight);
-//
-//        Assertions.assertNull(FlightRepository.update(99, args));
-//    }
+
+    @Test
+    public void testUpdate() {
+        FlightRepository.save(flight1);
+
+        flight1.setArrivalTime(LocalDateTime.of(2020, 11, 28, 12, 0));
+        flight1.setDepartureTime(LocalDateTime.of(2020, 11, 28, 14, 30));
+        flight1.setStatus(FlightStatus.DELAYED);
+        Assertions.assertTrue(FlightRepository.update(flight1));
+
+        Flight flight = FlightRepository.getById(1);
+        Assertions.assertEquals(flight1, flight);
+    }
 //
 //    @Test
 //    public void testDelete() {
