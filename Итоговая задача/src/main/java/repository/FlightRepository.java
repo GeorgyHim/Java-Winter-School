@@ -137,4 +137,30 @@ public class FlightRepository {
             return null;
         }
     }
+
+    /**
+     * Метод обновления объекта {@link Flight} в БД
+     *
+     * @param flight    -   Рейс
+     */
+    public boolean update(Flight flight) {
+        StringBuilder query = new StringBuilder("UPDATE " + Flight.TABLE_NAME + " SET ");
+        query.append("number = ").append(flight.getNumber()).append(", ")
+                .append("cityFrom = ").append(flight.getCityFrom()).append(", ")
+                .append("cityTo = ").append(flight.getCityTo()).append(", ")
+                .append("airline = ").append(flight.getAirline()).append(", ")
+                .append("departureTime = ").append(Timestamp.valueOf(flight.getDepartureTime())).append(", ")
+                .append("arrivalTime = ").append(Timestamp.valueOf(flight.getArrivalTime())).append(", ")
+                .append("status = ").append(flight.getStatus().ordinal())
+                .append(" WHERE id = ").append(flight.getId()).append(";");
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            statement.execute(query.toString());
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error occured during updating instance: " + e.getMessage());
+            return false;
+        }
+    }
 }
