@@ -55,4 +55,48 @@ public class Flight {
         this.arrivalTime = arrivalTime;
         this.status = status;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getCityFrom() {
+        return cityFrom;
+    }
+
+    public String getCityTo() {
+        return cityTo;
+    }
+
+    public String getAirline() {
+        return airline;
+    }
+
+    public LocalDateTime getDepartureTime() {
+        return departureTime;
+    }
+
+    public LocalDateTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public FlightStatus getStatus() {
+        return status;
+    }
+
+    public void setDepartureTime(LocalDateTime departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public void setArrivalTime(LocalDateTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public void setStatus(FlightStatus status) {
+        this.status = status;
+    }
 }
