@@ -118,13 +118,7 @@ public class FlightRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, flight.getNumber());
-            statement.setString(2, flight.getCityFrom());
-            statement.setString(3, flight.getCityTo());
-            statement.setString(4, flight.getAirline());
-            statement.setTimestamp(5, Timestamp.valueOf(flight.getDepartureTime()));
-            statement.setTimestamp(6, Timestamp.valueOf(flight.getArrivalTime()));
-            statement.setInt(7, flight.getStatus().ordinal());
+            prepareStatementByFlight(statement, flight);
             statement.execute();
             return true;
         } catch (SQLException e) {
@@ -164,19 +158,20 @@ public class FlightRepository {
      * @return          -   Успешно ли выполнилась операция
      */
     public boolean update(Flight flight) {
-        StringBuilder query = new StringBuilder("UPDATE " + Flight.TABLE_NAME + " SET ");
-        query.append("number = ").append(flight.getNumber()).append(", ")
-                .append("cityFrom = ").append(flight.getCityFrom()).append(", ")
-                .append("cityTo = ").append(flight.getCityTo()).append(", ")
-                .append("airline = ").append(flight.getAirline()).append(", ")
-                .append("departureTime = ").append(Timestamp.valueOf(flight.getDepartureTime())).append(", ")
-                .append("arrivalTime = ").append(Timestamp.valueOf(flight.getArrivalTime())).append(", ")
-                .append("status = ").append(flight.getStatus().ordinal())
-                .append(" WHERE id = ").append(flight.getId()).append(";");
+        String query = "UPDATE " + Flight.TABLE_NAME + " SET " +
+                "number = " + "?" + ", " +
+                "cityFrom = " + "?" + ", " +
+                "cityTo = " + "?" + ", " +
+                "airline = " + "?" + ", " +
+                "departureTime = " + "?" + ", " +
+                "arrivalTime = " + "?" + ", " +
+                "status = " + "?" +
+                " WHERE id = " + "?" + ";";
         try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement()) {
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.execute(query.toString());
+            prepareStatementByFlight(statement, flight);
+            statement.execute();
             return true;
         } catch (SQLException e) {
             System.out.println("Error occured during updating instance: " + e.getMessage());
@@ -211,5 +206,15 @@ public class FlightRepository {
      */
     public boolean delete(Flight flight) {
         return deleteById(flight.getId());
+    }
+
+    private void prepareStatementByFlight(PreparedStatement statement, Flight flight) throws SQLException {
+        statement.setString(1, flight.getNumber());
+        statement.setString(2, flight.getCityFrom());
+        statement.setString(3, flight.getCityTo());
+        statement.setString(4, flight.getAirline());
+        statement.setTimestamp(5, Timestamp.valueOf(flight.getDepartureTime()));
+        statement.setTimestamp(6, Timestamp.valueOf(flight.getArrivalTime()));
+        statement.setInt(7, flight.getStatus().ordinal());
     }
 }
