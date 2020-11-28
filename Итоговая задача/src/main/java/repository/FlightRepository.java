@@ -5,6 +5,8 @@ import model.FlightStatus;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Репозиторийдля доступа к таблице с данными о рейсах ({@link model.Flight})
@@ -87,6 +89,22 @@ public class FlightRepository {
                 resultSet.getTimestamp("arrivalTime").toLocalDateTime(),
                 FlightStatus.getStatus(resultSet.getInt("status"))
         );
+    }
+
+    public List<Flight> findAll() {
+        String query = "SELECT * FROM " + Flight.TABLE_NAME;
+        List<Flight> flights = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                flights.add(getFlight(resultSet));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error occured during finding all instances: " + e.getMessage());
+        }
+        return flights;
     }
 
     /**
