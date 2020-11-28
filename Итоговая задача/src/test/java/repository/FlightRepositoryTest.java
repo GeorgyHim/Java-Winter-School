@@ -41,15 +41,15 @@ public class FlightRepositoryTest {
         Assertions.assertTrue(Flights.isEmpty());
     }
 
-//    @Test
-//    public void testCreateNewAndFindAll() {
-//        Assertions.assertTrue(FlightRepository.createNew(flight1));
-//        Assertions.assertTrue(FlightRepository.createNew(leon));
-//        List<Flight> Flights = FlightRepository.findAll();
-//        Assertions.assertEquals(2, Flights.size());
-//        Assertions.assertTrue(Flights.contains(flight1));
-//        Assertions.assertTrue(Flights.contains(leon));
-//    }
+    @Test
+    public void testCreateNewAndFindAll() {
+        Assertions.assertTrue(FlightRepository.save(flight1));
+        Assertions.assertTrue(FlightRepository.save(flight2));
+        List<Flight> flights = FlightRepository.findAll();
+        Assertions.assertEquals(2, flights.size());
+        Assertions.assertTrue(flights.contains(flight1));
+        Assertions.assertTrue(flights.contains(flight2));
+    }
 //
 //    @Test
 //    public void testRead() {
