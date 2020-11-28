@@ -34,10 +34,16 @@ public class FlightRepository {
             if (checkTableExists(connection.getMetaData()))
                 System.out.println("Table has already been initialized");
             else {
-                statement.executeUpdate(
-                        String.format("CREATE TABLE %s (id INTEGER PRIMARY KEY, title VARCHAR(255), " +
-                                        "releaseDate DATE, duration INTEGER, rating DECIMAL(3, 1), hasAwards BOOLEAN )",
-                                Flight.TABLE_NAME)
+                statement.executeUpdate(String.format(
+                        "CREATE TABLE %s (" +
+                        "id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY(Start with 1, Increment by 1), " +
+                        "number VARCHAR(10), " +
+                        "cityFrom VARCHAR(100) NOT NULL, " +
+                        "cityTo VARCHAR(100) NOT NULL, " +
+                        "departureTime TIMESTAMP , " +
+                        "arrivalTime TIMESTAMP , " +
+                        "status SMALLINT)",
+                        Flight.TABLE_NAME)
                 );
                 System.out.println("Table was successfully initialized");
             }
