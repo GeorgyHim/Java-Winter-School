@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * Рейс
@@ -98,5 +99,24 @@ public class Flight {
 
     public void setStatus(FlightStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flight flight = (Flight) o;
+        return Objects.equals(number, flight.number) &&
+                Objects.equals(cityFrom, flight.cityFrom) &&
+                Objects.equals(cityTo, flight.cityTo) &&
+                Objects.equals(airline, flight.airline) &&
+                Objects.equals(departureTime, flight.departureTime) &&
+                Objects.equals(arrivalTime, flight.arrivalTime) &&
+                status == flight.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number, cityFrom, cityTo, airline, departureTime, arrivalTime, status);
     }
 }
