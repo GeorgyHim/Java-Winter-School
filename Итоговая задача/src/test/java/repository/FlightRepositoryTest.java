@@ -50,15 +50,15 @@ public class FlightRepositoryTest {
         Assertions.assertTrue(flights.contains(flight1));
         Assertions.assertTrue(flights.contains(flight2));
     }
-//
-//    @Test
-//    public void testRead() {
-//        FlightRepository.createNew(flight1);
-//        Flight Flight = FlightRepository.read(flight1.getId());
-//        Assertions.assertEquals(flight1, Flight);
-//
-//        Assertions.assertNull(FlightRepository.read(99));
-//    }
+
+    @Test
+    public void testGetById() {
+        FlightRepository.save(flight1);
+        Flight flight = FlightRepository.getById(1);
+        Assertions.assertEquals(flight1, flight);
+
+        Assertions.assertNull(FlightRepository.getById(99));
+    }
 //
 //    @Test
 //    public void testUpdate() {
