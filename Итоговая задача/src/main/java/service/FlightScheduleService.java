@@ -23,8 +23,7 @@ public class FlightScheduleService {
     /** Шаблон имени файла для сохранения XML-данных о расписании рейсов */
     public static final String xmlFilenamePattern = "Flights from %s to %s on %s.xml";
 
-    public FlightScheduleService() throws IOException {
-        DataSourceProvider dataSourceProvider = new DataSourceProvider();
+    public FlightScheduleService(DataSourceProvider dataSourceProvider) throws IOException {
         this.repository = new FlightRepository(dataSourceProvider.getDataSource());
     }
 
@@ -56,7 +55,7 @@ public class FlightScheduleService {
                 .filter(flight ->
                                 flight.getCityFrom().equals(cityFrom) &&
                                 flight.getCityTo().equals(cityTo) &&
-                                flight.getDepartureTime().toLocalDate() == date)
+                                flight.getDepartureTime().toLocalDate().equals(date))
                 .sorted(Comparator.comparing(Flight::getDepartureTime))
                 .collect(Collectors.toList());
     }
