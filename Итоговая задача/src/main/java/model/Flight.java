@@ -93,6 +93,10 @@ public class Flight {
         this.status = status;
     }
 
+    /** Конструктор для создания объектов при десериализации */
+    public Flight() {
+    }
+
     public Integer getId() {
         return id;
     }
