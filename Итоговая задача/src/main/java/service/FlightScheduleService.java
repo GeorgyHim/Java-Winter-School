@@ -3,7 +3,6 @@ package service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import db.DataSourceProvider;
 import model.Flight;
-import org.apache.derby.jdbc.EmbeddedDataSource;
 import repository.FlightRepository;
 import utils.XmlConverter;
 
@@ -51,11 +50,11 @@ public class FlightScheduleService {
      * @param date      -   Дата вылета
      * @return          -   Список соответствующих рейсов
      */
-    private List<Flight> findFittingFlights(String cityFrom, String cityTo, LocalDate date) {
+    public List<Flight> findFittingFlights(String cityFrom, String cityTo, LocalDate date) {
         List<Flight> allFlights = repository.findAll();
         return allFlights.stream()
                 .filter(flight ->
-                        flight.getCityFrom().equals(cityFrom) &&
+                                flight.getCityFrom().equals(cityFrom) &&
                                 flight.getCityTo().equals(cityTo) &&
                                 flight.getDepartureTime().toLocalDate() == date)
                 .sorted(Comparator.comparing(Flight::getDepartureTime))
