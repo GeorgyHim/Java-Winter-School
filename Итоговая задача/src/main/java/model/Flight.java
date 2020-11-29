@@ -89,6 +89,10 @@ public class Flight {
         return status;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
