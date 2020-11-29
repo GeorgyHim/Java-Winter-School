@@ -9,8 +9,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import repository.FlightRepository;
 import utils.FlightStatus;
+import utils.XmlConverter;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,9 +28,14 @@ public class FlightScheduleServiceTest {
     static Flight flight1;
     static Flight flight2;
     static Flight flight3;
+
     static FlightScheduleService scheduleService;
     static EmbeddedDataSource dataSource;
     static FlightRepository flightRepository;
+
+    static String cityFrom = "Сочи";
+    static String cityTo = "Санкт-Петербург";
+    static LocalDate date = LocalDate.of(2020, 11, 28);
 
     public static Flight createFlight(String cityFrom, String cityTo, LocalDateTime dateTime) {
         return new Flight(
@@ -73,9 +81,20 @@ public class FlightScheduleServiceTest {
     @Test
     public void testFindFittingFlights() {
         List<Flight> fittingFlights =
-                scheduleService.findFittingFlights("Сочи", "Санкт-Петербург", LocalDate.of(2020, 11, 28));
-
+                scheduleService.findFittingFlights(cityFrom, cityTo, date);
         Assertions.assertEquals(Arrays.asList(flight1, flight2, flight3), fittingFlights);
+    }
+
+    @Test
+    public void testGetFlightSchedule() throws IOException {
+        scheduleService.getFlightSchedule(cityFrom, cityTo, date);
+
+        String filename = String.format(FlightScheduleService.xmlFilenamePattern, cityFrom, cityTo, date);
+        String xmlFromFile = new String(Files.readAllBytes(Paths.get(filename)));
+
+        XmlConverter converter = new XmlConverter(true);
+        String xmlFromList = converter.toXml(Arrays.asList(flight1, flight2, flight3));
+        Assertions.assertEquals(xmlFromList, xmlFromFile);
     }
 
     @AfterAll
