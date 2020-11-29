@@ -163,14 +163,15 @@ public class FlightRepository {
                 "cityFrom = ? , " +
                 "cityTo = ? , " +
                 "airline = ? , " +
-                "departureTime = ? ," +
-                " arrivalTime = ? , " +
+                "departureTime = ? , " +
+                "arrivalTime = ? , " +
                 "status = ? " +
                 "WHERE id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             prepareStatementByFlight(statement, flight);
+            statement.setInt(8, flight.getId());
             statement.execute();
             return true;
         } catch (SQLException e) {
