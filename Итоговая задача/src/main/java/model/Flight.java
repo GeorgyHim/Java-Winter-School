@@ -110,7 +110,8 @@ public class Flight {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flight flight = (Flight) o;
-        return Objects.equals(number, flight.number) &&
+        return Objects.equals(id, flight.id) &&
+                Objects.equals(number, flight.number) &&
                 Objects.equals(cityFrom, flight.cityFrom) &&
                 Objects.equals(cityTo, flight.cityTo) &&
                 Objects.equals(airline, flight.airline) &&
@@ -121,6 +122,6 @@ public class Flight {
 
     @Override
     public int hashCode() {
-        return Objects.hash(number, cityFrom, cityTo, airline, departureTime, arrivalTime, status);
+        return Objects.hash(id, number, cityFrom, cityTo, airline, departureTime, arrivalTime, status);
     }
 }
