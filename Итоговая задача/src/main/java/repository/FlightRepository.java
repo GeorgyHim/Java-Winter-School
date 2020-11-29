@@ -116,7 +116,7 @@ public class FlightRepository {
     public boolean save(Flight flight) {
         String query = "INSERT INTO " + Flight.TABLE_NAME +" VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement = connection.prepareStatement(query, new String[]{"ID"})) {
 
             prepareStatementByFlight(statement, flight);
             int success = statement.executeUpdate();
@@ -124,6 +124,7 @@ public class FlightRepository {
                 throw new SQLException();
             }
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                generatedKeys.next();
                 flight.setId(generatedKeys.getInt(1));
             }
             return true;
