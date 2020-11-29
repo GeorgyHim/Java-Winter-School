@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class FlightRepositoryTest {
-    static FlightRepository FlightRepository;
+    static FlightRepository flightRepository;
     static EmbeddedDataSource dataSource = null;
     static Flight flight1 = createFlight("US-228", "Краснодар", "Санкт-Петербург");
     static Flight flight2 = createFlight("TT-322", "Сочи", "Москва");
@@ -30,20 +30,20 @@ public class FlightRepositoryTest {
     static void init() throws IOException {
         DataSourceProvider dataSourceProvider = new DataSourceProvider();
         dataSource = dataSourceProvider.getDataSource();
-        FlightRepository = new FlightRepository(dataSource);
+        flightRepository = new FlightRepository(dataSource);
     }
 
     @Test
     public void testEmptyFindAll() {
-        List<Flight> Flights = FlightRepository.findAll();
+        List<Flight> Flights = flightRepository.findAll();
         Assertions.assertTrue(Flights.isEmpty());
     }
 
     @Test
     public void testCreateNewAndFindAll() {
-        Assertions.assertTrue(FlightRepository.save(flight1));
-        Assertions.assertTrue(FlightRepository.save(flight2));
-        List<Flight> flights = FlightRepository.findAll();
+        Assertions.assertTrue(flightRepository.save(flight1));
+        Assertions.assertTrue(flightRepository.save(flight2));
+        List<Flight> flights = flightRepository.findAll();
         Assertions.assertEquals(2, flights.size());
         Assertions.assertTrue(flights.contains(flight1));
         Assertions.assertTrue(flights.contains(flight2));
@@ -51,35 +51,35 @@ public class FlightRepositoryTest {
 
     @Test
     public void testGetById() {
-        FlightRepository.save(flight1);
-        Flight flight = FlightRepository.getById(flight1.getId());
+        flightRepository.save(flight1);
+        Flight flight = flightRepository.getById(flight1.getId());
         Assertions.assertEquals(flight1, flight);
 
-        Assertions.assertNull(FlightRepository.getById(99));
+        Assertions.assertNull(flightRepository.getById(99));
     }
 
     @Test
     public void testUpdate() {
-        FlightRepository.save(flight1);
+        flightRepository.save(flight1);
 
         flight1.setArrivalTime(LocalDateTime.of(2020, 11, 28, 12, 0));
         flight1.setDepartureTime(LocalDateTime.of(2020, 11, 28, 14, 30));
         flight1.setStatus(FlightStatus.DELAYED);
-        Assertions.assertTrue(FlightRepository.update(flight1));
+        Assertions.assertTrue(flightRepository.update(flight1));
 
-        Flight flight = FlightRepository.getById(flight1.getId());
+        Flight flight = flightRepository.getById(flight1.getId());
         Assertions.assertEquals(flight1, flight);
     }
 
     @Test
     public void testDelete() {
-        FlightRepository.save(flight1);
-        FlightRepository.save(flight2);
-        Assertions.assertTrue(FlightRepository.delete(flight1));
-        Assertions.assertNull(FlightRepository.getById(flight1.getId()));
+        flightRepository.save(flight1);
+        flightRepository.save(flight2);
+        Assertions.assertTrue(flightRepository.delete(flight1));
+        Assertions.assertNull(flightRepository.getById(flight1.getId()));
 
-        Assertions.assertTrue(FlightRepository.deleteById(flight2.getId()));
-        Assertions.assertNull(FlightRepository.getById(flight2.getId()));
+        Assertions.assertTrue(flightRepository.deleteById(flight2.getId()));
+        Assertions.assertNull(flightRepository.getById(flight2.getId()));
     }
 
     @AfterEach
