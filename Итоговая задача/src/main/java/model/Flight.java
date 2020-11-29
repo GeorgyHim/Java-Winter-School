@@ -17,6 +17,9 @@ public class Flight {
     /** Название таблицы в БД */
     public static final String TABLE_NAME = "flight";
 
+    /** Форматтер дат */
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     /** Идентификатор */
     @XmlTransient
     private Integer id;
@@ -51,12 +54,22 @@ public class Flight {
 
     @XmlElement(name = "departureDateTime")
     public String getDepartureDateTime() {
-        return departureTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        return departureTime.format(formatter);
+    }
+
+    @XmlElement(name = "departureDateTime")
+    public void setDepartureDateTime(String departureDateTime) {
+        this.departureTime = LocalDateTime.parse(departureDateTime, formatter);
     }
 
     @XmlElement(name = "arrivalDateTime")
     public String getArrivalDateTime() {
-        return arrivalTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        return arrivalTime.format(formatter);
+    }
+
+    @XmlElement(name = "arrivalDateTime")
+    public void setArrivalDateTime(String arrivalDateTime) {
+        this.arrivalTime = LocalDateTime.parse(arrivalDateTime, formatter);
     }
 
     /** Конструктор для создания объектов в коде */
