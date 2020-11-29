@@ -7,7 +7,7 @@ import org.apache.derby.jdbc.EmbeddedDataSource;
 import repository.FlightRepository;
 import utils.XmlConverter;
 
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -21,6 +21,9 @@ public class FlightScheduleService {
     /** Преобразователь в XML */
     private static XmlConverter converter = new XmlConverter(true);
 
+    /** Шаблон имени файла для сохранения XML-данных о расписании рейсов */
+    public static final String xmlFilenamePattern = "Flights from %s to %s on %s.xml";
+
     public FlightScheduleService() throws IOException {
         DataSourceProvider dataSourceProvider = new DataSourceProvider();
         this.repository = new FlightRepository(dataSourceProvider.getDataSource());
@@ -32,12 +35,12 @@ public class FlightScheduleService {
      * @param cityFrom                  -   Город вылета
      * @param cityTo                    -   Город прилета
      * @param date                      -   Дата вылета
-     * @throws JsonProcessingException  -   Исключение во время сериализации списка рейсов
+     * @throws JsonProcessingException  -   Исключение во время сериализации и записи в файл списка рейсов
      */
-    public void getFlightSchedule(String cityFrom, String cityTo, LocalDate date) throws JsonProcessingException {
+    public void getFlightSchedule(String cityFrom, String cityTo, LocalDate date) throws IOException {
         List<Flight> fittingFlights = findFittingFlights(cityFrom, cityTo, date);
         String xml = converter.toXml(fittingFlights);
-
+        writeXmlToFile(xml, String.format(xmlFilenamePattern, cityFrom, cityTo, date.toString()));
     }
 
     /**
@@ -57,5 +60,18 @@ public class FlightScheduleService {
                                 flight.getDepartureTime().toLocalDate() == date)
                 .sorted(Comparator.comparing(Flight::getDepartureTime))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Метод записи XML-строки в файл в соответствии с указанными параметрами поиска
+     *
+     * @param xml           -   Строка XML
+     * @param filename      -   Имя файла
+     * @throws IOException  -   Исключение при работе с файлом
+     */
+    public void writeXmlToFile(String xml, String filename) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            writer.write(xml);
+        }
     }
 }
