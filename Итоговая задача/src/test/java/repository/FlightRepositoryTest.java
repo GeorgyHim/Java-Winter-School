@@ -54,7 +54,7 @@ public class FlightRepositoryTest {
     @Test
     public void testGetById() {
         FlightRepository.save(flight1);
-        Flight flight = FlightRepository.getById(1);
+        Flight flight = FlightRepository.getById(flight1.getId());
         Assertions.assertEquals(flight1, flight);
 
         Assertions.assertNull(FlightRepository.getById(99));
@@ -69,7 +69,7 @@ public class FlightRepositoryTest {
         flight1.setStatus(FlightStatus.DELAYED);
         Assertions.assertTrue(FlightRepository.update(flight1));
 
-        Flight flight = FlightRepository.getById(1);
+        Flight flight = FlightRepository.getById(flight1.getId());
         Assertions.assertEquals(flight1, flight);
     }
 //
