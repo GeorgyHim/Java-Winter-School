@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import db.DataSourceProvider;
 import model.Flight;
 import repository.FlightRepository;
+import utils.FlightStatus;
 import utils.XmlConverter;
 
 import java.io.*;
@@ -23,7 +24,7 @@ public class FlightScheduleService {
     /** Шаблон имени файла для сохранения XML-данных о расписании рейсов */
     public static final String xmlFilenamePattern = "Flights from %s to %s on %s.xml";
 
-    public FlightScheduleService(DataSourceProvider dataSourceProvider) throws IOException {
+    public FlightScheduleService(DataSourceProvider dataSourceProvider) {
         this.repository = new FlightRepository(dataSourceProvider.getDataSource());
     }
 
@@ -51,11 +52,13 @@ public class FlightScheduleService {
      */
     public List<Flight> findFittingFlights(String cityFrom, String cityTo, LocalDate date) {
         List<Flight> allFlights = repository.findAll();
+        // TODO: Main
         return allFlights.stream()
                 .filter(flight ->
                                 flight.getCityFrom().equals(cityFrom) &&
                                 flight.getCityTo().equals(cityTo) &&
-                                flight.getDepartureTime().toLocalDate().equals(date))
+                                flight.getDepartureTime().toLocalDate().equals(date) &&
+                                !flight.getStatus().equals(FlightStatus.CANCELED))
                 .sorted(Comparator.comparing(Flight::getDepartureTime))
                 .collect(Collectors.toList());
     }
