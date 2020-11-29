@@ -4,18 +4,15 @@ import utils.FlightStatus;
 
 import javax.xml.bind.annotation.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
  * Рейс
  */
 @XmlRootElement(name = "flight")
-@XmlType(propOrder = {
-        "cityFrom", "cityTo", "departureDate", "departureTime",
-        "arrivalDate", "arrivalTime", "airline", "number", "status"
-})
+@XmlType(propOrder = {"cityFrom", "cityTo", "departureDateTime", "arrivalDateTime", "airline", "number", "status"})
 public class Flight {
-    // TODO: Дополнить поля класа аннотациями для датабиндинга в XML
 
     /** Название таблицы в БД */
     public static final String TABLE_NAME = "flight";
@@ -52,24 +49,14 @@ public class Flight {
     @XmlElement
     private FlightStatus status;
 
-    @XmlElement(name = "departureDate")
-    public String departureDateString() {
-        return departureTime.toLocalDate().toString();
+    @XmlElement(name = "departureDateTime")
+    public String getDepartureDateTime() {
+        return departureTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
-    @XmlElement(name = "departureTime")
-    public String departureTimeString() {
-        return departureTime.toLocalTime().toString();
-    }
-
-    @XmlElement(name = "arrivalDate")
-    public String arrivalDateString() {
-        return arrivalTime.toLocalDate().toString();
-    }
-
-    @XmlElement(name = "arrivalTime")
-    public String arrivalTimeString() {
-        return arrivalTime.toLocalTime().toString();
+    @XmlElement(name = "arrivalDateTime")
+    public String getArrivalDateTime() {
+        return arrivalTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
     /** Конструктор для создания объектов в коде */
