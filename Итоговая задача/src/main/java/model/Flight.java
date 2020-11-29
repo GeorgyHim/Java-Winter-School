@@ -2,12 +2,15 @@ package model;
 
 import utils.FlightStatus;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
  * Рейс
  */
+@XmlRootElement(name = "flight")
 public class Flight {
     // TODO: Дополнить поля класа аннотациями для датабиндинга в XML
 
@@ -18,24 +21,31 @@ public class Flight {
     private Integer id;
 
     /** Номер рейса */
+    @XmlElement
     private String number;
 
     /** Город вылета */
+    @XmlElement
     private String cityFrom;
 
     /** Город прилета */
+    @XmlElement
     private String cityTo;
 
     /** Авиакомпания */
+    @XmlElement
     private String airline;
 
     /** Время вылета */
+    @XmlElement
     private LocalDateTime departureTime;
 
     /** Время прилета */
+    @XmlElement
     private LocalDateTime arrivalTime;
 
     /** Статус */
+    @XmlElement
     private FlightStatus status;
 
     /** Конструктор для создания объектов в коде */
