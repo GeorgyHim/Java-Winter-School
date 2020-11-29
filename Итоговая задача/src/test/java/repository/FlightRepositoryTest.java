@@ -72,13 +72,17 @@ public class FlightRepositoryTest {
         Flight flight = FlightRepository.getById(flight1.getId());
         Assertions.assertEquals(flight1, flight);
     }
-//
-//    @Test
-//    public void testDelete() {
-//        FlightRepository.createNew(flight1);
-//        Assertions.assertTrue(FlightRepository.delete(flight1.getId()));
-//        Assertions.assertNull(FlightRepository.read(flight1.getId()));
-//    }
+
+    @Test
+    public void testDelete() {
+        FlightRepository.save(flight1);
+        FlightRepository.save(flight2);
+        Assertions.assertTrue(FlightRepository.delete(flight1));
+        Assertions.assertNull(FlightRepository.getById(flight1.getId()));
+
+        Assertions.assertTrue(FlightRepository.deleteById(flight2.getId()));
+        Assertions.assertNull(FlightRepository.getById(flight2.getId()));
+    }
 
     @AfterEach
     public void clearTable() throws SQLException {
