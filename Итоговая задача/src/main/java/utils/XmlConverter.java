@@ -11,8 +11,11 @@ public class XmlConverter {
     /** Преобразователь объектов в XML и обратно */
     private final XmlMapper mapper;
 
-    public XmlConverter() {
+    public XmlConverter(boolean setIndentOutput) {
         this.mapper = createXmlMapper();
+        if (setIndentOutput) {
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        }
     }
 
     /**
@@ -24,7 +27,6 @@ public class XmlConverter {
         final XmlMapper mapper = new XmlMapper();
         JaxbAnnotationModule module = new JaxbAnnotationModule();
         mapper.registerModule(module);
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
         return mapper;
     }
 
