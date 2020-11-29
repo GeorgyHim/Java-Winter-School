@@ -52,7 +52,6 @@ public class FlightScheduleService {
      */
     public List<Flight> findFittingFlights(String cityFrom, String cityTo, LocalDate date) {
         List<Flight> allFlights = repository.findAll();
-        // TODO: Main
         return allFlights.stream()
                 .filter(flight ->
                                 flight.getCityFrom().equals(cityFrom) &&
@@ -70,7 +69,7 @@ public class FlightScheduleService {
      * @param filename      -   Имя файла
      * @throws IOException  -   Исключение при работе с файлом
      */
-    public void writeXmlToFile(String xml, String filename) throws IOException {
+    private void writeXmlToFile(String xml, String filename) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             writer.write(xml);
         }
