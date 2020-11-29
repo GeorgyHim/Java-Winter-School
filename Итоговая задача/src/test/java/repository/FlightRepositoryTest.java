@@ -19,7 +19,7 @@ public class FlightRepositoryTest {
     static Flight flight1 = createFlight("US-228", "Краснодар", "Санкт-Петербург");
     static Flight flight2 = createFlight("TT-322", "Сочи", "Москва");
 
-    private static Flight createFlight(String number, String cityFrom, String cityTo) {
+    public static Flight createFlight(String number, String cityFrom, String cityTo) {
         return new Flight(
                 number, cityFrom, cityTo, "SomebodyAirlines", LocalDateTime.of(2020, 11, 28, 10, 0),
                 LocalDateTime.of(2020, 11, 28, 12, 30), FlightStatus.SCHEDULED
