@@ -24,8 +24,8 @@ public class FlightScheduleService {
     /** Шаблон имени файла для сохранения XML-данных о расписании рейсов */
     public static final String xmlFilenamePattern = "Flights from %s to %s on %s.xml";
 
-    public FlightScheduleService(DataSourceProvider dataSourceProvider) {
-        this.repository = new FlightRepository(dataSourceProvider.getDataSource());
+    public FlightScheduleService(FlightRepository repository) {
+        this.repository = repository;
     }
 
     /**
