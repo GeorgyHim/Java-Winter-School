@@ -116,10 +116,16 @@ public class FlightRepository {
     public boolean save(Flight flight) {
         String query = "INSERT INTO " + Flight.TABLE_NAME +" VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             prepareStatementByFlight(statement, flight);
-            statement.execute();
+            int success = statement.executeUpdate();
+            if (success == 0) {
+                throw new SQLException();
+            }
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                flight.setId(generatedKeys.getInt(1));
+            }
             return true;
         } catch (SQLException e) {
             System.out.println("Error occured during instance insertion: " + e.getMessage());
