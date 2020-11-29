@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+import model.Flight;
 
 import java.io.IOException;
+import java.util.List;
 
 public class XmlConverter {
     /** Преобразователь объектов в XML и обратно */
@@ -31,14 +33,25 @@ public class XmlConverter {
     }
 
     /**
-     * Метод сериализации объекта в XML
+     * Метод сериализации объекта {@link FlightList} в XML
      *
-     * @param obj                       -   Объект
+     * @param flightList                -   Объект со списком рейсов {@link FlightList}
      * @return                          -   XML-строка сериализованного объекта
      * @throws JsonProcessingException  -   Исключение при сериализации
      */
-    public String toXml(Object obj) throws JsonProcessingException {
-        return mapper.writeValueAsString(obj);
+    public String toXml(FlightList flightList) throws JsonProcessingException {
+        return mapper.writeValueAsString(flightList);
+    }
+
+    /**
+     * Метод сериализации списка объектов {@link Flight}  в XML
+     *
+     * @param flights                   -   Список рейсов
+     * @return                          -   XML-строка сериализованного объекта
+     * @throws JsonProcessingException  -   Исключение при сериализации
+     */
+    public String toXml(List<Flight> flights) throws JsonProcessingException {
+        return toXml(new FlightList(flights));
     }
 
     /**
