@@ -2,8 +2,7 @@ package model;
 
 import utils.FlightStatus;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -11,6 +10,10 @@ import java.util.Objects;
  * Рейс
  */
 @XmlRootElement(name = "flight")
+@XmlType(propOrder = {
+        "cityFrom", "cityTo", "departureDate", "departureTime",
+        "arrivalDate", "arrivalTime", "airline", "number", "status"
+})
 public class Flight {
     // TODO: Дополнить поля класа аннотациями для датабиндинга в XML
 
@@ -18,6 +21,7 @@ public class Flight {
     public static final String TABLE_NAME = "flight";
 
     /** Идентификатор */
+    @XmlTransient
     private Integer id;
 
     /** Номер рейса */
@@ -37,16 +41,36 @@ public class Flight {
     private String airline;
 
     /** Время вылета */
-    @XmlElement
+    @XmlTransient
     private LocalDateTime departureTime;
 
     /** Время прилета */
-    @XmlElement
+    @XmlTransient
     private LocalDateTime arrivalTime;
 
     /** Статус */
     @XmlElement
     private FlightStatus status;
+
+    @XmlElement(name = "departureDate")
+    public String departureDateString() {
+        return departureTime.toLocalDate().toString();
+    }
+
+    @XmlElement(name = "departureTime")
+    public String departureTimeString() {
+        return departureTime.toLocalTime().toString();
+    }
+
+    @XmlElement(name = "arrivalDate")
+    public String arrivalDateString() {
+        return arrivalTime.toLocalDate().toString();
+    }
+
+    @XmlElement(name = "arrivalTime")
+    public String arrivalTimeString() {
+        return arrivalTime.toLocalTime().toString();
+    }
 
     /** Конструктор для создания объектов в коде */
     public Flight(String number, String cityFrom, String cityTo, String airline,
