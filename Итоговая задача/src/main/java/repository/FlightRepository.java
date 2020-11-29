@@ -30,7 +30,7 @@ public class FlightRepository {
      * Метод инициализации таблицы базы данных
      */
     private void initTable() {
-        System.out.println(String.format("Start initializing %s table", Flight.TABLE_NAME));
+        System.out.println(String.format("Start initializing \"%s\" table...", Flight.TABLE_NAME.toUpperCase()));
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement() ) {
 

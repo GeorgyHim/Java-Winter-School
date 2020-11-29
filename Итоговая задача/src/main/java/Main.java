@@ -22,5 +22,8 @@ public class Main {
         LocalDate date = LocalDate.parse(in.next());
 
         scheduleService.getFlightSchedule(cityFrom, cityTo, date);
+        System.out.println("Find results in file \"" +
+                String.format(FlightScheduleService.xmlFilenamePattern, cityFrom, cityTo, date) + "\""
+        );
     }
 }
