@@ -1,10 +1,9 @@
-package utils;
+package model.helper;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import model.Flight;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.Objects;

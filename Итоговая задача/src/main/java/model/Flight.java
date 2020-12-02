@@ -1,6 +1,6 @@
 package model;
 
-import utils.FlightStatus;
+import model.helper.FlightStatus;
 
 import javax.xml.bind.annotation.*;
 import java.time.LocalDateTime;

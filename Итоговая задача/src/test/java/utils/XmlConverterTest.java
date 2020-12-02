@@ -1,6 +1,8 @@
 package utils;
 
 import model.Flight;
+import model.helper.FlightList;
+import model.helper.FlightStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

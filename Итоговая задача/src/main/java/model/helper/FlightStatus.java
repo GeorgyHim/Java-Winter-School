@@ -1,4 +1,4 @@
-package utils;
+package model.helper;
 
 public enum FlightStatus {
     SCHEDULED,

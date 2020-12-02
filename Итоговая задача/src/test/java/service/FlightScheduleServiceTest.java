@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import repository.FlightRepository;
-import utils.FlightStatus;
+import model.helper.FlightStatus;
 import utils.XmlConverter;
 
 import java.io.IOException;

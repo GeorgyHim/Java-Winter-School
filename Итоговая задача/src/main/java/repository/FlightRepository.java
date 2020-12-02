@@ -1,7 +1,7 @@
 package repository;
 
 import model.Flight;
-import utils.FlightStatus;
+import model.helper.FlightStatus;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import utils.TableCreator;
 

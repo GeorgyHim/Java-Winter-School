@@ -1,10 +1,9 @@
 package service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import db.DataSourceProvider;
 import model.Flight;
 import repository.FlightRepository;
-import utils.FlightStatus;
+import model.helper.FlightStatus;
 import utils.XmlConverter;
 
 import java.io.*;

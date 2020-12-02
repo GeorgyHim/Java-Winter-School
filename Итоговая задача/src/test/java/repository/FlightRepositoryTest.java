@@ -2,7 +2,7 @@ package repository;
 
 import db.DataSourceProvider;
 import model.Flight;
-import utils.FlightStatus;
+import model.helper.FlightStatus;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.junit.jupiter.api.*;
 
