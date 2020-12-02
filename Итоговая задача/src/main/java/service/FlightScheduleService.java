@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import model.Flight;
 import repository.FlightRepository;
 import model.helper.FlightStatus;
+import utils.FileWriter;
 import utils.XmlConverter;
 
 import java.io.*;
@@ -38,7 +39,7 @@ public class FlightScheduleService {
     public void getFlightSchedule(String cityFrom, String cityTo, LocalDate date) throws IOException {
         List<Flight> fittingFlights = findFittingFlights(cityFrom, cityTo, date);
         String xml = converter.toXml(fittingFlights);
-        writeXmlToFile(xml, String.format(xmlFilenamePattern, cityFrom, cityTo, date.toString()));
+        FileWriter.writeStringToFile(xml, String.format(xmlFilenamePattern, cityFrom, cityTo, date.toString()));
     }
 
     /**
@@ -59,18 +60,5 @@ public class FlightScheduleService {
                                 !flight.getStatus().equals(FlightStatus.CANCELED))
                 .sorted(Comparator.comparing(Flight::getDepartureTime))
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Метод записи XML-строки в файл в соответствии с указанными параметрами поиска
-     *
-     * @param xml           -   Строка XML
-     * @param filename      -   Имя файла
-     * @throws IOException  -   Исключение при работе с файлом
-     */
-    private void writeXmlToFile(String xml, String filename) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            writer.write(xml);
-        }
     }
 }
