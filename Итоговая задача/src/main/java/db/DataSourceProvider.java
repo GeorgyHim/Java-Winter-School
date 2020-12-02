@@ -52,8 +52,8 @@ public class DataSourceProvider {
             return;
 
         dataSource = new EmbeddedDataSource();
-        dataSource.setUser("");
-        dataSource.setPassword("");
+        dataSource.setUser(properties.getProperty("user"));
+        dataSource.setPassword(properties.getProperty("password"));
         dataSource.setDatabaseName(properties.getProperty("dbname"));
         dataSource.setCreateDatabase("create");
     }
