@@ -74,7 +74,7 @@ public class FlightScheduleServiceTest {
         flightRepository = new FlightRepository(dataSource);
         scheduleService = new FlightScheduleService(flightRepository);
         for (Flight flight : flights) {
-            flightRepository.save(flight);
+            flightRepository.createNew(flight);
         }
     }
 

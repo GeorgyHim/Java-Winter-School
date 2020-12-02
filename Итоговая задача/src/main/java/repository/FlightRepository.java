@@ -113,7 +113,7 @@ public class FlightRepository {
      * @param flight    -   Рейс
      * @return          -   Успешно ли выполнилась операция
      */
-    public boolean save(Flight flight) {
+    public boolean createNew(Flight flight) {
         String query = "INSERT INTO " + Flight.TABLE_NAME +" VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query, new String[]{"ID"})) {

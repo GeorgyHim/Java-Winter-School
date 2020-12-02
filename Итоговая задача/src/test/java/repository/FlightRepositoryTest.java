@@ -41,8 +41,8 @@ public class FlightRepositoryTest {
 
     @Test
     public void testCreateNewAndFindAll() {
-        Assertions.assertTrue(flightRepository.save(flight1));
-        Assertions.assertTrue(flightRepository.save(flight2));
+        Assertions.assertTrue(flightRepository.createNew(flight1));
+        Assertions.assertTrue(flightRepository.createNew(flight2));
         List<Flight> flights = flightRepository.findAll();
         Assertions.assertEquals(2, flights.size());
         Assertions.assertTrue(flights.contains(flight1));
@@ -51,7 +51,7 @@ public class FlightRepositoryTest {
 
     @Test
     public void testGetById() {
-        flightRepository.save(flight1);
+        flightRepository.createNew(flight1);
         Flight flight = flightRepository.getById(flight1.getId());
         Assertions.assertEquals(flight1, flight);
 
@@ -60,7 +60,7 @@ public class FlightRepositoryTest {
 
     @Test
     public void testUpdate() {
-        flightRepository.save(flight1);
+        flightRepository.createNew(flight1);
 
         flight1.setArrivalTime(LocalDateTime.of(2020, 11, 28, 12, 0));
         flight1.setDepartureTime(LocalDateTime.of(2020, 11, 28, 14, 30));
@@ -73,8 +73,8 @@ public class FlightRepositoryTest {
 
     @Test
     public void testDelete() {
-        flightRepository.save(flight1);
-        flightRepository.save(flight2);
+        flightRepository.createNew(flight1);
+        flightRepository.createNew(flight2);
         Assertions.assertTrue(flightRepository.delete(flight1));
         Assertions.assertNull(flightRepository.getById(flight1.getId()));
 
