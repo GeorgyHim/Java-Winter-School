@@ -1,32 +1,20 @@
 package utils;
 
-import model.Flight;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 
 import java.sql.*;
 
 public class TableCreator {
 
-    /** DataSource */
-    private EmbeddedDataSource dataSource;
-
-    /** Имя таблицы в базе данных */
-    private String tableName;
-
-    public TableCreator(EmbeddedDataSource dataSource, String tableName) {
-        this.dataSource = dataSource;
-        this.tableName = tableName;
-    }
-
     /**
      * Метод создания таблицы базы данных
      */
-    public void createTable() {
+    public static void createTable(EmbeddedDataSource dataSource, String tableName) {
         System.out.println(String.format("Start initializing \"%s\" table...", tableName.toUpperCase()));
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement() ) {
 
-            if (checkTableExists(connection.getMetaData()))
+            if (checkTableExists(connection.getMetaData(), tableName))
                 System.out.println("Table has already been initialized");
             else {
                 statement.executeUpdate(String.format(
@@ -59,24 +47,8 @@ public class TableCreator {
      * @return              -   Существует ли таблица TABLE_NAME
      * @throws SQLException -   Ошибка получения таблиц
      */
-    private boolean checkTableExists(DatabaseMetaData metaData) throws SQLException {
+    private static boolean checkTableExists(DatabaseMetaData metaData, String tableName) throws SQLException {
         ResultSet resultSet = metaData.getTables(null, null, tableName.toUpperCase(), new String[]{"TABLE"});
         return resultSet.next();
-    }
-
-    public EmbeddedDataSource getDataSource() {
-        return dataSource;
-    }
-
-    public void setDataSource(EmbeddedDataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
     }
 }

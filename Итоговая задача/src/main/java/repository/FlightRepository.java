@@ -31,8 +31,7 @@ public class FlightRepository {
      * Метод инициализации таблицы базы данных
      */
     private void initTable() {
-        TableCreator tableCreator = new TableCreator(dataSource, Flight.TABLE_NAME);
-        tableCreator.createTable();
+        TableCreator.createTable(dataSource, Flight.TABLE_NAME);
     }
 
     /**
