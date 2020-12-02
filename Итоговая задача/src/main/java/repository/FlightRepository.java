@@ -3,6 +3,7 @@ package repository;
 import model.Flight;
 import utils.FlightStatus;
 import org.apache.derby.jdbc.EmbeddedDataSource;
+import utils.TableCreator;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,48 +31,8 @@ public class FlightRepository {
      * Метод инициализации таблицы базы данных
      */
     private void initTable() {
-        System.out.println(String.format("Start initializing \"%s\" table...", Flight.TABLE_NAME.toUpperCase()));
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement() ) {
-
-            if (checkTableExists(connection.getMetaData()))
-                System.out.println("Table has already been initialized");
-            else {
-                statement.executeUpdate(String.format(
-                        "CREATE TABLE %s (" +
-                        "id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY(Start with 1, Increment by 1), " +
-                        "number VARCHAR(10), " +
-                        "cityFrom VARCHAR(100) NOT NULL, " +
-                        "cityTo VARCHAR(100) NOT NULL, " +
-                        "airline VARCHAR(200), " +
-                        "departureTime TIMESTAMP , " +
-                        "arrivalTime TIMESTAMP , " +
-                        "status SMALLINT)",
-                        Flight.TABLE_NAME)
-                );
-                System.out.println("Table was successfully initialized");
-            }
-        }
-        catch (SQLException e) {
-            System.out.println("Error occured during table initializing: " + e.getMessage());
-        }
-        finally {
-            System.out.println("==============================================");
-        }
-    }
-
-    /**
-     * Метод проверки существования таблицы в базе
-     *
-     * @param metaData      -   метаданные базы
-     * @return              -   Существует ли таблица TABLE_NAME
-     * @throws SQLException -   Ошибка получения таблиц
-     */
-    private boolean checkTableExists(DatabaseMetaData metaData) throws SQLException {
-        ResultSet resultSet = metaData.getTables(
-                null, null, Flight.TABLE_NAME.toUpperCase(), new String[]{"TABLE"}
-        );
-        return resultSet.next();
+        TableCreator tableCreator = new TableCreator(dataSource, Flight.TABLE_NAME);
+        tableCreator.createTable();
     }
 
     /**
@@ -102,7 +63,7 @@ public class FlightRepository {
                 flights.add(getFlight(resultSet));
             }
         } catch (SQLException e) {
-            System.out.println("Error occured during finding all instances: " + e.getMessage());
+            System.out.println("Error occurred during finding all instances: " + e.getMessage());
         }
         return flights;
     }
@@ -129,7 +90,7 @@ public class FlightRepository {
             }
             return true;
         } catch (SQLException e) {
-            System.out.println("Error occured during instance insertion: " + e.getMessage());
+            System.out.println("Error occurred during instance insertion: " + e.getMessage());
             return false;
         }
     }
@@ -152,7 +113,7 @@ public class FlightRepository {
             }
             return getFlight(resultSet);
         } catch (SQLException e) {
-            System.out.println("Error occured during instance finding: " + e.getMessage());
+            System.out.println("Error occurred during instance finding: " + e.getMessage());
             return null;
         }
     }
@@ -182,7 +143,7 @@ public class FlightRepository {
             statement.execute();
             return true;
         } catch (SQLException e) {
-            System.out.println("Error occured during updating instance: " + e.getMessage());
+            System.out.println("Error occurred during updating instance: " + e.getMessage());
             return false;
         }
     }
@@ -201,7 +162,7 @@ public class FlightRepository {
             statement.execute(query);
             return true;
         } catch (SQLException e) {
-            System.out.println("Error occured during deleting instance: " + e.getMessage());
+            System.out.println("Error occurred during deleting instance: " + e.getMessage());
             return false;
         }
     }
