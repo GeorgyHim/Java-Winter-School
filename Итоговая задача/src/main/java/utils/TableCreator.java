@@ -63,4 +63,20 @@ public class TableCreator {
         ResultSet resultSet = metaData.getTables(null, null, tableName.toUpperCase(), new String[]{"TABLE"});
         return resultSet.next();
     }
+
+    public EmbeddedDataSource getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(EmbeddedDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
 }
