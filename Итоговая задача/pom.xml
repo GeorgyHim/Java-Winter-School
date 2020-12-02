@@ -8,34 +8,38 @@
     <artifactId>croc-final-task</artifactId>
     <version>1.0</version>
 
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <maven.surefire.version>2.19.1</maven.surefire.version>
+        <maven.surefire.junit.platform.version>1.0.3</maven.surefire.junit.platform.version>
+        <maven.surefire.junit.jupiter.version>5.0.3</maven.surefire.junit.jupiter.version>
+
+        <derby.version>10.13.1.1</derby.version>
+        <junit.version>RELEASE</junit.version>
+        <jackson.version>2.9.10</jackson.version>
+        <jakarta.version>2.3.3</jakarta.version>
+    </properties>
+
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <!--
                  latest version (2.20.1) does not work well with JUnit5
                 -->
-                <version>2.19.1</version>
+                <version>${maven.surefire.version}</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.junit.platform</groupId>
                         <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.0.3</version>
+                        <version>${maven.surefire.junit.platform.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>org.junit.jupiter</groupId>
                         <artifactId>junit-jupiter-engine</artifactId>
-                        <version>5.0.3</version>
+                        <version>${maven.surefire.junit.jupiter.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -46,32 +50,32 @@
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
-            <version>10.13.1.1</version>
+            <version>${derby.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
-            <version>2.9.10</version>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-jaxb-annotations</artifactId>
-            <version>2.9.10</version>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>2.3.3</version>
+            <version>${jakarta.version}</version>
         </dependency>
     </dependencies>
 
